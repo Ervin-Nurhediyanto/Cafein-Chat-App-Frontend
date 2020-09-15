@@ -1,21 +1,22 @@
 <template>
-  <div class="login">
-    <SignIn />
+  <div class="register yellow">
+    <Register />
+    <h1>register</h1>
   </div>
 </template>
 
 <script>
-import SignIn from '../../components/_base/login/signin'
+import Register from '../../components/_base/login/register'
 export default {
-  name: 'Login',
+  name: 'Register',
   components: {
-    SignIn
+    Register
   }
 }
 </script>
 
 <style scoped>
-.login {
+.register {
   position: absolute;
   width: 500px;
   height: 570px;
@@ -25,4 +26,8 @@ export default {
   box-shadow: 0px 20px 20px rgba(126, 152, 223, 0.05);
   border-radius: 30px;
 }
+.yellow {
+  background-color: yellow;
+}
+
 </style>

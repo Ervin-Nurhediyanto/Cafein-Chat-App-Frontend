@@ -43,41 +43,25 @@
           id="exampleInputPassword1"
           placeholder="Password"
         />
-        <!-- <div class="input-group-append"> -->
-          <!-- <span class="input-group-text"> -->
-            <!-- <i class="fa fa-eye"></i> -->
-          <!-- </span> -->
-        <!-- </div> -->
       </div>
 
       <p class="text-right">
         <a href="#" id="forgot" @click="$emit('forgot-password')">Forgot Password?</a>
       </p>
 
-      <!-- <div class="d-flex justify-content-center bg-danger"> -->
-        <!-- <div class="row"> -->
           <div class="d-flex justify-content-center">
             <button type="submit" class="btn text-white" @click="handleLoginSeller">Login</button>
           </div>
-        <!-- </div> -->
 
-        <!-- <div class="row"> -->
-          <!-- <div class="col"> -->
             <div class="d-flex justify-content-center">
               <div class="line"></div>
               <h4 class="login-with">Login with</h4>
               <div class="line"></div>
             </div>
-          <!-- </div> -->
-        <!-- </div> -->
 
-        <!-- <div class="row"> -->
           <div class="d-flex justify-content-center">
             <button type="submit" class="btn text-blue" @click="handleLoginSeller">Google</button>
           </div>
-        <!-- </div> -->
-
-      <!-- </div> -->
 
       <p class="mt-3 text-center">
         Don’t have an accoun?
@@ -172,9 +156,7 @@ button.text-blue {
 }
 
 .line {
-  /* border: 1px solid #848484; */
   width: 100px;
-  /* background-color: red; */
   margin-top: 30px;
   margin-left: 30px;
   margin-right: 30px;

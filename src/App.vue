@@ -18,6 +18,7 @@ body, html {
 }
 body {
   background-color: #f6f6f6;
+  /* background-color: yellow; */
 }
 
 /* #app {
