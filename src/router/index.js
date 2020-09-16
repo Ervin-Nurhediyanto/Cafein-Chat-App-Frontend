@@ -3,6 +3,8 @@ import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import Login from '../views/Auth/Login.vue'
 import Register from '../views/Auth/Register.vue'
+import ForgotPass from '../views/Auth/ForgotPass.vue'
+
 import Chat from '../views/Chat.vue'
 
 Vue.use(VueRouter)
@@ -22,6 +24,11 @@ const routes = [
     path: '/register',
     name: 'Register',
     component: Register
+  },
+  {
+    path: '/forgot-pass',
+    name: 'ForgotPass',
+    component: ForgotPass
   },
   {
     path: '/about',
