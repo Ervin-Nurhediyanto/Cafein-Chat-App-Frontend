@@ -4,8 +4,9 @@ import Home from '../views/Home.vue'
 import Login from '../views/Auth/Login.vue'
 import Register from '../views/Auth/Register.vue'
 import ForgotPass from '../views/Auth/ForgotPass.vue'
+import Chat from '../views/Chat/Chat.vue'
 
-import Chat from '../views/Chat.vue'
+// import Chat from '../views/Chat.vue'
 
 Vue.use(VueRouter)
 
@@ -31,14 +32,14 @@ const routes = [
     component: ForgotPass
   },
   {
-    path: '/about',
-    name: 'About',
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
-  },
-  {
     path: '/chat',
     name: 'Chat',
     component: Chat
+  },
+  {
+    path: '/about',
+    name: 'About',
+    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
   }
 ]
 
