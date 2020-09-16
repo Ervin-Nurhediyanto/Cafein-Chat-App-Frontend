@@ -46,7 +46,7 @@
       </div>
 
       <p class="text-right">
-        <a href="#" id="forgot" @click="$emit('forgot-password')">Forgot Password?</a>
+        <a href="#" @click="forgotPass">Forgot Password?</a>
       </p>
 
           <div class="d-flex justify-content-center">
@@ -67,8 +67,7 @@
         Don’t have an accoun?
         <a
           href="#"
-          id="forgot"
-          @click="$emit('register-event')"
+          @click="register"
         >Sign Up</a>
       </p>
     </form>
@@ -76,7 +75,17 @@
 </template>
 
 <script>
-export default {}
+export default {
+  name: 'Signin',
+  methods: {
+    forgotPass () {
+      this.$router.push('/forgot-pass')
+    },
+    register () {
+      this.$router.push('/register')
+    }
+  }
+}
 </script>
 
 <style scoped>
@@ -87,7 +96,7 @@ export default {}
 .signin h2 {
   font-family: Rubik;
   font-style: normal;
-  font-weight: 500;
+  font-weight: bold;
   font-size: 22px;
   line-height: 26px;
   text-align: center;
