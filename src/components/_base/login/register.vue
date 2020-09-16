@@ -1,8 +1,11 @@
 <template>
   <div class="register">
     <form role="form" id="login-form">
-      <div class="row d-flex justify-content-center">
-        <h2>Register</h2>
+      <div class="row">
+        <h2 class="back" @click="back">&#60;</h2>
+        <div class="d-flex justify-content-center">
+          <h2>Register</h2>
+        </div>
       </div>
       <div>
         <h3>Let's create your account!</h3>
@@ -67,7 +70,14 @@
 </template>
 
 <script>
-export default {}
+export default {
+  name: 'Register',
+  methods: {
+    back () {
+      this.$router.push('/login')
+    }
+  }
+}
 </script>
 
 <style scoped>
@@ -78,13 +88,38 @@ export default {}
 .register h2 {
   font-family: Rubik;
   font-style: normal;
-  font-weight: 500;
+  font-weight: bold;
   font-size: 22px;
   line-height: 26px;
   text-align: center;
   letter-spacing: -0.165px;
   color: #7e98df;
 }
+
+.register h2.back {
+  font-family: Rubik;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 22px;
+  line-height: 26px;
+  text-align: left;
+  letter-spacing: -0.165px;
+  color: #7e98df;
+  margin-right: 145px;
+  margin-left: 15px;
+  cursor: pointer;
+}
+
+/* .register h2 {
+  font-family: Rubik;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 22px;
+  line-height: 26px;
+  text-align: center;
+  letter-spacing: -0.165px;
+  color: #7e98df;
+} */
 
 .register h3 {
   margin-top: 30px;
