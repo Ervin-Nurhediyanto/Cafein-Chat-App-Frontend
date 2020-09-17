@@ -4,7 +4,8 @@
       <ChatList />
     </div>
     <div class="Message">
-      <MessageEmpty />
+      <MessageEmpty v-if="empty"/>
+      <MessageAvailable v-else />
     </div>
   </div>
 </template>
@@ -12,11 +13,18 @@
 <script>
 import ChatList from '../../components/chat/Chat-List'
 import MessageEmpty from '../../components/message/Message-Empty'
+import MessageAvailable from '../../components/message/Message-Available'
 export default {
   name: 'Chat',
+  data () {
+    return {
+      empty: false
+    }
+  },
   components: {
     ChatList,
-    MessageEmpty
+    MessageEmpty,
+    MessageAvailable
   }
 }
 </script>
@@ -27,12 +35,11 @@ export default {
   left: 0;
   top: 0;
   background-color: #ffffff;
-  /* width: 400px; */
   width: 30%;
-  /* height: 660px; */
   height: 100%;
   padding-left: 15px;
   padding-right: 15px;
+  border-right: 1px solid #E5E5E5;
 }
 
 .Message {

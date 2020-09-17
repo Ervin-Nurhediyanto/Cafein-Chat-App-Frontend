@@ -1,7 +1,7 @@
 <template>
   <div class="row scroll-x d-flex justify-content-between">
     <h4>All</h4>
-    <h4>Inportant</h4>
+    <h4>Important</h4>
     <h4>Unread</h4>
     <h4>Read</h4>
   </div>

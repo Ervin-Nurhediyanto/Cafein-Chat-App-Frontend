@@ -1,16 +1,27 @@
 <template>
-  <div class="row search-box d-flex justify-content-between">
+  <!-- <div class="row search-box d-flex justify-content-between"> -->
     <div class="search-input">
       <i class="fa fa-search" aria-hidden="true"></i>
       <input placeholder="Type your message..." />
     </div>
-    <h4>+</h4>
-  </div>
+    <!-- <div @click="handleAdd">
+      <h4>+</h4>
+    </div> -->
+  <!-- </div> -->
 </template>
 
 <script>
 export default {
-  name: 'search-chat'
+  name: 'search-chat',
+  data () {
+    return {
+      telegramShow: true
+    }
+  },
+  computed: {
+  },
+  methods: {
+  }
 }
 </script>
 
@@ -23,6 +34,7 @@ export default {
     background-color: #FAFAFA;
     border-radius: 20px;
     padding: 10px;
+    width: 278px;
 }
 
 .search-box input {
@@ -30,6 +42,7 @@ export default {
     background-color: transparent;
     margin-left: 10px;
     color: #848484;
+    width: 218px;
 }
 
 .search-box h4 {
@@ -42,5 +55,6 @@ export default {
     letter-spacing: -0.165px;
     color: #7e98df;
     margin-right: 10px;
+    cursor: pointer;
 }
 </style>

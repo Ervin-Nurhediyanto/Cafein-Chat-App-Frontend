@@ -1,15 +1,21 @@
 <template>
   <div class="ChatList">
     <div class="row d-flex justify-content-between">
-      <h2>Telegram</h2>
-      <div class="line-menu">
+      <h2 v-show="telegram">Telegram</h2>
+      <ChatMenu v-show="menuAct" />
+      <div class="line-menu" @click="handleMenu">
         <div class="line-one"></div>
         <div class="line-two"></div>
         <div class="line-three"></div>
       </div>
     </div>
     <ChatProfile />
-    <ChatSearch />
+    <div class="row search-box d-flex justify-content-between">
+      <ChatSearch />
+      <div @click="handleMenu">
+        <h4>+</h4>
+      </div>
+    </div>
     <ChatScrollX />
     <ChatContact />
   </div>
@@ -20,20 +26,37 @@ import ChatSearch from './Chat-Search'
 import ChatScrollX from './Chat-Scroll-x'
 import ChatContact from './Chat-Contact'
 import ChatProfile from './Chat-Profile'
+import ChatMenu from './Chat-Menu'
 export default {
   name: 'ChatList',
   components: {
     ChatSearch,
     ChatScrollX,
     ChatContact,
-    ChatProfile
+    ChatProfile,
+    ChatMenu
   },
-  methods: {}
+  data () {
+    return {
+      telegram: true,
+      menuAct: false
+    }
+  },
+  methods: {
+    handleMenu () {
+      if (this.telegram === true) {
+        this.telegram = false
+        this.menuAct = true
+      } else {
+        this.telegram = true
+        this.menuAct = false
+      }
+    }
+  }
 }
 </script>
 
 <style scoped>
-
 .ChatList {
   margin-top: 43px;
   margin-left: 20px;
