@@ -43,38 +43,54 @@
         />
       </div>
 
-          <div class="d-flex justify-content-center">
-            <button type="submit" class="btn text-white" @click="handleLoginSeller">Register</button>
-          </div>
+      <div class="d-flex justify-content-center">
+        <button type="submit" class="btn text-white" @click="handleRegister">Register</button>
+      </div>
 
-            <div class="d-flex justify-content-center">
-              <div class="line"></div>
-              <h4 class="register-with">Register with</h4>
-              <div class="line"></div>
-            </div>
+      <div class="d-flex justify-content-center">
+        <div class="line"></div>
+        <h4 class="register-with">Register with</h4>
+        <div class="line"></div>
+      </div>
 
-          <div class="d-flex justify-content-center">
-            <button type="submit" class="btn text-blue" @click="handleLoginSeller">Google</button>
-          </div>
-
-      <!-- <p class="mt-3 text-center">
-        Don’t have an accoun?
-        <a
-          href="#"
-          id="forgot"
-          @click="$emit('register-event')"
-        >Sign Up</a>
-      </p> -->
+      <div class="d-flex justify-content-center">
+        <button type="submit" class="btn text-blue">Google</button>
+      </div>
     </form>
   </div>
 </template>
 
 <script>
+import { mapGetters, mapActions } from 'vuex'
 export default {
   name: 'Register',
+  data () {
+    return {
+      name: '',
+      email: '',
+      password: ''
+    }
+  },
+  computed: {
+    ...mapGetters({
+      user: 'user'
+    })
+  },
   methods: {
+    ...mapActions(['register']),
     back () {
       this.$router.push('/login')
+    },
+    handleRegister (e) {
+      e.preventDefault()
+      const data = {
+        name: this.name,
+        email: this.email,
+        password: this.password
+      }
+      this.register(data).then((res) => {
+        this.$router.push('/login')
+      })
     }
   }
 }
@@ -143,7 +159,7 @@ export default {
   font-size: 16px;
   line-height: 19px;
   text-align: right;
-  color: #7E98DF;
+  color: #7e98df;
 }
 
 .form-group h4 {
@@ -166,15 +182,15 @@ export default {
 }
 
 button.text-white {
-  background: #7E98DF;
+  background: #7e98df;
   border-radius: 70px;
   width: 360px;
   height: 40px;
 }
 
 button.text-blue {
-  background: #FFFFFF;
-  border: 1px solid #7E98DF;
+  background: #ffffff;
+  border: 1px solid #7e98df;
   box-sizing: border-box;
   border-radius: 70px;
   width: 360px;

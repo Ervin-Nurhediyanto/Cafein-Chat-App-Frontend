@@ -5,8 +5,17 @@
     </div>
     <div class="Message">
       <MessageEmpty v-if="empty"/>
-      <MessageAvailable v-else />
+      <MessageAvailable v-else
+      v-on:sendMessage="messageOk($event)"
+      :messages='messages'
+      />
     </div>
+
+    <!-- <ul class="list-group list-group-flush">
+      <li class="list-group-item" v-for="(message, index) in messages" :key="index">{{message}}</li>
+    </ul>
+    <input type="text" @keyup.enter="handleSendMessage"> -->
+
   </div>
 </template>
 
@@ -14,17 +23,60 @@
 import ChatList from '../../components/chat/Chat-List'
 import MessageEmpty from '../../components/message/Message-Empty'
 import MessageAvailable from '../../components/message/Message-Available'
+import { mapGetters } from 'vuex'
+import io from 'socket.io-client'
+
 export default {
   name: 'Chat',
   data () {
     return {
-      empty: false
+      socket: io('http://localhost:4000'),
+      messages: [],
+      empty: false,
+      room: 1
     }
   },
   components: {
     ChatList,
     MessageEmpty,
     MessageAvailable
+  },
+  computed: {
+    ...mapGetters({
+      user: 'user'
+    })
+  },
+  mounted () {
+    this.socket.emit('welcomeMessage', { id: this.user.id, username: this.user.userName, room: this.room })
+    this.socket.on('message', message => {
+      console.log(message)
+      this.messages.push(message)
+    })
+    this.socket.on('notif', message => {
+      alert(message)
+    })
+  },
+  methods: {
+    handleSendMessage (value) {
+      console.log(value)
+      this.socket.emit('sendMessage', {
+        message: value,
+        userId: this.user.id,
+        room: this.room
+      }, (error) => {
+        alert(error)
+      })
+    },
+    messageOk (messageOk) {
+      console.log('oke: ' + messageOk)
+      this.socket.emit('sendMessage', {
+        message: messageOk,
+        userId: this.user.id,
+        room: this.room
+      }, (error) => {
+        alert(error)
+      })
+    }
   }
 }
 </script>
@@ -49,6 +101,5 @@ export default {
   background-color: transparent;
   width: 70%;
   height: 100%;
-  /* height: 660px; */
 }
 </style>

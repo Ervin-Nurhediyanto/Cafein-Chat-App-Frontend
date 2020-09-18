@@ -2,15 +2,15 @@
   <div class="row contact-chat">
     <div class="row contact-list-chat">
       <!-- photo -->
-      <div class="col-md-3 container-photo pl-md-0 pr-md-0">
+      <div class="col-md-3 col-sm-3 container-photo pl-md-0 pr-md-0">
         <div class="photo">
           <img src="../../assets/Profile/photo.png" />
         </div>
       </div>
       <!-- scroll-edit -->
-      <div class="col-md-9 scroll-edit  p-md-0">
+      <div class="col-md-9 col-sm-9 scroll-edit  p-md-0">
         <div class="row justify-content-between">
-          <div class="col-md-8 contact-info">
+          <div class="col-md-8 col-sm-8 contact-info">
             <div class="row contact-name">
               <h4>Theresa Webb</h4>
             </div>
@@ -18,7 +18,7 @@
               <h4>Why did you do that?</h4>
             </div>
           </div>
-          <div class="col-md-3 time-info">
+          <div class="col-md-3 col-sm-3 time-info">
             <div class="row time-chat justify-content-end">
               <h4>15:30</h4>
             </div>
@@ -110,7 +110,6 @@ export default {
   width: 170px;
   padding: 10px;
   padding-left: 20px;
-
 }
 
 .contact-chat .last-chat h4 {
@@ -190,4 +189,120 @@ export default {
   cursor: pointer;
   color: #ffffff;
 }
+
+@media (max-width: 768px) {
+  .contact-chat .contact-list-chat {
+  width: 190px;
+  height: 50px;
+  padding: 0;
+  /* background-color: salmon; */
+}
+
+.contact-chat .photo {
+  width: 50px;
+  height: 50px;
+}
+
+.contact-chat .photo img {
+  border-radius: 10px;
+}
+
+.contact-chat .contact-name {
+  height: 25px;
+  width: 100px;
+  padding: 2px;
+  padding-left: 5px;
+  /* background-color: springgreen; */
+}
+
+.contact-chat .contact-name h4 {
+  font-size: 10px;
+}
+
+.contact-chat .last-chat {
+  height: 25px;
+  width: 100px;
+  padding: 2px;
+  padding-left: 5px;
+  /* background-color: tan; */
+  overflow-y: scroll;
+}
+
+.contact-chat .last-chat::-webkit-scrollbar {
+  display: none;
+}
+
+.contact-chat .last-chat h4 {
+  font-size: 10px;
+}
+
+.contact-chat .time-chat {
+  height: 25px;
+  width: 33px;
+  padding-top: 3px;
+  /* background-color: red; */
+}
+
+.contact-chat .time-chat h4 {
+  font-size: 12px;
+  margin-left: auto;
+  margin-right: 0;
+}
+
+.contact-chat .qly-chat {
+  width: 33px;
+  height: 25px;
+  padding-top: 5px;
+  /* background-color: springgreen; */
+}
+
+.contact-chat .qly-chat h4 {
+  font-size: 12px;
+  margin-left: auto;
+  margin-right: 0;
+}
+
+.contact-chat .qly-chat span {
+  background: #7e98df;
+  border-radius: 50%;
+  padding: 5px 8px 5px 8px;
+}
+
+.contact-menu {
+  width: 140px;
+  height: 50px;
+  margin-left: -14px;
+  padding-left: 20px;
+  padding-top: 10px;
+  /* background-color: teal; */
+}
+
+.contact-menu .contact-menu-i {
+  background-color: #7e98df;
+  width: 140px;
+  height: 35px;
+  padding: 10px;
+  padding-top: 5px;
+}
+
+.contact-menu i {
+  font-size: 17px;
+  margin: 2px;
+  cursor: pointer;
+  color: #ffffff;
+}
+
+.contact-chat .scroll-edit {
+  height: 50px;
+  margin-left: 0;
+  margin-right: 0;
+  overflow-y: scroll;
+}
+
+.contact-chat .scroll-edit::-webkit-scrollbar {
+  display: none;
+}
+
+}
+
 </style>

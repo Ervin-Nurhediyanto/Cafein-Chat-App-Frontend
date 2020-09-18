@@ -50,7 +50,7 @@
       </p>
 
           <div class="d-flex justify-content-center">
-            <button type="submit" class="btn text-white" @click="handleLoginSeller">Login</button>
+            <button type="submit" class="btn text-white" @click="handleLogin">Login</button>
           </div>
 
             <div class="d-flex justify-content-center">
@@ -60,7 +60,7 @@
             </div>
 
           <div class="d-flex justify-content-center">
-            <button type="submit" class="btn text-blue" @click="handleLoginSeller">Google</button>
+            <button type="submit" class="btn text-blue">Google</button>
           </div>
 
       <p class="mt-3 text-center">
@@ -75,9 +75,32 @@
 </template>
 
 <script>
+import { mapGetters, mapActions } from 'vuex'
 export default {
   name: 'Signin',
+  data () {
+    return {
+      email: '',
+      password: ''
+    }
+  },
+  computed: {
+    ...mapGetters({
+      user: 'user'
+    })
+  },
   methods: {
+    ...mapActions(['login']),
+    handleLogin (e) {
+      e.preventDefault()
+      const data = {
+        email: this.email,
+        password: this.password
+      }
+      this.login(data).then((res) => {
+        this.$router.push('/')
+      })
+    },
     forgotPass () {
       this.$router.push('/forgot-pass')
     },

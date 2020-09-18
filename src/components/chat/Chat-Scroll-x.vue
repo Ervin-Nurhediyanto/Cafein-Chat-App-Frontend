@@ -37,4 +37,29 @@ export default {
     padding: 8px;
     color: #FFFFFF;
 }
+
+@media (max-width: 768px) {
+  .scroll-x {
+    margin-top: 0px;
+    margin-bottom: 0px;
+    /* background-color: royalblue; */
+}
+
+.scroll-x h4 {
+    min-width: 20px;
+    min-height: 15px;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 2px;
+}
+
+.scroll-x h4:active {
+    min-width: 20px;
+    min-height: 15px;
+    font-size: 12px;
+    padding: 2px;
+}
+
+}
+
 </style>

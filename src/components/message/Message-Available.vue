@@ -1,94 +1,67 @@
 <template>
   <div class="available">
-    <div class="row header-message">
-      <div class="header-photo bg-warning">
-        <img src="../../assets/Profile/photo2.png" />
-      </div>
-      <div class="header-info">
-        <div class>
-          <div class>
-            <h4>Mother ❤</h4>
-          </div>
-          <div class="status">
-            <h5>online</h5>
-          </div>
-        </div>
-        <div class="header-icon">
-          <div class><i class="fas fa-ellipsis-v"></i></div>
-        </div>
-      </div>
-    </div>
-    <!-- <h4>available</h4> -->
+    <MessageHeader />
+    <!-- <div class="scroll-chat"> -->
+      <MessageBody
+      v-on:handleMessage="sendMessage($event)"
+      :messages='messages'
+      />
+    <!-- </div> -->
+    <!-- <MessageInput @messageSend="handleMessage" /> -->
   </div>
 </template>
 
 <script>
+import MessageHeader from './Message-Header'
+import MessageBody from './Message-Body'
+// import MessageInput from './Message-Input'
 export default {
-  name: 'Message-Available'
+  name: 'Message-Available',
+  props: ['messages'],
+  data () {
+    return {
+      inputMessage: ''
+      // messages: []
+    }
+  },
+  components: {
+    MessageHeader,
+    MessageBody
+    // MessageInput
+  },
+  mounted () {
+    this.socket.emit('sendMessage', { id: this.user.id, message: this.inputMessage, room: 1 })
+    this.socket.on('message', message => {
+      console.log('message: ' + message)
+      this.messages.push(message)
+    })
+  },
+  methods: {
+    handleMessage (value) {
+      this.inputMessage = value
+    },
+    sendMessage (sendMessage) {
+      this.$emit('sendMessage', sendMessage)
+    }
+  }
 }
 </script>
 
 <style>
-.available .header-message {
-  background: #FFFFFF;
-  /* background-color: red; */
-  height: 80px;
-  width: 955px;
-  margin-left: 0px;
-  padding: 15px;
+.scroll-chat {
+  max-height: 500px;
+  overflow-y: scroll;
 }
 
-.header-message .header-photo {
-  height: 50px;
-  width: 50px;
+.scroll-chat::-webkit-scrollbar {
+  display: none;
 }
 
-.header-photo img {
-  height: 100%;
-  width: 100%;
-  border-radius: 20px;
-  object-fit: cover;
+@media (max-width: 768px) {
+  .scroll-chat {
+  height: 240px;
+  overflow-y: scroll;
 }
 
-.header-message .header-info {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  /* background-color: blue; */
-  width: 865px;
-  height: 50px;
-  padding-left: 10px;
-  padding-right: 10px;
-  margin-left: 10px;
-}
-
-.header-info h4 {
-  font-family: Rubik;
-  font-style: normal;
-  font-weight: 500;
-  font-size: 18px;
-  line-height: 21px;
-  text-align: center;
-  letter-spacing: -0.165px;
-  color: #232323;
-}
-
-.header-info h5 {
-  font-family: Rubik;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 15px;
-  line-height: 18px;
-  letter-spacing: -0.165px;
-  color: #7e98df;
-}
-
-.header-info .header-icon {
-    margin-top: 5px;
-    font-size: 25px;
-}
-
-.header-icon i {
-  color: #7e98df;
 }
 </style>

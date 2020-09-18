@@ -17,12 +17,19 @@ export default {
 background: #7E98DF;
 border-radius: 20px;
 width: 278px;
-/* height: 45px; */
 padding: 10px;
 }
 
 .menu i.fa {
   margin-right: 10px;
   margin-left: 10px;
+}
+
+@media (max-width: 768px) {
+  .menu {
+    width: 120px;
+    padding: 4px;
+    margin-top: 2px;
+  }
 }
 </style>

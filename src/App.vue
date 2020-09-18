@@ -7,7 +7,26 @@
     <router-view/>
   </div>
 </template>
-
+<script>
+import { mapGetters, mapActions } from 'vuex'
+export default {
+  components: {
+  },
+  computed: {
+    ...mapGetters({
+      token: 'token'
+    })
+  },
+  methods: {
+    ...mapActions(['interceptorsRequest']),
+    ...mapActions(['interceptorsResponse'])
+  },
+  created () {
+    this.interceptorsRequest()
+    this.interceptorsResponse()
+  }
+}
+</script>
 <style>
 
 body, html {
