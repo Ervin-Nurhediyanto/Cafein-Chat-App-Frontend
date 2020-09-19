@@ -12,7 +12,9 @@ export default new Vuex.Store({
     resetId: localStorage.getItem('resetId') || null,
     userImage: localStorage.getItem('userImage') || null,
     userName: localStorage.getItem('userName') || null,
-    name: localStorage.getItem('name') || null
+    name: localStorage.getItem('name') || null,
+    phoneNumber: localStorage.getItem('phoneNumber') || null,
+    bio: localStorage.getItem('bio') || null
   },
   mutations: {
     setUser (state, payload) {
@@ -21,6 +23,8 @@ export default new Vuex.Store({
       state.userImage = payload.image
       state.userName = payload.userName
       state.name = payload.name
+      state.phoneNumber = payload.phoneNumber
+      state.bio = payload.bio
     },
     setToken (state, payload) {
       state.token = payload
@@ -59,6 +63,8 @@ export default new Vuex.Store({
             localStorage.setItem('userImage', this.state.userImage)
             localStorage.setItem('userName', this.state.userName)
             localStorage.setItem('name', this.state.name)
+            localStorage.setItem('phoneNumber', this.state.phoneNumber)
+            localStorage.setItem('bio', this.state.bio)
             resolve(res.data.result[0])
           })
           .catch((err) => {
@@ -140,6 +146,12 @@ export default new Vuex.Store({
     },
     name (state) {
       return state.name
+    },
+    phoneNumber (state) {
+      return state.phoneNumber
+    },
+    bio (state) {
+      return state.bio
     }
   },
   modules: {

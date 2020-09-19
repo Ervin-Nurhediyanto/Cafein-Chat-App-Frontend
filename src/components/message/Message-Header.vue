@@ -31,7 +31,8 @@ export default {
 .header-message {
   background: #ffffff;
   height: 80px;
-  width: 955px;
+  /* width: 955px; */
+  width: 100%;
   margin-left: 0px;
   padding: 15px;
 }
@@ -52,11 +53,13 @@ export default {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  width: 865px;
+  /* width: 865px; */
+  width: 94%;
   height: 50px;
   padding-left: 10px;
   padding-right: 10px;
   margin-left: 10px;
+  /* background-color: yellow; */
 }
 
 .header-info h4 {

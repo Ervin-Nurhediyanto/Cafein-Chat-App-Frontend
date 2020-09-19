@@ -1,5 +1,5 @@
 <template>
-  <div class="menu-profile">
+  <div class="message-menu-profile">
     <ul>
       <li @click="handleSetting">
         <i class="fas fa-cog"></i> Settings
@@ -27,7 +27,7 @@
 <script>
 
 export default {
-  name: 'Chat-menu-profile',
+  name: 'Chat-message-menu-profile',
   data () {
     return {
       setting: true
@@ -44,18 +44,19 @@ export default {
 </script>
 
 <style>
-.menu-profile {
+.message-menu-profile {
   position: absolute;
+  right: 200px;
+  left: auto;
+  top: 90px;
   width: 220px;
   height: 340px;
-  left: 100px;
-  top: 90px;
   background: #7e98df;
   border-radius: 35px 10px 35px 35px;
   z-index: 2;
 }
 
-.menu-profile ul li {
+.message-menu-profile ul li {
   list-style-type: none;
   font-family: Rubik;
   font-style: normal;
@@ -67,34 +68,35 @@ export default {
   cursor: pointer;
 }
 
-.menu-profile ul li:hover {
+.message-menu-profile ul li:hover {
   color: red;
 }
 
-.menu-profile ul li i {
+.message-menu-profile ul li i {
   margin: 20px;
   margin-left: 0;
   width: 20px;
 }
 
 @media (max-width: 768px) {
-  .menu-profile {
+  .message-menu-profile {
   position: absolute;
+  right: 40px;
+  left: auto;
+  top: 60px;
   width: 130px;
   height: 240px;
-  left: 15px;
-  top: 60px;
 }
 
-.menu-profile ul {
+.message-menu-profile ul {
   /* background-color: aqua; */
   padding: 0;
 }
 
-.menu-profile ul li {
+.message-menu-profile ul li {
   font-size: 12px;
 }
-.menu-profile ul li i {
+.message-menu-profile ul li i {
   margin: 12px;
   margin-left: 10;
   margin-top: 15px;

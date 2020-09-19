@@ -87,7 +87,7 @@ export default {
   left: 0;
   top: 0;
   background-color: #ffffff;
-  width: 30%;
+  width: 25%;
   height: 100%;
   padding-left: 15px;
   padding-right: 15px;
@@ -99,7 +99,8 @@ export default {
   right: 0;
   top: 0;
   background-color: transparent;
-  width: 70%;
+  width: 75%;
   height: 100%;
+  /* background-color: tomato; */
 }
 </style>

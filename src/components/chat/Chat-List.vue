@@ -1,6 +1,8 @@
 <template>
   <div class="ChatList">
-    <SettingProfile />
+    <SettingProfile
+    v-show="settingShow"
+    v-on:handleClose="closeSetting($event)"/>
     <div class="row d-flex justify-content-between">
       <h2 v-show="telegram">Telegram</h2>
       <ChatMenu v-show="menuAct" />
@@ -10,7 +12,9 @@
         <div class="line-three"></div>
       </div>
     </div>
-    <ChatMenuProfile v-show="menuProf"/>
+    <ChatMenuProfile
+    v-show="menuProf"
+    v-on:handleSetting="openSetting($event)"/>
     <ChatProfile />
     <div class="row search-box d-flex justify-content-between">
       <ChatSearch />
@@ -46,7 +50,8 @@ export default {
     return {
       telegram: true,
       menuAct: false,
-      menuProf: false
+      menuProf: false,
+      settingShow: false
     }
   },
   methods: {
@@ -65,6 +70,12 @@ export default {
       } else {
         this.menuProf = false
       }
+    },
+    openSetting (openSetting) {
+      this.settingShow = openSetting
+    },
+    closeSetting (closeSetting) {
+      this.settingShow = closeSetting
     }
   }
 }

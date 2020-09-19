@@ -76,15 +76,18 @@ export default {
 
 <style scoped>
 .body-message {
-  min-height: 500px;
-  width: 955px;
-  margin-left: 10px;
+  /* min-height: 500px; */
+  /* width: 955px; */
+  height: 100%;
+  width: 100%;
+  margin-left: 0px;
   margin-top: auto;
   margin-bottom: 0px;
-  padding: 15px;
+  padding-top: 10px;
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
+  /* background-color: teal; */
 }
 
 .body-message .other {
@@ -92,10 +95,12 @@ export default {
   flex-direction: column;
   justify-content: flex-end;
   max-height: 120px;
-  width: 955px;
+  width: 1280px;
+  /* width: 100%; */
   padding-left: 30px;
   margin-bottom: 5px;
   margin-top: auto;
+  /* background-color: violet; */
 }
 
 .body-message .user {
@@ -103,12 +108,14 @@ export default {
   flex-direction: column;
   justify-content: flex-end;
   max-height: 120px;
-  width: 955px;
+  width: 1280px;
+  /* width: 955px; */
   padding-top: auto;
   padding-bottom: 0;
-  padding-right: 15px;
+  padding-right: 20px;
   margin-bottom: 5px;
   margin-top: auto;
+  /* background-color: red; */
 }
 
 .body-message .body-photo {
@@ -177,11 +184,12 @@ export default {
 .input-text {
   background: #ffffff;
   height: 80px;
-  width: 955px;
+  /* width: 955px; */
+  width: 100%;
   margin-left: 0px;
-  padding: 15px;
   margin-bottom: 0;
   margin-top: auto;
+  padding: 20px;
 }
 
 .input-text i {
@@ -194,7 +202,8 @@ export default {
 .input-chat {
   background: #fafafa;
   border-radius: 15px;
-  width: 880px;
+  /* width: 880px; */
+  width: 100%;
   height: 50px;
   padding: 10px;
   margin-left: 20px;
@@ -205,7 +214,9 @@ export default {
   border: none;
   background: #fafafa;
   border-radius: 15px;
-  width: 700px;
+  width: 1100px;
+  height: 30px;
+  /* width: 100%; */
 }
 
 @media (max-width: 768px) {
@@ -234,6 +245,13 @@ export default {
   /* background-color: darkmagenta; */
 }
 
+.body-message .message-other {
+  margin-left: 5px;
+  padding: 12px;
+  max-width: 390px;
+  max-height: 120px;
+}
+
 .body-message .user {
   display: flex;
   flex-direction: column;
@@ -243,9 +261,27 @@ export default {
   padding-top: auto;
   padding-bottom: 0;
   padding-right: 15px;
+  padding-left: 15px;
   margin-bottom: 5px;
   margin-top: auto;
   /* background-color: darksalmon; */
+}
+
+.body-message .message-user {
+  margin-left: auto;
+  margin-right: 0px;
+  padding: 12px;
+  max-width: 390px;
+  max-height: 120px;
+}
+
+.body-message .body-photo-user {
+  height: 45px;
+  width: 45px;
+  margin-bottom: 0;
+  margin-top: auto;
+  margin-right: 0;
+  margin-left: 5px;
 }
 
   .input-text {
