@@ -16,7 +16,7 @@ export default {
 .menu {
 background: #7E98DF;
 border-radius: 20px;
-width: 278px;
+width: 200px;
 padding: 10px;
 }
 
@@ -27,9 +27,15 @@ padding: 10px;
 
 @media (max-width: 768px) {
   .menu {
-    width: 120px;
-    padding: 4px;
+    width: 100px;
+    height: 30px;
+    padding: 0px;
     margin-top: 2px;
+    margin-bottom: 10px;
+  }
+
+  .menu i {
+    font-size: 12px;
   }
 }
 </style>

@@ -15,10 +15,11 @@
         <input
           type="text"
           v-model="name"
-          class="form-control-lg w-100 border-0 shadow-sm"
+          class="form-control-lg w-100 border-0"
           id="exampleInputName"
           placeholder="Name"
         />
+        <div class="border-2"></div>
       </div>
 
       <div class="form-group">
@@ -26,10 +27,11 @@
         <input
           type="email"
           v-model="email"
-          class="form-control-lg w-100 border-0 shadow-sm"
+          class="form-control-lg w-100 border-0"
           id="exampleInputEmail1"
           placeholder="Email"
         />
+        <div class="border-2"></div>
       </div>
 
       <div class="form-group">
@@ -37,10 +39,11 @@
         <input
           type="password"
           v-model="password"
-          class="form-control-lg w-100 shadow-sm"
+          class="form-control-lg w-100 border-0"
           id="exampleInputPassword1"
           placeholder="Password"
         />
+        <div class="border-2"></div>
       </div>
 
       <div class="d-flex justify-content-center">
@@ -126,17 +129,6 @@ export default {
   cursor: pointer;
 }
 
-/* .register h2 {
-  font-family: Rubik;
-  font-style: normal;
-  font-weight: 500;
-  font-size: 22px;
-  line-height: 26px;
-  text-align: center;
-  letter-spacing: -0.165px;
-  color: #7e98df;
-} */
-
 .register h3 {
   margin-top: 30px;
   margin-bottom: 30px;
@@ -179,6 +171,15 @@ export default {
   font-size: 16px;
   line-height: 19px;
   color: #232323;
+  margin-bottom: 0;
+}
+
+.border-2 {
+  height: 2px;
+  width: 400px;
+  margin-top: 0;
+  margin-bottom: 10px;
+  border-top: 1px solid #848484;
 }
 
 button.text-white {
@@ -215,5 +216,54 @@ h4.register-with {
   color: #848484;
   margin-top: 20px;
   margin-bottom: 20px;
+  width: 200px;
+}
+
+@media (max-width: 576px) {
+  h4.register-with {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    width: 500px;
+  }
+  .line {
+    width: 280px;
+    margin-top: 30px;
+    margin-left: 0px;
+    margin-right: 0px;
+    border-top: 1px solid #848484;
+  }
+
+  .register h2 {
+    font-family: Rubik;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 22px;
+    line-height: 26px;
+    text-align: center;
+    letter-spacing: -0.165px;
+    color: #7e98df;
+  }
+
+  .register h2.back {
+    font-family: Rubik;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 22px;
+    line-height: 26px;
+    text-align: left;
+    letter-spacing: -0.165px;
+    color: #7e98df;
+    margin-right: 85px;
+    margin-left: 15px;
+    cursor: pointer;
+  }
+
+  .border-2 {
+    height: 2px;
+    width: 260px;
+    margin-top: 0;
+    margin-bottom: 10px;
+    border-top: 1px solid #848484;
+  }
 }
 </style>>

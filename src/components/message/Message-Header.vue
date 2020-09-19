@@ -1,29 +1,54 @@
 <template>
-  <div class="row header-message">
+<div>
+<div class="row header-message">
       <div class="header-photo">
-        <img src="../../assets/Profile/photo2.png" />
+        <!-- <img src="../../assets/Profile/photo2.png" /> -->
+        <img :src="headerMess.image">
       </div>
       <div class="header-info">
         <div class>
           <div class>
-            <h4>Mother ❤</h4>
+            <!-- <h4>Mother ❤</h4> -->
+            <h4>{{headerMess.name}}</h4>
           </div>
           <div class="status">
-            <h5>online</h5>
+            <!-- <h5>online</h5> -->
+            <h5>{{headerMess.status}}</h5>
           </div>
         </div>
         <div class="header-icon">
-          <div class>
+          <div @click="handleChatMenu">
             <i class="fas fa-ellipsis-v"></i>
           </div>
         </div>
       </div>
     </div>
+    <MessageMenu v-show="showMenu"/>
+</div>
 </template>
 
 <script>
+import MessageMenu from './Message-Menu'
 export default {
-  name: 'Message-header'
+  name: 'Message-header',
+  props: ['headerMess'],
+  components: {
+    MessageMenu
+  },
+  data () {
+    return {
+      showMenu: false
+    }
+  },
+  methods: {
+    handleChatMenu () {
+      if (this.showMenu === false) {
+        this.showMenu = true
+      } else {
+        this.showMenu = false
+      }
+    }
+  }
 }
 </script>
 
@@ -35,6 +60,7 @@ export default {
   width: 100%;
   margin-left: 0px;
   padding: 15px;
+  /* background-color: yellow; */
 }
 
 .header-message .header-photo {
@@ -54,7 +80,7 @@ export default {
   flex-direction: row;
   justify-content: space-between;
   /* width: 865px; */
-  width: 94%;
+  width: 93%;
   height: 50px;
   padding-left: 10px;
   padding-right: 10px;
@@ -86,6 +112,7 @@ export default {
 .header-info .header-icon {
   margin-top: 5px;
   font-size: 25px;
+  cursor: pointer;
 }
 
 .header-icon i {
@@ -95,7 +122,8 @@ export default {
 @media (max-width: 768px) {
 .header-message {
   height: 80px;
-  width: 448px;
+  /* width: 448px; */
+  width: 100%;
   margin-left: 0px;
   padding: 15px;
   /* background-color: red; */
@@ -105,7 +133,8 @@ export default {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  width: 358px;
+  width: 390px;
+  /* width: 90%; */
   height: 50px;
   padding-left: 10px;
   padding-right: 10px;

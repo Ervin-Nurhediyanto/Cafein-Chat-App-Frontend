@@ -1,10 +1,12 @@
 <template>
   <div class="available">
-    <MessageHeader />
-    <MessageMenu v-show="showMenu"/>
+    <MessageHeader
+    :headerMess="headerMess"/>
+    <!-- <MessageMenu v-show="showMenu"/> -->
       <MessageBody
       v-on:handleMessage="sendMessage($event)"
       :messages='messages'
+      :userId='userId'
       />
   </div>
 </template>
@@ -12,20 +14,20 @@
 <script>
 import MessageHeader from './Message-Header'
 import MessageBody from './Message-Body'
-import MessageMenu from './Message-Menu'
+// import MessageMenu from './Message-Menu'
 export default {
   name: 'Message-Available',
-  props: ['messages'],
+  props: ['messages', 'userId', 'headerMess'],
   data () {
     return {
-      inputMessage: '',
-      showMenu: false
+      inputMessage: ''
+      // showMenu: false
     }
   },
   components: {
     MessageHeader,
-    MessageBody,
-    MessageMenu
+    MessageBody
+    // MessageMenu
   },
   mounted () {
     this.socket.emit('sendMessage', { id: this.user.id, message: this.inputMessage, room: 1 })
@@ -51,8 +53,8 @@ height: 100%;
 }
 
 .scroll-chat {
-  min-height: 669px;
-  max-height: 669px;
+  min-height: 503px;
+  max-height: 503px;
   overflow-y: scroll;
 }
 
@@ -62,8 +64,10 @@ height: 100%;
 
 @media (max-width: 768px) {
   .scroll-chat {
-  height: 240px;
+  min-height: 240px;
+  max-height: 240px;
   overflow-y: scroll;
+  /* background-color: red; */
 }
 
 }

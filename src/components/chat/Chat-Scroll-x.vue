@@ -3,7 +3,7 @@
     <h4>All</h4>
     <h4>Important</h4>
     <h4>Unread</h4>
-    <h4>Read</h4>
+    <!-- <h4>Read</h4> -->
   </div>
 </template>
 
@@ -15,8 +15,8 @@ export default {
 
 <style>
 .scroll-x {
-    margin-top: 20px;
-    margin-bottom: 20px;
+    margin-top: 5px;
+    margin-bottom: 5px;
 }
 
 .scroll-x h4 {

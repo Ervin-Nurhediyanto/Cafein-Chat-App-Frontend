@@ -14,12 +14,12 @@
 </template>
 
 <script>
-import io from 'socket.io-client'
+// import io from 'socket.io-client'
 export default {
   name: 'Message-Input',
   data () {
     return {
-      socket: io(process.env.VUE_APP_BASE_URL),
+      // socket: io(process.env.VUE_APP_BASE_URL),
       userName: '',
       message: '',
       room: ''
@@ -29,28 +29,20 @@ export default {
     sendMessage () {
       this.$emit('messageSend', this.message)
     }
-    // handleSendMessage (value) {
-    //   this.socket.emit('sendMessage', {
-    //     message: value,
-    //     userId: this.userId,
-    //     room: this.room
-    //   }, (error) => {
-    //     alert(error)
-    //   })
-    // }
   }
 }
 </script>
 
 <style scoped>
 .input-text {
-  background: #ffffff;
+  /* background: #ffffff; */
   height: 80px;
   width: 955px;
   margin-left: 0px;
   padding: 15px;
   margin-bottom: 0;
   margin-top: auto;
+  background-color: springgreen;
 }
 
 .input-text i {
@@ -72,9 +64,10 @@ export default {
 
 .input-chat input {
   border: none;
-  background: #fafafa;
+  /* background: #fafafa; */
   border-radius: 15px;
-  width: 700px;
+  width: 300px;
+  background-color: yellow;
 }
 
 @media (max-width: 768px) {

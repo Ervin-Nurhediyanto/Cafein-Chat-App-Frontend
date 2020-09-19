@@ -4,7 +4,7 @@
       <div class="row">
         <h2 class="back" @click="back">&#60;</h2>
         <div class="d-flex justify-content-center">
-          <h2>Password</h2>
+          <h2>Forgot Password</h2>
         </div>
       </div>
       <div>
@@ -24,7 +24,6 @@
       <div class="d-flex justify-content-center">
         <button type="submit" class="btn text-white" @click="handleLoginSeller">Send</button>
       </div>
-
     </form>
   </div>
 </template>
@@ -65,7 +64,7 @@ export default {
   text-align: left;
   letter-spacing: -0.165px;
   color: #7e98df;
-  margin-right: 145px;
+  margin-right: 110px;
   margin-left: 15px;
   cursor: pointer;
 }
@@ -148,5 +147,21 @@ h4.login-with {
   color: #848484;
   margin-top: 20px;
   margin-bottom: 20px;
+}
+
+@media (max-width: 576px) {
+  .signin h2.back {
+    font-family: Rubik;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 22px;
+    line-height: 26px;
+    text-align: left;
+    letter-spacing: -0.165px;
+    color: #7e98df;
+    margin-right: 40px;
+    margin-left: 15px;
+    cursor: pointer;
+  }
 }
 </style>>

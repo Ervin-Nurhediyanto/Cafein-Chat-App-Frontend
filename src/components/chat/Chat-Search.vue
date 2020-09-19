@@ -25,14 +25,19 @@ export default {
 
 <style>
 .search-box {
-  margin-top: 30px;
+  margin-top: 20px;
+  /* width: 100%; */
+  width: 300px;
+  /* background-color: pink; */
+  padding: 0;
 }
 
 .search-box .search-input {
   background-color: #fafafa;
   border-radius: 20px;
   padding: 10px;
-  width: 278px;
+  width: 250px;
+  /* background-color: peru; */
 }
 
 .search-box input {
@@ -40,7 +45,7 @@ export default {
   background-color: transparent;
   margin-left: 10px;
   color: #848484;
-  width: 218px;
+  width: 200px;
 }
 
 .search-box h4 {
@@ -52,27 +57,33 @@ export default {
   text-align: center;
   letter-spacing: -0.165px;
   color: #7e98df;
-  margin-right: 10px;
+  margin-right: 0px;
+  margin-top: 5px;
   cursor: pointer;
+  /* background-color: orange; */
 }
 
 @media (max-width: 768px) {
   .search-box {
-    margin-top: 5px;
+    margin-top: 0px;
+    width: 129px;
+    height: 30px;
+    /* background-color: deepskyblue; */
   }
 
   .search-box .search-input {
     padding: 0px;
     padding-left: 5px;
-    width: 130px;
+    width: 110px;
     height: 30px;
-    /* background-color: red; */
+    /* background-color: blue; */
   }
 
   .search-box input {
     margin-left: 5px;
     width: 80px;
     font-size: 10px;
+    /* background-color: indigo; */
   }
 
   .search-box i {
@@ -80,8 +91,10 @@ export default {
   }
 
   .search-box h4 {
-    font-size: 35px;
-    margin-right: 5px;
+    font-size: 25px;
+    margin-right: 0px;
+    margin-top: 0;
+    /* background-color: fuchsia; */
   }
 }
 </style>

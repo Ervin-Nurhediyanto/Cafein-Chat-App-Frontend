@@ -23,7 +23,13 @@
       </div>
     </div>
     <ChatScrollX />
-    <ChatContact />
+    <div class="scroll-contact">
+      <ChatContact
+      :allUser="allUser"
+      :idUser="idUser"
+      v-on:headerMessage="headerMessage($event)"
+      />
+    </div>
   </div>
 </template>
 
@@ -37,6 +43,7 @@ import ChatMenuProfile from './Chat-Menu-Profile'
 import SettingProfile from './Chat-Setting'
 export default {
   name: 'ChatList',
+  props: ['allUser', 'idUser'],
   components: {
     ChatSearch,
     ChatScrollX,
@@ -51,7 +58,8 @@ export default {
       telegram: true,
       menuAct: false,
       menuProf: false,
-      settingShow: false
+      settingShow: false,
+      headerMess: null
     }
   },
   methods: {
@@ -76,6 +84,10 @@ export default {
     },
     closeSetting (closeSetting) {
       this.settingShow = closeSetting
+    },
+    headerMessage (headerMessage) {
+      this.headerMess = headerMessage
+      this.$emit('headerMessage', headerMessage)
     }
   }
 }
@@ -83,9 +95,13 @@ export default {
 
 <style scoped>
 .ChatList {
-  margin-top: 43px;
-  margin-left: 20px;
-  width: 330px;
+  margin-top: 5px;
+  margin-left: 0px;
+  /* width: 330px; */
+  padding: 20px;
+  width: 100%;
+  height: 100%;
+  /* background-color: paleturquoise; */
 }
 
 .ChatList h2 {
@@ -130,13 +146,27 @@ export default {
   height: 7px;
 }
 
+/* .scroll-contact {
+  height: 250px;
+  width: 300px;
+  padding: 0;
+  overflow-y: scroll;
+  background-color: yellow;
+}
+
+.scroll-contact::-webkit-scrollbar {
+  display: none;
+} */
+
 @media (max-width:768px) {
 
   .ChatList {
-  width: 160px;
+  /* width: 160px; */
+  width: 100%;
   margin-left: 0px;
-  margin-top: 10px;
+  margin-top: 0px;
   padding: 15px;
+  padding-top: 0;
   /* background-color: chartreuse; */
 }
   .ChatList h2 {

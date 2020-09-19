@@ -3,7 +3,7 @@
     <div class="col-md-12 d-flex justify-content-center">
       <div class="row photo-profile d-flex justify-content-center">
         <!-- <img src="../../assets/Profile/photo1.png" /> -->
-        <img :src="userImage" @click="handleLogout">
+        <img :src="userImage" @click="handleLogout" />
       </div>
     </div>
     <div class="col-md-12 d-flex justify-content-center">
@@ -85,27 +85,24 @@ export default {
 }
 
 @media (max-width: 768px) {
-
   .my-profile .photo-profile {
-  width: 80px;
-  height: 80px;
-  margin-top: 10px;
-}
+    width: 80px;
+    height: 80px;
+    margin-top: 1px;
+  }
 
-.my-profile .name-profile {
-  margin-top: 5px;
-}
+  .my-profile .name-profile {
+    margin-top: 5px;
+  }
 
-.my-profile .name-profile h4 {
-  font-size: 18px;
-  line-height: 20px;
-}
+  .my-profile .name-profile h4 {
+    font-size: 14px;
+    line-height: 20px;
+  }
 
-.my-profile .username-profile h4 {
-  font-size: 10px;
-  line-height: 15px;
+  .my-profile .username-profile h4 {
+    font-size: 10px;
+    line-height: 15px;
+  }
 }
-
-}
-
 </style>

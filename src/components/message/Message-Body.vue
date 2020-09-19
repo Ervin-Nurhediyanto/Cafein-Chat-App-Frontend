@@ -3,27 +3,32 @@
     <div class="scroll-chat">
       <div class="row body-message">
         <div v-for="(message, index) in messages" :key="index">
-          <div class="other" v-show="true">
-            <div class="row">
-              <div class="body-photo">
-                <img src="../../assets/Profile/photo2.png" />
-              </div>
-              <div class="message-other">
-                <h4>{{message}}</h4>
-              </div>
-            </div>
-          </div>
-          <div class="user" v-show="true">
-            <div class="row">
-              <div class="message-user">
-                <h4>{{message}}</h4>
-              </div>
-              <div class="body-photo-user">
-                <img :src="userImage" />
+          <div v-if="userId != message.userId">
+            <div class="other" v-show="true">
+              <div class="row">
+                <div class="body-photo">
+                  <!-- <img src="../../assets/Profile/photo2.png" /> -->
+                  <img :src="message.image" />
+                </div>
+                <div class="message-other">
+                  <h4>{{message.message}}</h4>
+                </div>
               </div>
             </div>
           </div>
 
+          <div v-else>
+            <div class="user" v-show="true">
+              <div class="row">
+                <div class="message-user">
+                  <h4>{{message.message}}</h4>
+                </div>
+                <div class="body-photo-user">
+                  <img :src="userImage" />
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -38,10 +43,11 @@
           />
         </div>
         <div>
-          <i class="fas fa-plus"></i>
+          <i class="fas fa-plus" @click="handleAdd"></i>
           <i class="fas fa-surprise"></i>
           <i class="fas fa-microphone"></i>
         </div>
+        <MessageAdd v-show="showAdd" />
       </div>
     </div>
   </div>
@@ -49,26 +55,37 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import MessageAdd from './Message-Add'
 export default {
   name: 'Message-Body',
-  props: ['messages'],
+  props: ['messages', 'userId'],
   data () {
     return {
-      chat: ''
+      chat: '',
+      showAdd: false
     }
+  },
+  components: {
+    MessageAdd
   },
   computed: {
     ...mapGetters({
       userImage: 'userImage'
     })
   },
-  mounted () {
-  },
+  mounted () {},
   methods: {
     handleMessage () {
       console.log(this.chat)
       this.$emit('handleMessage', this.chat)
       this.chat = null
+    },
+    handleAdd () {
+      if (this.showAdd === false) {
+        this.showAdd = true
+      } else {
+        this.showAdd = false
+      }
     }
   }
 }
@@ -95,7 +112,8 @@ export default {
   flex-direction: column;
   justify-content: flex-end;
   max-height: 120px;
-  width: 1280px;
+  /* width: 1280px; */
+  width: 1000px;
   /* width: 100%; */
   padding-left: 30px;
   margin-bottom: 5px;
@@ -108,8 +126,8 @@ export default {
   flex-direction: column;
   justify-content: flex-end;
   max-height: 120px;
-  width: 1280px;
-  /* width: 955px; */
+  width: 1000px;
+  /* width: 100%; */
   padding-top: auto;
   padding-bottom: 0;
   padding-right: 20px;
@@ -206,7 +224,7 @@ export default {
   width: 100%;
   height: 50px;
   padding: 10px;
-  margin-left: 20px;
+  margin-left: 0px;
   justify-content: space-between;
 }
 
@@ -214,7 +232,7 @@ export default {
   border: none;
   background: #fafafa;
   border-radius: 15px;
-  width: 1100px;
+  width: 850px;
   height: 30px;
   /* width: 100%; */
 }
@@ -222,8 +240,10 @@ export default {
 @media (max-width: 768px) {
   .body-message {
     min-height: 240px;
-    width: 448px;
-    margin-left: 5px;
+    max-height: 240px;
+    /* width: 448px; */
+    width: 100%;
+    margin-left: 0px;
     margin-top: auto;
     margin-bottom: 0px;
     padding: 15px;
@@ -233,61 +253,62 @@ export default {
     /* background-color: springgreen; */
   }
 
-.body-message .other {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  max-height: 120px;
-  width: 448px;
-  padding-left: 30px;
-  margin-bottom: 5px;
-  margin-top: auto;
-  /* background-color: darkmagenta; */
-}
+  .body-message .other {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    max-height: 120px;
+    width: 448px;
+    padding-left: 10px;
+    margin-bottom: 5px;
+    margin-top: auto;
+    /* background-color: darkmagenta; */
+  }
 
-.body-message .message-other {
-  margin-left: 5px;
-  padding: 12px;
-  max-width: 390px;
-  max-height: 120px;
-}
+  .body-message .message-other {
+    margin-left: 5px;
+    padding: 12px;
+    max-width: 390px;
+    max-height: 120px;
+  }
 
-.body-message .user {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  max-height: 120px;
-  width: 448px;
-  padding-top: auto;
-  padding-bottom: 0;
-  padding-right: 15px;
-  padding-left: 15px;
-  margin-bottom: 5px;
-  margin-top: auto;
-  /* background-color: darksalmon; */
-}
+  .body-message .user {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    max-height: 120px;
+    width: 448px;
+    padding-top: auto;
+    padding-bottom: 0;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-bottom: 5px;
+    margin-top: auto;
+    /* background-color: darksalmon; */
+  }
 
-.body-message .message-user {
-  margin-left: auto;
-  margin-right: 0px;
-  padding: 12px;
-  max-width: 390px;
-  max-height: 120px;
-}
+  .body-message .message-user {
+    margin-left: auto;
+    margin-right: 0px;
+    padding: 12px;
+    max-width: 390px;
+    max-height: 120px;
+  }
 
-.body-message .body-photo-user {
-  height: 45px;
-  width: 45px;
-  margin-bottom: 0;
-  margin-top: auto;
-  margin-right: 0;
-  margin-left: 5px;
-}
+  .body-message .body-photo-user {
+    height: 45px;
+    width: 45px;
+    margin-bottom: 0;
+    margin-top: auto;
+    margin-right: 0;
+    margin-left: 5px;
+  }
 
   .input-text {
     /* background: red; */
     height: 40px;
-    width: 448px;
+    /* width: 448px; */
+    width: 100%;
     margin-left: 0px;
     padding: 4px;
     margin-bottom: 0;
@@ -302,9 +323,9 @@ export default {
   .input-chat {
     /* background: blue; */
     border-radius: 15px;
-    width: 440px;
+    width: 470px;
     height: 34px;
-    padding: 4px;
+    padding: 5px;
     margin-left: 0px;
     justify-content: space-between;
   }

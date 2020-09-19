@@ -1,17 +1,17 @@
 <template>
-  <div class="message-menu-profile">
+  <div class="message-add">
     <ul>
         <li>
-        <i class="fas fa-phone"></i> Call
+        <i class="fas fa-image"></i> Image
       </li>
       <li>
-        <i class="far fa-trash-alt"></i> Delete chat history
+        <i class="fas fa-file"></i> Documents
       </li>
       <li>
-        <i class="far fa-bell"></i> Mute notification
+        <i class="fas fa-user"></i> Contact
       </li>
       <li>
-        <i class="fas fa-search"></i> Search
+        <i class="fas fa-map-marker-alt"></i> Location
       </li>
     </ul>
 
@@ -21,7 +21,7 @@
 <script>
 
 export default {
-  name: 'Chat-message-menu-profile',
+  name: 'Chat-message-add',
   data () {
     return {
       setting: true
@@ -38,19 +38,20 @@ export default {
 </script>
 
 <style>
-.message-menu-profile {
+.message-add {
   position: absolute;
-  right: 60px;
+  right: 90px;
   left: auto;
-  top: 25px;
+  top: auto;
+  bottom: 55px;
   width: 250px;
   height: 220px;
-  background: #7e98df;
-  border-radius: 35px 10px 35px 35px;
-  z-index: 2;
+  background: #7E98DF;
+border-radius: 35px 35px 10px 35px;
+/* transform: matrix(1, 0, 0, -1, 0, 0); */
 }
 
-.message-menu-profile ul li {
+.message-add ul li {
   list-style-type: none;
   font-family: Rubik;
   font-style: normal;
@@ -62,18 +63,18 @@ export default {
   cursor: pointer;
 }
 
-.message-menu-profile ul li:hover {
+.message-add ul li:hover {
   color: red;
 }
 
-.message-menu-profile ul li i {
+.message-add ul li i {
   margin: 20px;
   margin-left: 0;
   width: 20px;
 }
 
 @media (max-width: 768px) {
-  .message-menu-profile {
+  .message-add {
   position: absolute;
   right: 40px;
   left: auto;
@@ -82,15 +83,15 @@ export default {
   height: 240px;
 }
 
-.message-menu-profile ul {
+.message-add ul {
   /* background-color: aqua; */
   padding: 0;
 }
 
-.message-menu-profile ul li {
+.message-add ul li {
   font-size: 12px;
 }
-.message-menu-profile ul li i {
+.message-add ul li i {
   margin: 12px;
   margin-left: 10;
   margin-top: 15px;

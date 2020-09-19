@@ -4,6 +4,7 @@ import VueRouter from 'vue-router'
 import Login from '../views/Auth/Login.vue'
 import Register from '../views/Auth/Register.vue'
 import ForgotPass from '../views/Auth/ForgotPass.vue'
+import Reset from '../views/Auth/Reset.vue'
 import Chat from '../views/Chat/Chat.vue'
 
 import store from '../store/index'
@@ -33,6 +34,12 @@ const routes = [
     path: '/forgot-pass',
     name: 'ForgotPass',
     component: ForgotPass,
+    meta: { requiresVisitor: true }
+  },
+  {
+    path: '/reset',
+    name: 'Reset',
+    component: Reset,
     meta: { requiresVisitor: true }
   },
   {

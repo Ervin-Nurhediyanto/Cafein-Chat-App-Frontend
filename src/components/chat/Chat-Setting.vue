@@ -71,13 +71,14 @@ export default {
 <style>
 .setting-profile {
   position: absolute;
-  width: 408px;
+  width: 340px;
   height: 660px;
   left: 0px;
   top: 0px;
   background-color: #ffffff;
   z-index: 3;
   padding: 20px;
+  border-left: 2px solid gray;
   /* background-color: red; */
 }
 

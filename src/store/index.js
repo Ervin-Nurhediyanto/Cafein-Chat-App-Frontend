@@ -12,9 +12,11 @@ export default new Vuex.Store({
     resetId: localStorage.getItem('resetId') || null,
     userImage: localStorage.getItem('userImage') || null,
     userName: localStorage.getItem('userName') || null,
+    userId: localStorage.getItem('userId') || null,
     name: localStorage.getItem('name') || null,
     phoneNumber: localStorage.getItem('phoneNumber') || null,
-    bio: localStorage.getItem('bio') || null
+    bio: localStorage.getItem('bio') || null,
+    allUser: []
   },
   mutations: {
     setUser (state, payload) {
@@ -25,12 +27,16 @@ export default new Vuex.Store({
       state.name = payload.name
       state.phoneNumber = payload.phoneNumber
       state.bio = payload.bio
+      state.userId = payload.id
     },
     setToken (state, payload) {
       state.token = payload
     },
     setResetId (state, payload) {
       state.resetId = payload
+    },
+    setallUser (state, payload) {
+      state.allUser = payload
     }
   },
   actions: {
@@ -65,6 +71,7 @@ export default new Vuex.Store({
             localStorage.setItem('name', this.state.name)
             localStorage.setItem('phoneNumber', this.state.phoneNumber)
             localStorage.setItem('bio', this.state.bio)
+            localStorage.setItem('userId', this.state.userId)
             resolve(res.data.result[0])
           })
           .catch((err) => {
@@ -121,7 +128,30 @@ export default new Vuex.Store({
           localStorage.removeItem('userImage')
           localStorage.removeItem('userName')
           localStorage.removeItem('name')
+          localStorage.removeItem('userId')
+          localStorage.removeItem('phoneNumber')
+          localStorage.removeItem('bio')
         }
+        axios.post(process.env.VUE_AOO_BASE_URL + '/users/logout/' + this.state.user.id)
+          .then((res) => {
+            resolve(res)
+          })
+          .catch((err) => {
+            reject(err)
+          })
+      })
+    },
+    getAllUser (setex) {
+      return new Promise((resolve, reject) => {
+        axios.get(process.env.VUE_APP_BASE_URL + '/users')
+          .then((res) => {
+            // console.log(res.data)
+            setex.commit('setallUser', res.data.result)
+            resolve(res)
+          })
+          .catch((err) => {
+            reject(err)
+          })
       })
     }
   },
@@ -152,6 +182,12 @@ export default new Vuex.Store({
     },
     bio (state) {
       return state.bio
+    },
+    allUser (state) {
+      return state.allUser
+    },
+    userId (state) {
+      return state.userId
     }
   },
   modules: {

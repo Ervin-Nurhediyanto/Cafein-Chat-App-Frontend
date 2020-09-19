@@ -1,15 +1,15 @@
 <template>
   <div class="login">
-    <SignIn />
+    <Confirm />
   </div>
 </template>
 
 <script>
-import SignIn from '../../components/_base/login/signin'
+import Confirm from '../../components/_base/login/confirm'
 export default {
   name: 'Login',
   components: {
-    SignIn
+    Confirm
   }
 }
 </script>
@@ -30,7 +30,7 @@ export default {
   .login {
     position: absolute;
     width: 500px;
-    height: 500px;
+    height: 450px;
     left: 70px;
     top: 30px;
     background-color: #ffffff;

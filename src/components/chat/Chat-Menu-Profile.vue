@@ -19,13 +19,16 @@
       <li>
         <i class="far fa-question-circle"></i> Telegrom FAQ
       </li>
+      <li @click="handleLogout">
+         <i class="fas fa-sign-out-alt"></i> Logout
+      </li>
     </ul>
 
   </div>
 </template>
 
 <script>
-
+import { mapActions } from 'vuex'
 export default {
   name: 'Chat-menu-profile',
   data () {
@@ -36,6 +39,11 @@ export default {
   components: {
   },
   methods: {
+    ...mapActions(['logout']),
+    handleLogout () {
+      this.$router.go(0)
+      this.logout()
+    },
     handleSetting () {
       this.$emit('handleSetting', this.setting)
     }
@@ -47,7 +55,7 @@ export default {
 .menu-profile {
   position: absolute;
   width: 220px;
-  height: 340px;
+  height: 390px;
   left: 100px;
   top: 90px;
   background: #7e98df;
