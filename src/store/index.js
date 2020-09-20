@@ -16,7 +16,8 @@ export default new Vuex.Store({
     name: localStorage.getItem('name') || null,
     phoneNumber: localStorage.getItem('phoneNumber') || null,
     bio: localStorage.getItem('bio') || null,
-    allUser: []
+    allUser: [],
+    location: null
   },
   mutations: {
     setUser (state, payload) {
@@ -37,6 +38,9 @@ export default new Vuex.Store({
     },
     setallUser (state, payload) {
       state.allUser = payload
+    },
+    setLocation (state, payload) {
+      state.location = payload
     }
   },
   actions: {
@@ -122,17 +126,17 @@ export default new Vuex.Store({
     },
     logout () {
       return new Promise((resolve, reject) => {
-        if (this.state.token !== null) {
-          localStorage.removeItem('token')
-          localStorage.removeItem('userRoleId')
-          localStorage.removeItem('userImage')
-          localStorage.removeItem('userName')
-          localStorage.removeItem('name')
-          localStorage.removeItem('userId')
-          localStorage.removeItem('phoneNumber')
-          localStorage.removeItem('bio')
-        }
-        axios.post(process.env.VUE_AOO_BASE_URL + '/users/logout/' + this.state.user.id)
+        // if (this.state.token !== null) {
+        localStorage.removeItem('token')
+        localStorage.removeItem('userRoleId')
+        localStorage.removeItem('userImage')
+        localStorage.removeItem('userName')
+        localStorage.removeItem('name')
+        localStorage.removeItem('userId')
+        localStorage.removeItem('phoneNumber')
+        localStorage.removeItem('bio')
+        // }
+        axios.post(process.env.VUE_APP_BASE_URL + '/users/logout/' + this.state.userId)
           .then((res) => {
             resolve(res)
           })
@@ -153,6 +157,9 @@ export default new Vuex.Store({
             reject(err)
           })
       })
+    },
+    getLocation (setex, payload) {
+      setex.commit('setLocation', payload)
     }
   },
   getters: {
@@ -188,6 +195,9 @@ export default new Vuex.Store({
     },
     userId (state) {
       return state.userId
+    },
+    location (state) {
+      return state.location
     }
   },
   modules: {

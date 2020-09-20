@@ -22,16 +22,35 @@
       </div>
 
       <div class="d-flex justify-content-center">
-        <button type="submit" class="btn text-white" @click="handleLoginSeller">Send</button>
+        <button type="submit" class="btn text-white" @click="handleForgotPass">Send</button>
       </div>
     </form>
   </div>
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 export default {
   name: 'Reset',
+  data () {
+    return {
+      email: ''
+    }
+  },
   methods: {
+    ...mapActions(['forgotPassword']),
+
+    handleForgotPass (e) {
+      e.preventDefault()
+      const data = {
+        email: this.email
+      }
+      this.forgotPassword(data).then((res) => {
+        console.log(res.data.message)
+        alert(res.data.message)
+      })
+    },
+
     back () {
       this.$router.push('/login')
     }

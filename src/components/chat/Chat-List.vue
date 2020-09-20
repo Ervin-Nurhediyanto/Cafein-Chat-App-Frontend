@@ -1,34 +1,32 @@
 <template>
   <div class="ChatList">
-    <SettingProfile
-    v-show="settingShow"
-    v-on:handleClose="closeSetting($event)"/>
+    <SettingProfile v-show="settingShow" v-on:handleClose="closeSetting($event)" />
     <div class="row d-flex justify-content-between">
       <h2 v-show="telegram">Telegram</h2>
       <ChatMenu v-show="menuAct" />
+      <div class="mobile">
+        <i class="fas fa-plus" @click="handleMenu"></i>
+        <i class="fas fa-search" @click="showSearch"></i>
+        <i class="fas fa-bars" @click="handleMenuProfile"></i>
+      </div>
       <div class="line-menu" @click="handleMenuProfile">
         <div class="line-one"></div>
         <div class="line-two"></div>
         <div class="line-three"></div>
       </div>
     </div>
-    <ChatMenuProfile
-    v-show="menuProf"
-    v-on:handleSetting="openSetting($event)"/>
+    <ChatMenuProfile v-show="menuProf" v-on:handleSetting="openSetting($event)" />
     <ChatProfile />
     <div class="row search-box d-flex justify-content-between">
-      <ChatSearch />
-      <div @click="handleMenu">
+      <ChatSearch class="mobile" v-show="activeSearch"/>
+      <ChatSearch class="toMobile"/>
+      <div @click="handleMenu" class="toMobile">
         <h4>+</h4>
       </div>
     </div>
     <ChatScrollX />
     <div class="scroll-contact">
-      <ChatContact
-      :allUser="allUser"
-      :idUser="idUser"
-      v-on:headerMessage="headerMessage($event)"
-      />
+      <ChatContact :allUser="allUser" :idUser="idUser" v-on:headerMessage="headerMessage($event)" />
     </div>
   </div>
 </template>
@@ -59,7 +57,8 @@ export default {
       menuAct: false,
       menuProf: false,
       settingShow: false,
-      headerMess: null
+      headerMess: null,
+      activeSearch: false
     }
   },
   methods: {
@@ -88,6 +87,13 @@ export default {
     headerMessage (headerMessage) {
       this.headerMess = headerMessage
       this.$emit('headerMessage', headerMessage)
+    },
+    showSearch () {
+      if (this.activeSearch === false) {
+        this.activeSearch = true
+      } else {
+        this.activeSearch = false
+      }
     }
   }
 }
@@ -146,6 +152,10 @@ export default {
   height: 7px;
 }
 
+.mobile {
+  display: none;
+}
+
 /* .scroll-contact {
   height: 250px;
   width: 300px;
@@ -158,49 +168,83 @@ export default {
   display: none;
 } */
 
-@media (max-width:768px) {
-
+@media (max-width: 768px) {
   .ChatList {
-  /* width: 160px; */
-  width: 100%;
-  margin-left: 0px;
-  margin-top: 0px;
-  padding: 15px;
-  padding-top: 0;
-  /* background-color: chartreuse; */
-}
+    /* width: 160px; */
+    width: 100%;
+    margin-left: 0px;
+    margin-top: 0px;
+    padding: 15px;
+    padding-top: 0;
+    /* background-color: chartreuse; */
+  }
   .ChatList h2 {
-  font-size: 18px;
-  /* background-color: brown; */
+    font-size: 18px;
+    /* background-color: brown; */
+  }
+
+  .ChatList .line-one {
+    background: #7e98df;
+    border-radius: 20px;
+    border-top: 1px solid #848484;
+    width: 25px;
+    height: 3px;
+    margin-top: 7px;
+    margin-bottom: 5px;
+    margin-left: 0;
+  }
+
+  .ChatList .line-two {
+    background: #7e98df;
+    border-radius: 20px;
+    border-top: 1px solid #848484;
+    width: 15px;
+    height: 3px;
+    margin-bottom: 5px;
+  }
+
+  .ChatList .line-three {
+    background: #7e98df;
+    border-radius: 20px;
+    border-top: 1px solid #848484;
+    width: 25px;
+    height: 3px;
+  }
 }
 
-.ChatList .line-one {
-  background: #7e98df;
-  border-radius: 20px;
-  border-top: 1px solid #848484;
-  width: 25px;
-  height: 3px;
-  margin-top: 7px;
-  margin-bottom: 5px;
-  margin-left: 0;
-}
+@media (max-width: 576px) {
+  .ChatList {
+    /* width: 160px; */
+    width: 100%;
+    margin-left: 0px;
+    margin-top: 0px;
+    padding: 15px;
+    padding-top: 0;
+    /* background-color: chartreuse; */
+  }
 
-.ChatList .line-two {
-  background: #7e98df;
-  border-radius: 20px;
-  border-top: 1px solid #848484;
-  width: 15px;
-  height: 3px;
-  margin-bottom: 5px;
-}
+  .ChatList h2 {
+    font-size: 30px;
+    /* background-color: brown; */
+  }
 
-.ChatList .line-three {
-  background: #7e98df;
-  border-radius: 20px;
-  border-top: 1px solid #848484;
-  width: 25px;
-  height: 3px;
-}
+  .mobile {
+    display: inline;
+    /* background-color: mediumturquoise; */
+  }
 
+  .mobile i {
+    font-size: 30px;
+    margin-right: 20px;
+    color: #7e98df;
+  }
+
+  .line-menu {
+    display: none;
+  }
+
+  .toMobile {
+    display: none;
+  }
 }
 </style>>

@@ -105,4 +105,26 @@ export default {
     line-height: 15px;
   }
 }
+
+@media (max-width: 576px) {
+  .my-profile .photo-profile {
+    width: 150px;
+    height: 150px;
+    margin-top: 5px;
+  }
+
+  .my-profile .name-profile {
+    margin-top: 10px;
+  }
+
+  .my-profile .name-profile h4 {
+    font-size: 20px;
+    line-height: 20px;
+  }
+
+  .my-profile .username-profile h4 {
+    font-size: 15px;
+    line-height: 15px;
+  }
+}
 </style>

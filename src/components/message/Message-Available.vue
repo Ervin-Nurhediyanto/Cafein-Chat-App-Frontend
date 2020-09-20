@@ -1,13 +1,14 @@
 <template>
   <div class="available">
-    <MessageHeader
-    :headerMess="headerMess"/>
+    <MessageHeader :headerMess="headerMess" />
     <!-- <MessageMenu v-show="showMenu"/> -->
-      <MessageBody
-      v-on:handleMessage="sendMessage($event)"
-      :messages='messages'
-      :userId='userId'
-      />
+    <MessageBody
+    v-on:handleMessage="sendMessage($event)"
+    v-on:closeChat="closeChat($event)"
+    v-on:handleLocation="handleLocation($event)"
+    :messages="messages"
+    :userId="userId"
+    :headerMess="headerMess" />
   </div>
 </template>
 
@@ -20,7 +21,8 @@ export default {
   props: ['messages', 'userId', 'headerMess'],
   data () {
     return {
-      inputMessage: ''
+      inputMessage: '',
+      location: null
       // showMenu: false
     }
   },
@@ -30,8 +32,12 @@ export default {
     // MessageMenu
   },
   mounted () {
-    this.socket.emit('sendMessage', { id: this.user.id, message: this.inputMessage, room: 1 })
-    this.socket.on('message', message => {
+    this.socket.emit('sendMessage', {
+      id: this.user.id,
+      message: this.inputMessage,
+      room: 1
+    })
+    this.socket.on('message', (message) => {
       console.log('message: ' + message)
       this.messages.push(message)
     })
@@ -39,6 +45,13 @@ export default {
   methods: {
     sendMessage (sendMessage) {
       this.$emit('sendMessage', sendMessage)
+    },
+    closeChat (closeChat) {
+      this.$emit('closeChat', closeChat)
+    },
+    handleLocation (handleLocation) {
+      this.location = handleLocation
+      this.$event('handleLocation', handleLocation)
     }
   }
 }
@@ -46,10 +59,10 @@ export default {
 
 <style>
 .available {
-/* background-color: springgreen; */
-/* max-width: 955px; */
-width: 100%;
-height: 100%;
+  /* background-color: springgreen; */
+  /* max-width: 955px; */
+  width: 100%;
+  height: 100%;
 }
 
 .scroll-chat {
@@ -64,11 +77,19 @@ height: 100%;
 
 @media (max-width: 768px) {
   .scroll-chat {
-  min-height: 240px;
-  max-height: 240px;
-  overflow-y: scroll;
-  /* background-color: red; */
+    min-height: 240px;
+    max-height: 240px;
+    overflow-y: scroll;
+    /* background-color: red; */
+  }
 }
 
+@media (max-width: 576px) {
+  .scroll-chat {
+    min-height: 687px;
+    max-height: 687px;
+    overflow-y: scroll;
+    /* background-color: red; */
+  }
 }
 </style>

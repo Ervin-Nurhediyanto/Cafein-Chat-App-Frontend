@@ -1,7 +1,7 @@
 <template>
   <div class="message-add">
     <ul>
-        <li>
+      <li>
         <i class="fas fa-image"></i> Image
       </li>
       <li>
@@ -10,29 +10,82 @@
       <li>
         <i class="fas fa-user"></i> Contact
       </li>
-      <li>
+      <li @click="handleLocation">
         <i class="fas fa-map-marker-alt"></i> Location
       </li>
     </ul>
-
   </div>
 </template>
 
 <script>
-
+import { mapGetters, mapActions } from 'vuex'
+import io from 'socket.io-client'
 export default {
   name: 'Chat-message-add',
   data () {
     return {
-      setting: true
+      socket: io('http://localhost:4000'),
+      setting: true,
+      location: {
+        lat: 1,
+        lng: 1
+      },
+      room: 1
     }
   },
-  components: {
+  components: {},
+  computed: {
+    ...mapGetters({
+      user: 'user'
+    })
   },
   methods: {
-    handleSetting () {
-      this.$emit('handleSetting', this.setting)
+    ...mapActions(['getLocation']),
+    handleLocation () {
+      this.$getLocation()
+        .then(coordinates => {
+          this.location.lat = coordinates.lat
+          this.location.lng = coordinates.lng
+        })
+      // console.log('oke: ' + messageOk)
+      this.socket.emit(
+        'sendMessage',
+        {
+          message: null,
+          userId: this.user.id,
+          image: this.user.image,
+          room: this.room,
+          location: this.location
+        },
+        (error) => {
+          alert(error)
+        }
+      )
     }
+    // handleLocation () {
+    //   this.$getLocation()
+    //     .then(coordinates => {
+    //       this.location.lat = coordinates.lat
+    //       this.location.lng = coordinates.lng
+    //     })
+    //   this.$emit('handleLocation', this.location)
+    //   this.getLocation(this.location).then((res) => {
+    //     alert('send location')
+    //   })
+    //   this.socket.emit(
+    //     'sendMessage',
+    //     {
+    //       message: null,
+    //       userId: this.user.id,
+    //       image: this.user.image,
+    //       room: this.room,
+    //       location: this.location
+    //     },
+    //     (error) => {
+    //       alert(error)
+    //     }
+    //   )
+    // }
   }
 }
 </script>
@@ -46,9 +99,9 @@ export default {
   bottom: 55px;
   width: 250px;
   height: 220px;
-  background: #7E98DF;
-border-radius: 35px 35px 10px 35px;
-/* transform: matrix(1, 0, 0, -1, 0, 0); */
+  background: #7e98df;
+  border-radius: 35px 35px 10px 35px;
+  /* transform: matrix(1, 0, 0, -1, 0, 0); */
 }
 
 .message-add ul li {
@@ -75,28 +128,52 @@ border-radius: 35px 35px 10px 35px;
 
 @media (max-width: 768px) {
   .message-add {
-  position: absolute;
-  right: 40px;
-  left: auto;
-  top: 60px;
-  width: 130px;
-  height: 240px;
-}
+    position: absolute;
+    right: 50px;
+    left: auto;
+    top: auto;
+    bottom: 30px;
+    width: 130px;
+    height: 160px;
+  }
 
-.message-add ul {
-  /* background-color: aqua; */
-  padding: 0;
-}
+  .message-add ul {
+    /* background-color: aqua; */
+    padding: 0;
+  }
 
-.message-add ul li {
-  font-size: 12px;
-}
-.message-add ul li i {
-  margin: 12px;
-  margin-left: 10;
-  margin-top: 15px;
-  width: 10px;
-}
-}
+  .message-add ul li {
+    font-size: 12px;
+  }
+  .message-add ul li i {
+    margin: 12px;
+    margin-left: 10;
+    margin-top: 15px;
+    width: 10px;
+  }
 
+  @media (max-width: 576px) {
+    .message-add {
+    position: absolute;
+    right: 110px;
+    left: auto;
+    top: auto;
+    bottom: 50px;
+    width: 150px;
+    height: 180px;
+    padding: 10px;
+  }
+
+  .message-add ul li {
+    font-size: 15px;
+  }
+  .message-add ul li i {
+    margin: 12px;
+    margin-left: 10;
+    margin-top: 15px;
+    width: 10px;
+  }
+
+  }
+}
 </style>

@@ -3,6 +3,7 @@
     <div class="scroll-chat">
       <div class="row body-message">
         <div v-for="(message, index) in messages" :key="index">
+
           <div v-if="userId != message.userId">
             <div class="other" v-show="true">
               <div class="row">
@@ -12,6 +13,9 @@
                 </div>
                 <div class="message-other">
                   <h4>{{message.message}}</h4>
+                  <Maps v-if="message.location"
+                  :locLat="message.location.lat"
+                  :locLng="message.location.lng"/>
                 </div>
               </div>
             </div>
@@ -22,6 +26,10 @@
               <div class="row">
                 <div class="message-user">
                   <h4>{{message.message}}</h4>
+                  <Maps v-if="message.location"
+                  :locLat="message.location.lat"
+                  :locLng="message.location.lng"/>
+                  <!-- <Maps /> -->
                 </div>
                 <div class="body-photo-user">
                   <img :src="userImage" />
@@ -29,6 +37,7 @@
               </div>
             </div>
           </div>
+
         </div>
       </div>
     </div>
@@ -47,7 +56,8 @@
           <i class="fas fa-surprise"></i>
           <i class="fas fa-microphone"></i>
         </div>
-        <MessageAdd v-show="showAdd" />
+        <MessageAdd v-show="showAdd"
+        v-on:handleLocation="handleLocation($event)" />
       </div>
     </div>
   </div>
@@ -56,17 +66,22 @@
 <script>
 import { mapGetters } from 'vuex'
 import MessageAdd from './Message-Add'
+import Maps from '../_base/location'
+import io from 'socket.io-client'
 export default {
   name: 'Message-Body',
-  props: ['messages', 'userId'],
+  props: ['messages', 'userId', 'headerMess'],
   data () {
     return {
+      socket: io('http://localhost:4000'),
       chat: '',
-      showAdd: false
+      showAdd: false,
+      location: null
     }
   },
   components: {
-    MessageAdd
+    MessageAdd,
+    Maps
   },
   computed: {
     ...mapGetters({
@@ -79,6 +94,19 @@ export default {
       console.log(this.chat)
       this.$emit('handleMessage', this.chat)
       this.chat = null
+      // this.socket.emit(
+      //   'sendUser',
+      //   {
+      //     message: this.chat,
+      //     userId: this.userId,
+      //     image: this.userImage,
+      //     room: this.headerMess.id,
+      //     location: null
+      //   },
+      //   (error) => {
+      //     alert(error)
+      //   }
+      // )
     },
     handleAdd () {
       if (this.showAdd === false) {
@@ -86,6 +114,10 @@ export default {
       } else {
         this.showAdd = false
       }
+    },
+    handleLocation (handleLocation) {
+      this.location = handleLocation
+      this.$emit('handleLocation', handleLocation)
     }
   }
 }
@@ -111,7 +143,7 @@ export default {
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  max-height: 120px;
+  max-height: 500px;
   /* width: 1280px; */
   width: 1000px;
   /* width: 100%; */
@@ -125,7 +157,7 @@ export default {
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  max-height: 120px;
+  max-height: 500px;
   width: 1000px;
   /* width: 100%; */
   padding-top: auto;
@@ -166,7 +198,7 @@ export default {
   margin-left: 20px;
   padding: 12px;
   max-width: 850px;
-  max-height: 120px;
+  max-height: 500px;
 }
 
 .body-message .message-user {
@@ -176,7 +208,7 @@ export default {
   margin-right: 0px;
   padding: 12px;
   max-width: 850px;
-  max-height: 120px;
+  max-height: 500px;
 }
 
 .message-other h4 {
@@ -335,6 +367,87 @@ export default {
     background: #fafafa;
     border-radius: 15px;
     width: 360px;
+  }
+}
+
+@media (max-width: 576px) {
+  .body-message {
+    min-height: 100px;
+    /* max-height: 900px; */
+    /* width: 448px; */
+    width: 100%;
+    /* width: 200px; */
+    margin-left: 0px;
+    margin-top: auto;
+    margin-bottom: 0px;
+    padding: 15px;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    /* background-color: springgreen; */
+  }
+
+   .body-message .other {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    max-height: 120px;
+    width: 440px;
+    padding-left: 10px;
+    margin-bottom: 5px;
+    margin-top: auto;
+    /* background-color: darkmagenta; */
+  }
+
+  .body-message .user {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    max-height: 120px;
+    width: 440px;
+    padding-top: auto;
+    padding-bottom: 0;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-bottom: 5px;
+    margin-top: auto;
+    /* background-color: darksalmon; */
+  }
+
+  .input-text {
+    /* background: red; */
+    /* width: 448px; */
+    height: 60px;
+    width: 100%;
+    margin-left: 0px;
+    padding: 4px;
+    margin-bottom: 0;
+    margin-top: auto;
+  }
+
+  .input-text i {
+    font-size: 25px;
+    margin-left: 20px;
+    margin-right: 5px;
+    margin-top: 5px;
+  }
+
+  .input-chat {
+    /* background: blue; */
+    border-radius: 15px;
+    width: 450px;
+    height: 50px;
+    padding: 5px;
+    margin-left: 0px;
+    justify-content: space-between;
+  }
+
+  .input-chat input {
+    border: none;
+    background: #fafafa;
+    border-radius: 15px;
+    width: 300px;
+    height: 40px;
   }
 }
 </style>

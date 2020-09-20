@@ -20,10 +20,9 @@
         <i class="far fa-question-circle"></i> Telegrom FAQ
       </li>
       <li @click="handleLogout">
-         <i class="fas fa-sign-out-alt"></i> Logout
+        <i class="fas fa-sign-out-alt"></i> Logout
       </li>
     </ul>
-
   </div>
 </template>
 
@@ -36,8 +35,7 @@ export default {
       setting: true
     }
   },
-  components: {
-  },
+  components: {},
   methods: {
     ...mapActions(['logout']),
     handleLogout () {
@@ -87,27 +85,49 @@ export default {
 
 @media (max-width: 768px) {
   .menu-profile {
-  position: absolute;
-  width: 130px;
-  height: 240px;
-  left: 15px;
-  top: 60px;
+    position: absolute;
+    width: 130px;
+    height: 280px;
+    left: 15px;
+    top: 60px;
+    /* padding: 5px; */
+  }
+
+  .menu-profile ul {
+    /* background-color: aqua; */
+    padding: 0;
+  }
+
+  .menu-profile ul li {
+    font-size: 12px;
+  }
+  .menu-profile ul li i {
+    margin: 12px;
+    margin-left: 10;
+    margin-top: 15px;
+    width: 10px;
+  }
 }
 
-.menu-profile ul {
-  /* background-color: aqua; */
-  padding: 0;
-}
+@media (max-width: 576px) {
+  .menu-profile {
+    position: absolute;
+    width: 200px;
+    height: 310px;
+    left: auto;
+    right: 50px;
+    top: 65px;
+    padding: 10px;
+  }
 
-.menu-profile ul li {
-  font-size: 12px;
+  .menu-profile ul li {
+    font-size: 15px;
+  }
+  .menu-profile ul li i {
+    margin: 12px;
+    margin-left: 10;
+    margin-top: 15px;
+    width: 10px;
+  }
 }
-.menu-profile ul li i {
-  margin: 12px;
-  margin-left: 10;
-  margin-top: 15px;
-  width: 10px;
-}
-}
-
 </style>

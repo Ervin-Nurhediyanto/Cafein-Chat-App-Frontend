@@ -15,7 +15,7 @@
           <div class="row justify-content-between">
             <div
               class="col-md-8 col-sm-8 contact-info"
-              @click="handleOpenMessage(user.name, user.image, user.status)"
+              @click="handleOpenMessage(user)"
             >
               <div class="row contact-name">
                 <h4>{{user.name}}</h4>
@@ -46,7 +46,8 @@
         <!-- </div> -->
       </div>
     </div>
-    <ContactInfo v-show="showContactInfo" :infoUser="infoUser" />
+    <ContactInfo v-show="showContactInfo" :infoUser="infoUser"
+    v-on:handleClose="handleClose($event)" />
   </div>
 </template>
 
@@ -75,20 +76,16 @@ export default {
         this.showContactInfo = false
       }
     },
-    handleOpenMessage (name, image, status) {
-      console.log(name)
-      console.log(image)
-      console.log(status)
-      this.headerMessage = {
-        name: name,
-        image: image,
-        status: status
-      }
+    handleOpenMessage (user) {
+      console.log(user.name)
+      console.log(user.image)
+      console.log(user.status)
+      this.headerMessage = user
       this.$emit('headerMessage', this.headerMessage)
+    },
+    handleClose (handleClose) {
+      this.showContactInfo = false
     }
-    // starChat (room) {
-    //   this.$emit('starChat', room)
-    // }
   }
 }
 </script>
@@ -391,6 +388,138 @@ export default {
     justify-content: flex-start;
     /* background-color: yellow; */
     width: 95px;
+  }
+}
+
+@media (max-width: 576px) {
+   .contact-chat {
+    height: 400px;
+    width: 400px;
+    padding: 0px;
+    padding-left: 11px;
+    overflow-y: scroll;
+    /* background-color: yellow; */
+    z-index: 2;
+  }
+
+  .contact-chat .contact-list-chat {
+    width: 400px;
+    height: 100px;
+    padding: 0;
+    /* background-color: salmon; */
+  }
+
+  .contact-chat .photo {
+    width: 100px;
+    height: 100px;
+  }
+
+  .contact-chat .photo img {
+    border-radius: 10px;
+  }
+
+   .contact-chat .contact-name {
+    height: 50px;
+    width: 200px;
+    padding: 2px;
+    padding-left: 5px;
+    margin-left: 80px;
+    /* background-color: springgreen; */
+  }
+
+  .contact-chat .contact-name h4 {
+    font-size: 22px;
+  }
+
+  .contact-chat .last-chat {
+    height: 50px;
+    width: 200px;
+    padding: 2px;
+    padding-left: 5px;
+    margin-left: 80px;
+    /* background-color: red; */
+    overflow-y: scroll;
+    z-index: 2;
+    background-color: white;
+  }
+
+  .contact-chat .last-chat::-webkit-scrollbar {
+    display: none;
+  }
+
+  .contact-chat .last-chat h4 {
+    font-size: 20px;
+  }
+
+.contact-chat .scroll-edit {
+  height: 100px;
+  margin-left: 0;
+  margin-right: 0;
+  overflow-y: scroll;
+}
+
+  .contact-info {
+    /* background-color: blueviolet; */
+    width: 900px;
+    height: 0px;
+  }
+
+  .contact-chat .time-chat {
+    height: 50px;
+    width: 50px;
+    padding-top: 0px;
+    margin-left: 330px;
+    /* background-color: red; */
+  }
+
+  .contact-chat .time-chat h4 {
+    font-size: 18px;
+    margin-left: auto;
+    margin-right: 0;
+  }
+
+  .contact-chat .qly-chat {
+    width: 50px;
+    height: 50px;
+    padding-top: 12px;
+    margin-left: 330px;
+    /* background-color: springgreen; */
+  }
+
+  .contact-chat .qly-chat h4 {
+    font-size: 18px;
+    margin-left: auto;
+    margin-right: 0;
+  }
+
+  .contact-chat .qly-chat span {
+    background: #7e98df;
+    border-radius: 50%;
+    padding: 5px 8px 5px 8px;
+  }
+
+   .contact-menu {
+    width: 400px;
+    height: 100px;
+    margin-left: 80px;
+    padding-left: 20px;
+    padding-top: 10px;
+    /* background-color: teal; */
+  }
+
+  .contact-menu .contact-menu-i {
+    background-color: #7e98df;
+    width: 295px;
+    height: 50px;
+    padding: 10px;
+    padding-top: 5px;
+  }
+
+  .contact-menu i {
+    font-size: 30px;
+    margin: 2px;
+    cursor: pointer;
+    color: #ffffff;
   }
 }
 </style>

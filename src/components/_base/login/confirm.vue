@@ -2,7 +2,6 @@
   <div class="signin">
     <form role="form" id="login-form">
       <div class="row d-flex justify-content-center">
-        <!-- <h2 class="back" @click="back">&#60;</h2> -->
         <div class="d-flex justify-content-center">
           <h2>Change Password</h2>
         </div>
@@ -10,16 +9,6 @@
       <div>
         <h3>Insert new password</h3>
       </div>
-      <!-- <div class="form-group">
-        <h4>Email</h4>
-        <input
-          type="email"
-          v-model="email"
-          class="form-control-lg w-100 border-0 shadow-sm"
-          id="exampleInputEmail1"
-          placeholder="Email"
-        />
-      </div> -->
 
       <div class="form-group">
         <h4>New Password</h4>
@@ -52,6 +41,7 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 export default {
   name: 'Reset',
   data () {
@@ -62,10 +52,18 @@ export default {
     }
   },
   methods: {
-    handleConfirm () {
+    ...mapActions(['resetPassword']),
+
+    handleConfirm (e) {
       if (this.password === this.conformPassword) {
         this.wrongPass = false
-        alert('oke')
+        const data = {
+          password: this.password
+        }
+        this.resetPassword(data).then((res) => {
+        })
+        this.$router.push('/')
+        alert('reset password success')
       } else {
         this.wrongPass = true
       }

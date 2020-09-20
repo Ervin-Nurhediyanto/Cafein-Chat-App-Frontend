@@ -38,4 +38,19 @@ padding: 10px;
     font-size: 12px;
   }
 }
+
+@media (max-width: 576px) {
+  .menu {
+    width: 200px;
+    height: 30px;
+    padding: 2px;
+    margin-top: 2px;
+    margin-bottom: 10px;
+  }
+
+  .menu i {
+    font-size: 15px;
+  }
+}
+
 </style>

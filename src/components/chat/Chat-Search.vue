@@ -97,4 +97,34 @@ export default {
     /* background-color: fuchsia; */
   }
 }
+
+@media (max-width: 576px) {
+  .search-box {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    width: 400px;
+    height: 50px;
+    /* background-color: deepskyblue; */
+  }
+
+   .search-box .search-input {
+    padding: 10px;
+    padding-left: 10px;
+    width: 400px;
+    height: 50px;
+    /* background-color: blue; */
+  }
+
+  .search-box input {
+    margin-left: 5px;
+    width: 300px;
+    font-size: 20px;
+    /* background-color: indigo; */
+  }
+
+    .search-box i {
+    font-size: 20px;
+  }
+
+}
 </style>

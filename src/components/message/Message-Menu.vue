@@ -1,7 +1,7 @@
 <template>
   <div class="message-menu-profile">
     <ul>
-        <li>
+      <li>
         <i class="fas fa-phone"></i> Call
       </li>
       <li>
@@ -14,12 +14,10 @@
         <i class="fas fa-search"></i> Search
       </li>
     </ul>
-
   </div>
 </template>
 
 <script>
-
 export default {
   name: 'Chat-message-menu-profile',
   data () {
@@ -27,8 +25,7 @@ export default {
       setting: true
     }
   },
-  components: {
-  },
+  components: {},
   methods: {
     handleSetting () {
       this.$emit('handleSetting', this.setting)
@@ -74,28 +71,54 @@ export default {
 
 @media (max-width: 768px) {
   .message-menu-profile {
-  position: absolute;
-  right: 40px;
-  left: auto;
-  top: 60px;
-  width: 130px;
-  height: 240px;
+    position: absolute;
+    right: 40px;
+    left: auto;
+    top: 60px;
+    width: 160px;
+    height: 160px;
+  }
+
+  .message-menu-profile ul {
+    /* background-color: aqua; */
+    padding: 0;
+  }
+
+  .message-menu-profile ul li {
+    font-size: 12px;
+  }
+  .message-menu-profile ul li i {
+    margin: 12px;
+    margin-left: 10;
+    margin-top: 15px;
+    width: 10px;
+  }
 }
 
-.message-menu-profile ul {
-  /* background-color: aqua; */
-  padding: 0;
-}
+@media (max-width: 576px) {
+  .message-menu-profile {
+    position: absolute;
+    right: 50px;
+    left: auto;
+    top: 25px;
+    width: 200px;
+    height: 200px;
+    padding: 10px;
+  }
 
-.message-menu-profile ul li {
-  font-size: 12px;
-}
-.message-menu-profile ul li i {
-  margin: 12px;
-  margin-left: 10;
-  margin-top: 15px;
-  width: 10px;
-}
-}
+  .message-menu-profile ul {
+    /* background-color: aqua; */
+    padding: 0;
+  }
 
+  .message-menu-profile ul li {
+    font-size: 15px;
+  }
+  .message-menu-profile ul li i {
+    margin: 12px;
+    margin-left: 10;
+    margin-top: 15px;
+    width: 10px;
+  }
+}
 </style>
