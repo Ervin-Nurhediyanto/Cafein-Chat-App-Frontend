@@ -4,6 +4,7 @@
       <ChatList
         :allUser="allUser"
         :idUser="idUser"
+        :messages="messages"
         v-on:headerMessage="headerMessage($event)"
         v-on:starChat="starChat($event)"
       />
@@ -14,6 +15,7 @@
         v-else
         v-on:handleLocation="handleLocation($event)"
         v-on:sendMessage="messageOk($event)"
+        v-on:closeChat="closeChat($event)"
         :messages="messages"
         :userId="idUser"
         :headerMess="headerMess"
@@ -46,7 +48,6 @@ export default {
       socket: io('http://localhost:4000'),
       messages: [],
       empty: true,
-      room: 1,
       allContact: [],
       idUser: null,
       headerMess: null,
@@ -69,36 +70,40 @@ export default {
     })
   },
   mounted () {
+    this.getAllContact()
+    // this.allUser.map((item) => {
+    //   console.log('socket id loh: ' + item.id)
+    // })
     this.socket.emit('welcomeMessage', {
       id: this.idUser,
       username: this.userName,
-      room: this.room
+      socketId: this.allUser.map((item) => {
+        console.log('socketId: ' + item.id)
+        const joinId = []
+        joinId.push(item.id)
+        return joinId
+      })
     })
     this.socket.on('message', (message) => {
       this.messages.push(message)
     })
     this.socket.on('notif', (message) => {
       alert(message)
-      // swal(message)
     })
-    // this.getAllUser()
-    this.getAllContact()
     this.idNumber()
-    // this.getAllcontact()
   },
   methods: {
     ...mapActions(['getAllUser']),
     ...mapActions(['getAllContact']),
     messageOk (messageOk) {
-      console.log('oke: ' + messageOk)
+      console.log('oke: ' + messageOk.socketId)
       this.socket.emit(
         'sendMessage',
         {
-          message: messageOk,
+          message: messageOk.message,
           userId: this.idUser,
           image: this.userImage,
-          // room: this.room
-          socketId: 1
+          socketId: messageOk.socketId
         },
         (error) => {
           alert(error)
@@ -112,28 +117,21 @@ export default {
     idNumber () {
       this.idUser = Number(this.userId)
     },
-    // getAllcontact () {
-    //   this.allUser.map((item) => {
-    //     if (item.id !== this.idUser) {
-    //       console.log(item.id)
-    //       console.log(this.idUser)
-    //       this.allContact.push(item)
-    //     }
-    //   })
-    // },
     headerMessage (headerMessage) {
-      console.log(headerMessage)
+      // console.log(headerMessage)
       this.headerMess = headerMessage
-      if (this.empty === true) {
-        this.empty = false
-      } else {
-        this.empty = true
-      }
-      if (this.showChat === true) {
-        this.showChat = false
-      } else {
-        this.showChat = true
-      }
+      // if (this.empty === true) {
+      //   this.empty = false
+      // } else {
+      //   this.empty = true
+      // }
+      // if (this.showChat === true) {
+      //   this.showChat = false
+      // } else {
+      //   this.showChat = true
+      // }
+      this.empty = false
+      this.showChat = true
     },
     closeChat (closeChat) {
       this.showChat = false

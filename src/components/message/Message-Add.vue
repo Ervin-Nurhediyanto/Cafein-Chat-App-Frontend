@@ -50,14 +50,13 @@ export default {
           this.location.lat = coordinates.lat
           this.location.lng = coordinates.lng
         })
-      // console.log('oke: ' + messageOk)
       this.socket.emit(
         'sendMessage',
         {
           message: null,
           userId: this.userId,
           image: this.userImage,
-          room: this.room,
+          socketId: 1,
           location: this.location
         },
         (error) => {
@@ -65,30 +64,6 @@ export default {
         }
       )
     }
-    // handleLocation () {
-    //   this.$getLocation()
-    //     .then(coordinates => {
-    //       this.location.lat = coordinates.lat
-    //       this.location.lng = coordinates.lng
-    //     })
-    //   this.$emit('handleLocation', this.location)
-    //   this.getLocation(this.location).then((res) => {
-    //     alert('send location')
-    //   })
-    //   this.socket.emit(
-    //     'sendMessage',
-    //     {
-    //       message: null,
-    //       userId: this.user.id,
-    //       image: this.user.image,
-    //       room: this.room,
-    //       location: this.location
-    //     },
-    //     (error) => {
-    //       alert(error)
-    //     }
-    //   )
-    // }
   }
 }
 </script>

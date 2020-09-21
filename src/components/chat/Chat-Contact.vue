@@ -25,7 +25,9 @@
                 <h4>{{user.name}}</h4>
               </div>
               <div class="row last-chat">
+                <!-- <div v-for="message in messages" :key="message.id" class="row last-chat"> -->
                 <h4>Why did you do that?</h4>
+                <!-- <h4 v-if="message.id === idUser">{{message}}</h4> -->
               </div>
             </div>
             <div class="col-md-3 col-sm-3 time-info">
@@ -56,12 +58,11 @@
 </template>
 
 <script>
-// import { mapGetters } from 'vuex'
 import ContactInfo from './Chat-Contact-Info'
 import io from 'socket.io-client'
 export default {
   name: 'Chat-Contact',
-  props: ['allUser', 'idUser'],
+  props: ['allUser', 'idUser', 'messages'],
   data () {
     return {
       socket: io('http://localhost:4000'),
@@ -82,30 +83,21 @@ export default {
         this.showContactInfo = false
       }
     },
-    // handleOpenMessage (user) {
-    //   this.headerMessage = user
-    //   this.$emit('headerMessage', this.headerMessage)
-    // },
+
     handleOpenMessage (user) {
-      // console.log('oke: ' + messageOk)
-      // this.$router.go(0)
-      const room = user.id + this.idUser
-      // console.log(room)
       this.headerMessage = user
       this.$emit('headerMessage', this.headerMessage)
-      this.socket.emit(
-        'chat',
-        {
-          room: room
-          // message: null,
-          // userId: this.idUser
-          // image: this.user.image,
-        },
-        (error) => {
-          alert(error)
-        }
-      )
-      // this.$router.go(0)
+      console.log('header: ' + this.headerMessage)
+
+      // this.socket.emit(
+      //   'sendMessage',
+      //   {
+      //     socketId: user.id
+      //   },
+      //   (error) => {
+      //     alert(error)
+      //   }
+      // )
     },
 
     handleClose (handleClose) {

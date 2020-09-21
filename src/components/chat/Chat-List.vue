@@ -26,7 +26,11 @@
     </div>
     <ChatScrollX />
     <div class="scroll-contact">
-      <ChatContact :allUser="allUser" :idUser="idUser" v-on:headerMessage="headerMessage($event)" />
+      <ChatContact
+      :allUser="allUser"
+      :idUser="idUser"
+      :messages="messages"
+      v-on:headerMessage="headerMessage($event)" />
     </div>
   </div>
 </template>
@@ -41,7 +45,7 @@ import ChatMenuProfile from './Chat-Menu-Profile'
 import SettingProfile from './Chat-Setting'
 export default {
   name: 'ChatList',
-  props: ['allUser', 'idUser'],
+  props: ['allUser', 'idUser', 'messages'],
   components: {
     ChatSearch,
     ChatScrollX,

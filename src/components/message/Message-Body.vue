@@ -3,6 +3,7 @@
     <div class="scroll-chat">
       <div class="row body-message">
         <div v-for="(message, index) in messages" :key="index">
+          <div v-if="message.socketId === headerMess.id">
 
           <div v-if="userId != message.userId">
             <div class="other" v-show="true">
@@ -48,6 +49,7 @@
             </div>
           </div>
 
+          </div>
         </div>
       </div>
     </div>
@@ -102,10 +104,31 @@ export default {
   mounted () {},
   methods: {
     handleMessage () {
-      console.log(this.chat)
-      this.$emit('handleMessage', this.chat)
+      const data = {
+        socketId: this.headerMess.id,
+        message: this.chat
+      }
+      console.log('data: ' + data)
+      this.$emit('handleMessage', data)
       this.chat = null
     },
+
+    // handleMessage () {
+    //   console.log('oke: ' + this.chat)
+    //   this.socket.emit(
+    //     'sendMessage',
+    //     {
+    //       message: this.chat,
+    //       userId: this.userId,
+    //       image: this.userImage,
+    //       socketId: 1
+    //     },
+    //     (error) => {
+    //       alert(error)
+    //     }
+    //   )
+    // },
+
     handleAdd () {
       if (this.showAdd === false) {
         this.showAdd = true
@@ -117,19 +140,6 @@ export default {
       this.location = handleLocation
       this.$emit('handleLocation', handleLocation)
     }
-    // this.socket.emit(
-    //   'sendUser',
-    //   {
-    //     message: this.chat,
-    //     userId: this.userId,
-    //     image: this.userImage,
-    //     room: this.headerMess.id,
-    //     location: null
-    //   },
-    //   (error) => {
-    //     alert(error)
-    //   }
-    // )
   }
 }
 </script>
