@@ -124,9 +124,19 @@ export default new Vuex.Store({
           })
       })
     },
+    updateUser (setex, payload) {
+      return new Promise((resolve, reject) => {
+        axios.patch(process.env.VUE_APP_URL + `/users/update/${this.state.userId}`, payload)
+          .then((res) => {
+            resolve(res)
+          })
+          .catch((err) => {
+            reject(err)
+          })
+      })
+    },
     logout () {
       return new Promise((resolve, reject) => {
-        // if (this.state.token !== null) {
         localStorage.removeItem('token')
         localStorage.removeItem('userRoleId')
         localStorage.removeItem('userImage')
@@ -135,7 +145,6 @@ export default new Vuex.Store({
         localStorage.removeItem('userId')
         localStorage.removeItem('phoneNumber')
         localStorage.removeItem('bio')
-        // }
         axios.post(process.env.VUE_APP_BASE_URL + '/users/logout/' + this.state.userId)
           .then((res) => {
             resolve(res)
@@ -145,13 +154,29 @@ export default new Vuex.Store({
           })
       })
     },
-    getAllUser (setex) {
+    getAllUser (setex, payload) {
       return new Promise((resolve, reject) => {
         axios.get(process.env.VUE_APP_BASE_URL + '/users')
           .then((res) => {
-            // console.log(res.data)
             setex.commit('setallUser', res.data.result)
             resolve(res)
+          })
+          .catch((err) => {
+            reject(err)
+          })
+      })
+    },
+    getAllContact (setex, payload) {
+      return new Promise((resolve, reject) => {
+        axios.get(process.env.VUE_APP_BASE_URL + `/contacts/?idUser=${this.state.userId}`)
+          .then((res) => {
+            if (res.data.result !== 'Contact not found') {
+              setex.commit('setallUser', res.data.result)
+              resolve(res)
+            } else {
+              setex.commit('setallUser', null)
+              resolve(res)
+            }
           })
           .catch((err) => {
             reject(err)

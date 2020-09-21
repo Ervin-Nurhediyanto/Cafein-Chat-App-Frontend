@@ -22,6 +22,7 @@ import { mapGetters, mapActions } from 'vuex'
 import io from 'socket.io-client'
 export default {
   name: 'Chat-message-add',
+  props: ['userId'],
   data () {
     return {
       socket: io('http://localhost:4000'),
@@ -36,7 +37,9 @@ export default {
   components: {},
   computed: {
     ...mapGetters({
-      user: 'user'
+      user: 'user',
+      userName: 'userName',
+      userImage: 'userImage'
     })
   },
   methods: {
@@ -52,8 +55,8 @@ export default {
         'sendMessage',
         {
           message: null,
-          userId: this.user.id,
-          image: this.user.image,
+          userId: this.userId,
+          image: this.userImage,
           room: this.room,
           location: this.location
         },

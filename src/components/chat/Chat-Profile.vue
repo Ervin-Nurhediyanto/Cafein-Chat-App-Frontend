@@ -1,10 +1,15 @@
 <template>
   <div class="row my-profile">
     <div class="col-md-12 d-flex justify-content-center">
-      <div class="row photo-profile d-flex justify-content-center">
-        <!-- <img src="../../assets/Profile/photo1.png" /> -->
-        <img :src="userImage" @click="handleLogout" />
+
+      <div v-if="userImage" class="row photo-profile d-flex justify-content-center">
+        <img :src="userImage" />
       </div>
+
+      <div v-else class="row photo-profile d-flex justify-content-center">
+        <img src="../../assets/Profile/pp.png" />
+      </div>
+
     </div>
     <div class="col-md-12 d-flex justify-content-center">
       <div class="row name-profile">

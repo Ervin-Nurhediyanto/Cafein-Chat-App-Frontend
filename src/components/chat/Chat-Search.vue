@@ -1,25 +1,34 @@
 <template>
-  <!-- <div class="row search-box d-flex justify-content-between"> -->
   <div class="search-input">
     <i class="fa fa-search" aria-hidden="true"></i>
-    <input placeholder="Type your message..." />
+    <input v-model="search" @keyup.enter="handleSearch" placeholder="Search name..." />
   </div>
-  <!-- <div @click="handleAdd">
-      <h4>+</h4>
-  </div>-->
-  <!-- </div> -->
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 export default {
   name: 'search-chat',
   data () {
     return {
-      telegramShow: true
+      telegramShow: true,
+      search: ''
     }
   },
-  computed: {},
-  methods: {}
+  computed: {
+  },
+  methods: {
+    ...mapActions(['mapActions']),
+    handleSearch (e) {
+      e.preventDefault()
+      const data = {
+        search: this.search
+      }
+      mapActions(data).then((res) => {
+        console.log(res)
+      })
+    }
+  }
 }
 </script>
 

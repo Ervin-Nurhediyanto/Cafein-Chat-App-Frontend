@@ -7,9 +7,15 @@
     </div>
     <div class="scroll">
     <div class="container-photo">
-      <div class="photo">
+
+      <div v-if="infoUser.image" class="photo">
         <img :src="infoUser.image" />
       </div>
+
+      <div v-else class="photo">
+        <img src="../../assets/Profile/pp.png" />
+      </div>
+
     </div>
     <div class="container-name">
       <div class="name">
@@ -93,7 +99,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .mobile {
   display: none;
 }
@@ -403,7 +409,11 @@ export default {
   }
 
   .contact-info-profile .container-photo {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
     margin-top: 10px;
+    /* margin-left: 100px; */
   }
 
   .contact-info-profile .photo {
@@ -424,7 +434,7 @@ export default {
   }
 
   .scroll {
-    max-height: 600px;
+    max-height: 500px;
     overflow-y: scroll;
     margin-top: 10px;
   }

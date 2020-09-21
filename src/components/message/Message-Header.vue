@@ -2,10 +2,15 @@
   <div>
     <div class="row header-message">
       <h2 class="mobile" @click="closeChat">&#60;</h2>
-      <div class="header-photo">
-        <!-- <img src="../../assets/Profile/photo2.png" /> -->
+
+      <div v-if="headerMess.image" class="header-photo">
         <img :src="headerMess.image" />
       </div>
+
+      <div v-else class="header-photo">
+        <img src="../../assets/Profile/pp.png" />
+      </div>
+
       <div class="header-info">
         <div class>
           <div class>

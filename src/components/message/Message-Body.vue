@@ -7,10 +7,15 @@
           <div v-if="userId != message.userId">
             <div class="other" v-show="true">
               <div class="row">
-                <div class="body-photo">
-                  <!-- <img src="../../assets/Profile/photo2.png" /> -->
+
+                <div v-if="message.image" class="body-photo">
                   <img :src="message.image" />
                 </div>
+
+                <div v-else class="body-photo">
+                  <img src="../../assets/Profile/pp.png" />
+                </div>
+
                 <div class="message-other">
                   <h4>{{message.message}}</h4>
                   <Maps v-if="message.location"
@@ -29,11 +34,16 @@
                   <Maps v-if="message.location"
                   :locLat="message.location.lat"
                   :locLng="message.location.lng"/>
-                  <!-- <Maps /> -->
                 </div>
-                <div class="body-photo-user">
+
+                <div v-if="userImage" class="body-photo-user">
                   <img :src="userImage" />
                 </div>
+
+                <div v-else class="body-photo-user">
+                  <img src="../../assets/Profile/pp.png" />
+                </div>
+
               </div>
             </div>
           </div>
@@ -57,7 +67,8 @@
           <i class="fas fa-microphone"></i>
         </div>
         <MessageAdd v-show="showAdd"
-        v-on:handleLocation="handleLocation($event)" />
+        v-on:handleLocation="handleLocation($event)"
+        :userId="userId" />
       </div>
     </div>
   </div>
@@ -94,19 +105,6 @@ export default {
       console.log(this.chat)
       this.$emit('handleMessage', this.chat)
       this.chat = null
-      // this.socket.emit(
-      //   'sendUser',
-      //   {
-      //     message: this.chat,
-      //     userId: this.userId,
-      //     image: this.userImage,
-      //     room: this.headerMess.id,
-      //     location: null
-      //   },
-      //   (error) => {
-      //     alert(error)
-      //   }
-      // )
     },
     handleAdd () {
       if (this.showAdd === false) {
@@ -119,14 +117,25 @@ export default {
       this.location = handleLocation
       this.$emit('handleLocation', handleLocation)
     }
+    // this.socket.emit(
+    //   'sendUser',
+    //   {
+    //     message: this.chat,
+    //     userId: this.userId,
+    //     image: this.userImage,
+    //     room: this.headerMess.id,
+    //     location: null
+    //   },
+    //   (error) => {
+    //     alert(error)
+    //   }
+    // )
   }
 }
 </script>
 
 <style scoped>
 .body-message {
-  /* min-height: 500px; */
-  /* width: 955px; */
   height: 100%;
   width: 100%;
   margin-left: 0px;
@@ -136,7 +145,6 @@ export default {
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
-  /* background-color: teal; */
 }
 
 .body-message .other {
@@ -144,13 +152,10 @@ export default {
   flex-direction: column;
   justify-content: flex-end;
   max-height: 500px;
-  /* width: 1280px; */
   width: 1000px;
-  /* width: 100%; */
   padding-left: 30px;
   margin-bottom: 5px;
   margin-top: auto;
-  /* background-color: violet; */
 }
 
 .body-message .user {
@@ -159,13 +164,11 @@ export default {
   justify-content: flex-end;
   max-height: 500px;
   width: 1000px;
-  /* width: 100%; */
   padding-top: auto;
   padding-bottom: 0;
   padding-right: 20px;
   margin-bottom: 5px;
   margin-top: auto;
-  /* background-color: red; */
 }
 
 .body-message .body-photo {
@@ -234,7 +237,6 @@ export default {
 .input-text {
   background: #ffffff;
   height: 80px;
-  /* width: 955px; */
   width: 100%;
   margin-left: 0px;
   margin-bottom: 0;
@@ -252,7 +254,6 @@ export default {
 .input-chat {
   background: #fafafa;
   border-radius: 15px;
-  /* width: 880px; */
   width: 100%;
   height: 50px;
   padding: 10px;
@@ -266,14 +267,12 @@ export default {
   border-radius: 15px;
   width: 850px;
   height: 30px;
-  /* width: 100%; */
 }
 
 @media (max-width: 768px) {
   .body-message {
     min-height: 240px;
     max-height: 240px;
-    /* width: 448px; */
     width: 100%;
     margin-left: 0px;
     margin-top: auto;
@@ -282,7 +281,6 @@ export default {
     display: flex;
     flex-direction: row;
     justify-content: flex-end;
-    /* background-color: springgreen; */
   }
 
   .body-message .other {
@@ -294,7 +292,6 @@ export default {
     padding-left: 10px;
     margin-bottom: 5px;
     margin-top: auto;
-    /* background-color: darkmagenta; */
   }
 
   .body-message .message-other {
@@ -316,7 +313,6 @@ export default {
     padding-left: 15px;
     margin-bottom: 5px;
     margin-top: auto;
-    /* background-color: darksalmon; */
   }
 
   .body-message .message-user {
@@ -337,9 +333,7 @@ export default {
   }
 
   .input-text {
-    /* background: red; */
     height: 40px;
-    /* width: 448px; */
     width: 100%;
     margin-left: 0px;
     padding: 4px;
@@ -353,7 +347,6 @@ export default {
   }
 
   .input-chat {
-    /* background: blue; */
     border-radius: 15px;
     width: 470px;
     height: 34px;
@@ -373,10 +366,7 @@ export default {
 @media (max-width: 576px) {
   .body-message {
     min-height: 100px;
-    /* max-height: 900px; */
-    /* width: 448px; */
     width: 100%;
-    /* width: 200px; */
     margin-left: 0px;
     margin-top: auto;
     margin-bottom: 0px;
@@ -384,7 +374,6 @@ export default {
     display: flex;
     flex-direction: row;
     justify-content: flex-end;
-    /* background-color: springgreen; */
   }
 
    .body-message .other {
@@ -396,7 +385,6 @@ export default {
     padding-left: 10px;
     margin-bottom: 5px;
     margin-top: auto;
-    /* background-color: darkmagenta; */
   }
 
   .body-message .user {
@@ -411,12 +399,9 @@ export default {
     padding-left: 15px;
     margin-bottom: 5px;
     margin-top: auto;
-    /* background-color: darksalmon; */
   }
 
   .input-text {
-    /* background: red; */
-    /* width: 448px; */
     height: 60px;
     width: 100%;
     margin-left: 0px;
@@ -433,7 +418,6 @@ export default {
   }
 
   .input-chat {
-    /* background: blue; */
     border-radius: 15px;
     width: 450px;
     height: 50px;

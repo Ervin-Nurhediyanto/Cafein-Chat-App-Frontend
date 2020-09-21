@@ -19,8 +19,8 @@
     <div class="scroll">
       <div class="account">
         <h3>Account</h3>
-        <h4>{{phoneNumber}}</h4>
-        <h5>Tap to change phone number</h5>
+        <h4 v-if="showPhone">{{phoneNumber}}</h4>
+        <h5 @click="handlePhone">Tap to change phone number</h5>
       </div>
       <div class="line"></div>
       <div class="username-setting">
@@ -60,6 +60,12 @@
 import { mapGetters, mapActions } from 'vuex'
 export default {
   name: 'setting-profile',
+  data () {
+    return {
+      showPhone: true,
+      userphoneNumber: ''
+    }
+  },
   computed: {
     ...mapGetters({
       userName: 'userName',
@@ -71,6 +77,7 @@ export default {
   },
   methods: {
     ...mapActions(['logout']),
+    ...mapActions(['updateUser']),
     handleClose () {
       this.$emit('handleClose', false)
     }

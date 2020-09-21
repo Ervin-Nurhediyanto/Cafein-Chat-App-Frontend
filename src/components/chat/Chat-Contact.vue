@@ -2,15 +2,19 @@
   <div>
     <div class="row contact-chat">
       <div class="row contact-list-chat" v-for="user in allUser" :key="user.id">
-        <!-- <div v-if="user.id !== idUser"> -->
-        <!-- photo -->
+
         <div class="col-md-3 col-sm-3 container-photo pl-md-0 pr-md-0">
-          <div class="photo">
-            <!-- <img src="../../assets/Profile/photo.png" /> -->
+
+          <div v-if="user.image" class="photo">
             <img :src="user.image" @click="handleShowContact(user)" />
           </div>
+
+          <div v-else class="photo">
+            <img src="../../assets/Profile/pp.png" @click="handleShowContact(user)" />
+          </div>
+
         </div>
-        <!-- scroll-edit -->
+
         <div class="col-md-9 col-sm-9 scroll-edit p-md-0">
           <div class="row justify-content-between">
             <div
@@ -26,7 +30,7 @@
             </div>
             <div class="col-md-3 col-sm-3 time-info">
               <div class="row time-chat justify-content-end">
-                <h4>15:30</h4>
+                <h4>{{user.time}}</h4>
               </div>
               <div class="row qly-chat justify-content-end">
                 <h4>
@@ -43,7 +47,7 @@
             </div>
           </div>
         </div>
-        <!-- </div> -->
+
       </div>
     </div>
     <ContactInfo v-show="showContactInfo" :infoUser="infoUser"
@@ -52,12 +56,15 @@
 </template>
 
 <script>
+// import { mapGetters } from 'vuex'
 import ContactInfo from './Chat-Contact-Info'
+import io from 'socket.io-client'
 export default {
   name: 'Chat-Contact',
   props: ['allUser', 'idUser'],
   data () {
     return {
+      socket: io('http://localhost:4000'),
       showContactInfo: true,
       infoUser: null,
       headerMessage: null
@@ -68,7 +75,6 @@ export default {
   },
   methods: {
     handleShowContact (user) {
-      // console.log(user)
       if (this.showContactInfo === false) {
         this.showContactInfo = true
         this.infoUser = user
@@ -76,13 +82,32 @@ export default {
         this.showContactInfo = false
       }
     },
+    // handleOpenMessage (user) {
+    //   this.headerMessage = user
+    //   this.$emit('headerMessage', this.headerMessage)
+    // },
     handleOpenMessage (user) {
-      console.log(user.name)
-      console.log(user.image)
-      console.log(user.status)
+      // console.log('oke: ' + messageOk)
+      // this.$router.go(0)
+      const room = user.id + this.idUser
+      // console.log(room)
       this.headerMessage = user
       this.$emit('headerMessage', this.headerMessage)
+      this.socket.emit(
+        'chat',
+        {
+          room: room
+          // message: null,
+          // userId: this.idUser
+          // image: this.user.image,
+        },
+        (error) => {
+          alert(error)
+        }
+      )
+      // this.$router.go(0)
     },
+
     handleClose (handleClose) {
       this.showContactInfo = false
     }
@@ -90,7 +115,11 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+.mobile {
+  display: none;
+}
+
 .contact-chat {
   height: 250px;
   width: 320px;
@@ -392,8 +421,17 @@ export default {
 }
 
 @media (max-width: 576px) {
+  .mobile {
+    display: inline;
+}
+
+.desktop {
+  display: none;
+}
+
    .contact-chat {
     height: 400px;
+    /* height: 100px; */
     width: 400px;
     padding: 0px;
     padding-left: 11px;
@@ -409,9 +447,18 @@ export default {
     /* background-color: salmon; */
   }
 
+  .container-photo {
+    display: flex;
+    flex-direction: row;
+    width: 25%;
+  }
+
   .contact-chat .photo {
+    /* position: absolute; */
     width: 100px;
     height: 100px;
+    /* background-color: red; */
+    /* display: none; */
   }
 
   .contact-chat .photo img {
@@ -423,7 +470,8 @@ export default {
     width: 200px;
     padding: 2px;
     padding-left: 5px;
-    margin-left: 80px;
+    margin-left: 0px;
+    margin-top: 0;
     /* background-color: springgreen; */
   }
 
@@ -436,7 +484,7 @@ export default {
     width: 200px;
     padding: 2px;
     padding-left: 5px;
-    margin-left: 80px;
+    margin-left: 0px;
     /* background-color: red; */
     overflow-y: scroll;
     z-index: 2;
@@ -452,10 +500,19 @@ export default {
   }
 
 .contact-chat .scroll-edit {
+  display: flex;
+  flex-direction: column;
   height: 100px;
+  /* width: 100%; */
+  width: 80%;
   margin-left: 0;
   margin-right: 0;
+  margin-top: 0;
+  padding-left: 0;
+  /* margin-bottom: 50px; */
+  /* padding: 0; */
   overflow-y: scroll;
+  /* background-color: royalblue; */
 }
 
   .contact-info {
@@ -468,7 +525,8 @@ export default {
     height: 50px;
     width: 50px;
     padding-top: 0px;
-    margin-left: 330px;
+    margin-left: 270px;
+    /* margin-right: 0; */
     /* background-color: red; */
   }
 
@@ -482,7 +540,7 @@ export default {
     width: 50px;
     height: 50px;
     padding-top: 12px;
-    margin-left: 330px;
+    margin-left: 270px;
     /* background-color: springgreen; */
   }
 
@@ -501,7 +559,7 @@ export default {
    .contact-menu {
     width: 400px;
     height: 100px;
-    margin-left: 80px;
+    margin-left: 0px;
     padding-left: 20px;
     padding-top: 10px;
     /* background-color: teal; */
@@ -510,13 +568,13 @@ export default {
   .contact-menu .contact-menu-i {
     background-color: #7e98df;
     width: 295px;
-    height: 50px;
+    height: 100px;
     padding: 10px;
-    padding-top: 5px;
+    padding-top: 20px;
   }
 
   .contact-menu i {
-    font-size: 30px;
+    font-size: 40px;
     margin: 2px;
     cursor: pointer;
     color: #ffffff;

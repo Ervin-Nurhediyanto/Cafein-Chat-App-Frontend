@@ -37,5 +37,6 @@ body, html {
 }
 body {
   background-color: #f6f6f6;
+  scrollbar-width: none;
 }
 </style>

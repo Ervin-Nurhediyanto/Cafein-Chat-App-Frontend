@@ -15,7 +15,7 @@
         v-on:handleLocation="handleLocation($event)"
         v-on:sendMessage="messageOk($event)"
         :messages="messages"
-        :userId="userId"
+        :userId="idUser"
         :headerMess="headerMess"
       />
     </div>
@@ -25,7 +25,7 @@
         v-on:sendMessage="messageOk($event)"
         v-on:closeChat="closeChat($event)"
         :messages="messages"
-        :userId="userId"
+        :userId="idUser"
         :headerMess="headerMess"
       />
     </div>
@@ -51,7 +51,6 @@ export default {
       idUser: null,
       headerMess: null,
       showChat: false
-      // location: null
     }
   },
   components: {
@@ -64,13 +63,15 @@ export default {
       user: 'user',
       allUser: 'allUser',
       userId: 'userId',
-      location: 'location'
+      location: 'location',
+      userName: 'userName',
+      userImage: 'userImage'
     })
   },
   mounted () {
     this.socket.emit('welcomeMessage', {
-      id: this.user.id,
-      username: this.user.userName,
+      id: this.idUser,
+      username: this.userName,
       room: this.room
     })
     this.socket.on('message', (message) => {
@@ -80,22 +81,24 @@ export default {
       alert(message)
       // swal(message)
     })
-    this.getAllUser()
+    // this.getAllUser()
+    this.getAllContact()
     this.idNumber()
-    this.getAllcontact()
+    // this.getAllcontact()
   },
   methods: {
     ...mapActions(['getAllUser']),
+    ...mapActions(['getAllContact']),
     messageOk (messageOk) {
       console.log('oke: ' + messageOk)
       this.socket.emit(
         'sendMessage',
         {
           message: messageOk,
-          userId: this.user.id,
-          image: this.user.image,
-          room: this.room
-          // location: this.location
+          userId: this.idUser,
+          image: this.userImage,
+          // room: this.room
+          socketId: 1
         },
         (error) => {
           alert(error)
@@ -109,15 +112,15 @@ export default {
     idNumber () {
       this.idUser = Number(this.userId)
     },
-    getAllcontact () {
-      this.allUser.map((item) => {
-        if (item.id !== this.idUser) {
-          console.log(item.id)
-          console.log(this.idUser)
-          this.allContact.push(item)
-        }
-      })
-    },
+    // getAllcontact () {
+    //   this.allUser.map((item) => {
+    //     if (item.id !== this.idUser) {
+    //       console.log(item.id)
+    //       console.log(this.idUser)
+    //       this.allContact.push(item)
+    //     }
+    //   })
+    // },
     headerMessage (headerMessage) {
       console.log(headerMessage)
       this.headerMess = headerMessage
