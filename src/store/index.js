@@ -143,6 +143,18 @@ export default new Vuex.Store({
           })
       })
     },
+    uploadImg (setex, payload) {
+      console.log(payload)
+      return new Promise((resolve, reject) => {
+        axios.patch(process.env.VUE_APP_BASE_URL + `/users/uploadImg/${this.state.userId}`, payload)
+          .then((res) => {
+            resolve(res)
+          })
+          .catch((err) => {
+            reject(err)
+          })
+      })
+    },
     logout () {
       return new Promise((resolve, reject) => {
         localStorage.removeItem('token')
@@ -153,6 +165,7 @@ export default new Vuex.Store({
         localStorage.removeItem('userId')
         localStorage.removeItem('phoneNumber')
         localStorage.removeItem('bio')
+        localStorage.removeItem('resetId')
         axios.post(process.env.VUE_APP_BASE_URL + '/users/logout/' + this.state.userId)
           .then((res) => {
             resolve(res)
@@ -167,6 +180,11 @@ export default new Vuex.Store({
         axios.get(process.env.VUE_APP_BASE_URL + '/users')
           .then((res) => {
             setex.commit('setallUser', res.data.result)
+            res.data.result.map((item) => {
+              if (item.id === Number(this.state.userId)) {
+                return localStorage.setItem('userImage', item.image)
+              }
+            })
             resolve(res)
           })
           .catch((err) => {
@@ -176,14 +194,14 @@ export default new Vuex.Store({
     },
     getUserId (setex, payload) {
       return new Promise((resolve, reject) => {
-        axios.get(process.env.VUE_APP_BASE_URL + `/users/${this.state.userId}`)
+        axios.get(process.env.VUE_APP_BASE_URL + '/users/' + payload)
           .then((res) => {
-            setex.commit('setUserUpdate', res.data.result)
-            localStorage.setItem('userImage', this.state.userImage)
-            localStorage.setItem('userName', this.state.userName)
-            localStorage.setItem('name', this.state.name)
-            localStorage.setItem('phoneNumber', this.state.phoneNumber)
-            localStorage.setItem('bio', this.state.bio)
+            // setex.commit('setUserUpdate', res.data.result)
+            // localStorage.setItem('userImage', this.state.userImage)
+            // localStorage.setItem('userName', this.state.userName)
+            // localStorage.setItem('name', this.state.name)
+            // localStorage.setItem('phoneNumber', this.state.phoneNumber)
+            // localStorage.setItem('bio', this.state.bio)
             resolve(res)
             // resolve(res)
           })
@@ -203,6 +221,28 @@ export default new Vuex.Store({
               setex.commit('setallUser', null)
               resolve(res)
             }
+          })
+          .catch((err) => {
+            reject(err)
+          })
+      })
+    },
+    addContact (setex, payload) {
+      return new Promise((resolve, reject) => {
+        axios.post(process.env.VUE_APP_BASE_URL + '/contacts', payload)
+          .then((res) => {
+            resolve(res)
+          })
+          .catch((err) => {
+            reject(err)
+          })
+      })
+    },
+    deleteContact (setex, payload) {
+      return new Promise((resolve, reject) => {
+        axios.delete(process.env.VUE_APP_BASE_URL + '/contacts/' + payload)
+          .then((res) => {
+            resolve(res)
           })
           .catch((err) => {
             reject(err)

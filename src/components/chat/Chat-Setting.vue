@@ -13,20 +13,20 @@
             <input type="file" @change="onFileUpload" />
           </div>
           <div>
-          <button
-          v-show="updateImage"
-          class="button-update"
-            type="submit"
-            @click="updateProfile(inputName, inputUsername, inputPhoneNumber, inputBio, FILE)"
-          >update</button>
-        </div>
+            <button
+              v-show="updateImage"
+              class="button-update"
+              type="submit"
+              @click="updateProfile(inputName, inputUsername, inputPhoneNumber, inputBio)"
+            >update</button>
+          </div>
         </div>
       </div>
       <div class="container-name">
         <div class="name">
           <h4 v-if="updateName" @click="handleChangeName">{{name}}</h4>
           <div v-else>
-            <input v-model="inputName" :placeholder="name" />
+            <input type="text" v-model="inputName" :placeholder="name" />
           </div>
           <h5>@{{userName}}</h5>
         </div>
@@ -36,7 +36,7 @@
           <h3>Account</h3>
           <h4 v-if="updatePhoneNumber">{{phoneNumber}}</h4>
           <div v-else>
-            <input v-model="inputPhoneNumber" :placeholder="phoneNumber" />
+            <input type="text" v-model="inputPhoneNumber" :placeholder="phoneNumber" />
           </div>
           <h5 @click="handleChangeNumber">Tap to change phone number</h5>
         </div>
@@ -44,7 +44,7 @@
         <div class="username-setting">
           <h4 v-if="updateUsername">@{{userName}}</h4>
           <div v-else>
-            <input v-model="inputUsername" :placeholder="userName" />
+            <input type="text" v-model="inputUsername" :placeholder="userName" />
           </div>
           <h5 @click="handleChangeUsername">Username</h5>
         </div>
@@ -52,7 +52,7 @@
         <div class="bio">
           <h4 v-if="updateBio">{{bio}}</h4>
           <div v-else>
-            <input v-model="inputBio" :placeholder="bio" />
+            <input type="text" v-model="inputBio" :placeholder="bio" />
           </div>
           <h5 @click="handleChangeBio">Bio</h5>
         </div>
@@ -88,9 +88,7 @@ export default {
   name: 'setting-profile',
   data () {
     return {
-      // showPhone: true,
-      // userphoneNumber: '',
-      FILE: null,
+      FILE: '',
       inputName: '',
       inputUsername: '',
       inputPhoneNumber: '',
@@ -108,7 +106,8 @@ export default {
       userImage: 'userImage',
       name: 'name',
       phoneNumber: 'phoneNumber',
-      bio: 'bio'
+      bio: 'bio',
+      userId: 'userId'
     })
   },
   methods: {
@@ -120,6 +119,7 @@ export default {
     ...mapActions(['getName']),
     ...mapActions(['getPhoneNumber']),
     ...mapActions(['getBio']),
+    ...mapActions(['uploadImg']),
     handleClose () {
       this.$emit('handleClose', false)
     },
@@ -128,7 +128,7 @@ export default {
       this.FILE = event.target.files[0]
     },
 
-    updateProfile (inputName, inputUsername, inputPhoneNumber, inputBio, FILE) {
+    updateProfile (inputName, inputUsername, inputPhoneNumber, inputBio) {
       const data = {
         name: inputName || this.name,
         userName: inputUsername || this.userName,
@@ -141,12 +141,15 @@ export default {
       this.getPhoneNumber(data.phoneNumber)
       this.getBio(data.bio)
 
-      // const formData = new FormData()
-      // formData.append('name', inputName)
-      // formData.append('userName', inputUsername)
-      // formData.append('image', FILE, FILE.name)
-      // formData.append('phoneNumber', inputPhoneNumber)
-      // formData.append('bio', inputBio)
+      const formData = new FormData()
+      formData.append('image', this.FILE, this.FILE.name)
+      this.uploadImg(formData)
+
+      // this.getUserId(this.userId).then((res) => {
+      // alert(this.FILE.name)
+      // this.getUserImage('http://localhost:4000/uploads/1600769544847-bae-suzy.jpg')
+      // this.getUserImage(res.data.result.image)
+      // })
     },
 
     handleChangeName () {
@@ -291,7 +294,8 @@ input {
   color: #232323;
 }
 
-.account h4, .account input {
+.account h4,
+.account input {
   font-family: Rubik;
   font-style: normal;
   font-weight: normal;
@@ -330,7 +334,8 @@ input {
   margin-top: 20px;
 }
 
-.username-setting h4, .username-setting input {
+.username-setting h4,
+.username-setting input {
   font-family: Rubik;
   font-style: normal;
   font-weight: 500;
@@ -359,7 +364,8 @@ input {
   margin-top: 20px;
 }
 
-.bio h4, .bio input {
+.bio h4,
+.bio input {
   font-family: Rubik;
   font-style: normal;
   font-weight: 500;
@@ -427,6 +433,7 @@ input {
   position: absolute;
   top: 40px;
   left: 15px;
+  border-radius: 30px;
 }
 
 .button-update {
@@ -435,6 +442,15 @@ input {
   position: absolute;
   top: 40px;
   left: 250px;
+  border-radius: 30px;
+  /* color: #7e98df; */
+  color: white;
+  font-weight: bold;
+  background-color:rebeccapurple
+}
+
+.button-update:hover {
+  color: red;
 }
 
 @media (max-width: 768px) {
@@ -468,7 +484,7 @@ input {
     margin-top: 10px;
   }
 
-  .setting-profile .name h4 {
+  .setting-profile .name h4, .setting-profile .name input {
     font-size: 13px;
   }
 
@@ -491,7 +507,7 @@ input {
     font-size: 15px;
   }
 
-  .account h4 {
+  .account h4, .account input {
     font-size: 12px;
   }
 
@@ -508,7 +524,7 @@ input {
     margin-top: 5px;
   }
 
-  .username-setting h4 {
+  .username-setting h4, .username-setting input {
     font-weight: bold;
     font-size: 13px;
   }
@@ -522,7 +538,7 @@ input {
     margin-top: 5px;
   }
 
-  .bio h4 {
+  .bio h4, .bio input {
     font-weight: bold;
     font-size: 12px;
   }
@@ -549,6 +565,26 @@ input {
   .settings ul li i {
     width: 12px;
   }
+
+  .upload-image {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  position: absolute;
+  top: 172px;
+  left: 5px;
+  font-size: 10px;
+  border-radius: 30px;
+}
+
+.button-update {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  position: absolute;
+  top: 172px;
+  left: 105px;
+  font-size: 10px;
+  border-radius: 30px;
+}
 }
 
 @media (max-width: 576px) {
@@ -666,5 +702,27 @@ input {
   .settings ul li i {
     width: 25px;
   }
+
+  .upload-image {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  position: absolute;
+  top: auto;
+  bottom: 10px;
+  left: 15px;
+  font-size: 20px;
+  border-radius: 30px;
+}
+
+.button-update {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  position: absolute;
+  top: auto;
+  bottom: 10px;
+  left: 280px;
+  font-size: 20px;
+  border-radius: 30px;
+}
 }
 </style>

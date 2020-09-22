@@ -70,11 +70,7 @@ export default {
     })
   },
   mounted () {
-    // this.getUserId()
     this.getAllContact()
-    // this.allUser.map((item) => {
-    //   console.log('socket id loh: ' + item.id)
-    // })
     this.socket.emit('welcomeMessage', {
       id: this.idUser,
       username: this.userName,
