@@ -70,7 +70,8 @@
         </div>
         <MessageAdd v-show="showAdd"
         v-on:handleLocation="handleLocation($event)"
-        :userId="userId" />
+        :userId="userId"
+        :socketId="headerMess.id" />
       </div>
     </div>
   </div>

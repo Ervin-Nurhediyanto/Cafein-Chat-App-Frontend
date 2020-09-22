@@ -41,6 +41,13 @@ export default new Vuex.Store({
     },
     setLocation (state, payload) {
       state.location = payload
+    },
+    setUserUpdate (state, payload) {
+      state.userImage = payload.image
+      state.userName = payload.userName
+      state.name = payload.name
+      state.phoneNumber = payload.phoneNumber
+      state.bio = payload.bio
     }
   },
   actions: {
@@ -125,8 +132,9 @@ export default new Vuex.Store({
       })
     },
     updateUser (setex, payload) {
+      console.log(payload)
       return new Promise((resolve, reject) => {
-        axios.patch(process.env.VUE_APP_URL + `/users/update/${this.state.userId}`, payload)
+        axios.patch(process.env.VUE_APP_BASE_URL + `/users/update/${this.state.userId}`, payload)
           .then((res) => {
             resolve(res)
           })
@@ -166,6 +174,24 @@ export default new Vuex.Store({
           })
       })
     },
+    getUserId (setex, payload) {
+      return new Promise((resolve, reject) => {
+        axios.get(process.env.VUE_APP_BASE_URL + `/users/${this.state.userId}`)
+          .then((res) => {
+            setex.commit('setUserUpdate', res.data.result)
+            localStorage.setItem('userImage', this.state.userImage)
+            localStorage.setItem('userName', this.state.userName)
+            localStorage.setItem('name', this.state.name)
+            localStorage.setItem('phoneNumber', this.state.phoneNumber)
+            localStorage.setItem('bio', this.state.bio)
+            resolve(res)
+            // resolve(res)
+          })
+          .catch((err) => {
+            reject(err)
+          })
+      })
+    },
     getAllContact (setex, payload) {
       return new Promise((resolve, reject) => {
         axios.get(process.env.VUE_APP_BASE_URL + `/contacts/?idUser=${this.state.userId}`)
@@ -185,6 +211,21 @@ export default new Vuex.Store({
     },
     getLocation (setex, payload) {
       setex.commit('setLocation', payload)
+    },
+    getUserImage (setex, payload) {
+      localStorage.setItem('userImage', payload)
+    },
+    getUserName (setex, payload) {
+      localStorage.setItem('userName', payload)
+    },
+    getName (setex, payload) {
+      localStorage.setItem('name', payload)
+    },
+    getPhoneNumber (setex, payload) {
+      localStorage.setItem('phoneNumber', payload)
+    },
+    getBio (setex, payload) {
+      localStorage.setItem('bio', payload)
     }
   },
   getters: {

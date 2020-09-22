@@ -70,6 +70,7 @@ export default {
     })
   },
   mounted () {
+    // this.getUserId()
     this.getAllContact()
     // this.allUser.map((item) => {
     //   console.log('socket id loh: ' + item.id)
@@ -95,6 +96,7 @@ export default {
   methods: {
     ...mapActions(['getAllUser']),
     ...mapActions(['getAllContact']),
+    // ...mapActions(['getUserId']),
     messageOk (messageOk) {
       console.log('oke: ' + messageOk.socketId)
       this.socket.emit(

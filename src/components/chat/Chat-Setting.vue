@@ -1,58 +1,84 @@
 <template>
   <div class="setting-profile">
-    <div class="username">
-      <h4 class="back" @click="handleClose">&#60;</h4>
-      <h4>@{{userName}}</h4>
-      <h4></h4>
-    </div>
-    <div class="container-photo">
-      <div class="photo">
-        <img :src="userImage" />
-      </div>
-    </div>
-    <div class="container-name">
-      <div class="name">
-        <h4>{{name}}</h4>
-        <h5>@{{userName}}</h5>
-      </div>
-    </div>
-    <div class="scroll">
-      <div class="account">
-        <h3>Account</h3>
-        <h4 v-if="showPhone">{{phoneNumber}}</h4>
-        <h5 @click="handlePhone">Tap to change phone number</h5>
-      </div>
-      <div class="line"></div>
-      <div class="username-setting">
+    <form>
+      <div class="username">
+        <h4 class="back" @click="handleClose">&#60;</h4>
         <h4>@{{userName}}</h4>
-        <h5>Username</h5>
+        <h4></h4>
       </div>
-      <div class="line"></div>
-      <div class="bio">
-        <h4>{{bio}}</h4>
-        <h5>Bio</h5>
+      <div class="container-photo">
+        <div class="photo">
+          <img :src="userImage" @click="handleChangeImage" />
+          <div v-show="updateImage" class="upload-image">
+            <input type="file" @change="onFileUpload" />
+          </div>
+          <div>
+          <button
+          v-show="updateImage"
+          class="button-update"
+            type="submit"
+            @click="updateProfile(inputName, inputUsername, inputPhoneNumber, inputBio, FILE)"
+          >update</button>
+        </div>
+        </div>
       </div>
-      <div class="settings">
-        <h3>Settings</h3>
-        <ul>
-          <li>
-            <i class="far fa-bell"></i> Notification and Sounds
-          </li>
-          <li>
-            <i class="fas fa-lock"></i> Privaty and Security
-          </li>
-          <li>
-            <i class="fas fa-chart-line"></i> Data and Stronge
-          </li>
-          <li>
-            <i class="far fa-list-alt"></i> Chat settings
-          </li>
-          <li>
-            <i class="fas fa-laptop"></i> Devices
-          </li>
-        </ul>
+      <div class="container-name">
+        <div class="name">
+          <h4 v-if="updateName" @click="handleChangeName">{{name}}</h4>
+          <div v-else>
+            <input v-model="inputName" :placeholder="name" />
+          </div>
+          <h5>@{{userName}}</h5>
+        </div>
       </div>
-    </div>
+      <div class="scroll">
+        <div class="account">
+          <h3>Account</h3>
+          <h4 v-if="updatePhoneNumber">{{phoneNumber}}</h4>
+          <div v-else>
+            <input v-model="inputPhoneNumber" :placeholder="phoneNumber" />
+          </div>
+          <h5 @click="handleChangeNumber">Tap to change phone number</h5>
+        </div>
+        <div class="line"></div>
+        <div class="username-setting">
+          <h4 v-if="updateUsername">@{{userName}}</h4>
+          <div v-else>
+            <input v-model="inputUsername" :placeholder="userName" />
+          </div>
+          <h5 @click="handleChangeUsername">Username</h5>
+        </div>
+        <div class="line"></div>
+        <div class="bio">
+          <h4 v-if="updateBio">{{bio}}</h4>
+          <div v-else>
+            <input v-model="inputBio" :placeholder="bio" />
+          </div>
+          <h5 @click="handleChangeBio">Bio</h5>
+        </div>
+        <div class="line"></div>
+        <div class="settings">
+          <h3>Settings</h3>
+          <ul>
+            <li>
+              <i class="far fa-bell"></i> Notification and Sounds
+            </li>
+            <li>
+              <i class="fas fa-lock"></i> Privaty and Security
+            </li>
+            <li>
+              <i class="fas fa-chart-line"></i> Data and Stronge
+            </li>
+            <li>
+              <i class="far fa-list-alt"></i> Chat settings
+            </li>
+            <li>
+              <i class="fas fa-laptop"></i> Devices
+            </li>
+          </ul>
+        </div>
+      </div>
+    </form>
   </div>
 </template>
 
@@ -62,8 +88,18 @@ export default {
   name: 'setting-profile',
   data () {
     return {
-      showPhone: true,
-      userphoneNumber: ''
+      // showPhone: true,
+      // userphoneNumber: '',
+      FILE: null,
+      inputName: '',
+      inputUsername: '',
+      inputPhoneNumber: '',
+      inputBio: '',
+      updateName: true,
+      updateUsername: true,
+      updatePhoneNumber: true,
+      updateBio: true,
+      updateImage: false
     }
   },
   computed: {
@@ -78,8 +114,59 @@ export default {
   methods: {
     ...mapActions(['logout']),
     ...mapActions(['updateUser']),
+    ...mapActions(['getUserId']),
+    ...mapActions(['getUserImage']),
+    ...mapActions(['getUserName']),
+    ...mapActions(['getName']),
+    ...mapActions(['getPhoneNumber']),
+    ...mapActions(['getBio']),
     handleClose () {
       this.$emit('handleClose', false)
+    },
+
+    onFileUpload (event) {
+      this.FILE = event.target.files[0]
+    },
+
+    updateProfile (inputName, inputUsername, inputPhoneNumber, inputBio, FILE) {
+      const data = {
+        name: inputName || this.name,
+        userName: inputUsername || this.userName,
+        phoneNumber: inputPhoneNumber || this.phoneNumber,
+        bio: inputBio || this.bio
+      }
+      this.updateUser(data)
+      this.getName(data.name)
+      this.getUserName(data.userName)
+      this.getPhoneNumber(data.phoneNumber)
+      this.getBio(data.bio)
+
+      // const formData = new FormData()
+      // formData.append('name', inputName)
+      // formData.append('userName', inputUsername)
+      // formData.append('image', FILE, FILE.name)
+      // formData.append('phoneNumber', inputPhoneNumber)
+      // formData.append('bio', inputBio)
+    },
+
+    handleChangeName () {
+      this.updateName = false
+    },
+    handleChangeNumber () {
+      this.updatePhoneNumber = false
+    },
+    handleChangeUsername () {
+      this.updateUsername = false
+    },
+    handleChangeBio () {
+      this.updateBio = false
+    },
+    handleChangeImage () {
+      if (this.updateImage === true) {
+        this.updateImage = false
+      } else {
+        this.updateImage = true
+      }
     }
   }
 }
@@ -139,6 +226,7 @@ export default {
   height: 100%;
   object-fit: cover;
   border-radius: 30px;
+  cursor: pointer;
 }
 
 .setting-profile .container-name {
@@ -148,7 +236,8 @@ export default {
   margin-top: 20px;
 }
 
-.setting-profile .name h4 {
+.setting-profile .name h4,
+.setting-profile .name input {
   font-family: Rubik;
   font-style: normal;
   font-weight: bold;
@@ -156,6 +245,15 @@ export default {
   line-height: 26px;
   letter-spacing: -0.165px;
   color: #232323;
+  cursor: pointer;
+}
+
+.setting-profile .name h4:hover {
+  color: red;
+}
+
+input {
+  border: none;
 }
 
 .setting-profile .name h5 {
@@ -193,7 +291,7 @@ export default {
   color: #232323;
 }
 
-.account h4 {
+.account h4, .account input {
   font-family: Rubik;
   font-style: normal;
   font-weight: normal;
@@ -232,7 +330,7 @@ export default {
   margin-top: 20px;
 }
 
-.username-setting h4 {
+.username-setting h4, .username-setting input {
   font-family: Rubik;
   font-style: normal;
   font-weight: 500;
@@ -261,7 +359,7 @@ export default {
   margin-top: 20px;
 }
 
-.bio h4 {
+.bio h4, .bio input {
   font-family: Rubik;
   font-style: normal;
   font-weight: 500;
@@ -321,6 +419,22 @@ export default {
 
 .settings ul li i {
   width: 20px;
+}
+
+.upload-image {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  position: absolute;
+  top: 40px;
+  left: 15px;
+}
+
+.button-update {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  position: absolute;
+  top: 40px;
+  left: 250px;
 }
 
 @media (max-width: 768px) {
