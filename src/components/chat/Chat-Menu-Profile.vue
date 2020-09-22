@@ -14,7 +14,7 @@
         <i class="far fa-bookmark"></i> Save messages
       </li>
       <li>
-        <i class="fas fa-user-plus"></i> Invite Frineds
+        <i class="fas fa-user-plus"></i> Invite Friends
       </li>
       <li>
         <i class="far fa-question-circle"></i> Telegrom FAQ
