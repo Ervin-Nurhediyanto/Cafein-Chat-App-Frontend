@@ -48,18 +48,25 @@
         <a href="#" @click="register">Sign Up</a>
       </p>
     </form>
+    <Notif v-show="showNotif"/>
   </div>
 </template>
 
 <script>
+import Notif from '../notif'
 import { mapGetters, mapActions } from 'vuex'
+// import Notif from '../notif'
 export default {
   name: 'Signin',
   data () {
     return {
       email: '',
-      password: ''
+      password: '',
+      showNotif: false
     }
+  },
+  components: {
+    Notif
   },
   computed: {
     ...mapGetters({
@@ -68,6 +75,8 @@ export default {
   },
   methods: {
     ...mapActions(['login']),
+    ...mapActions(['getNotif']),
+    ...mapActions(['getNotifActive']),
     handleLogin (e) {
       e.preventDefault()
       const data = {
@@ -76,7 +85,9 @@ export default {
       }
       this.login(data).then((res) => {
         this.$router.push('/')
+        this.$emit('closeNotif', false)
       })
+      this.$emit('openNotif', true)
     },
     forgotPass () {
       this.$router.push('/forgot-pass')

@@ -25,17 +25,23 @@
         <button type="submit" class="btn text-white" @click="handleForgotPass">Send</button>
       </div>
     </form>
+    <Notif v-show="showNotif"/>
   </div>
 </template>
 
 <script>
+import Notif from '../notif'
 import { mapActions } from 'vuex'
 export default {
   name: 'Reset',
   data () {
     return {
-      email: ''
+      email: '',
+      showNotif: false
     }
+  },
+  components: {
+    Notif
   },
   methods: {
     ...mapActions(['forgotPassword']),
@@ -46,9 +52,10 @@ export default {
         email: this.email
       }
       this.forgotPassword(data).then((res) => {
-        console.log(res.data.message)
-        alert(res.data.message)
+        // console.log(res.data.message)
+        // alert(res.data.message)
       })
+      this.$emit('openNotif', true)
     },
 
     back () {

@@ -2,9 +2,7 @@
   <div>
     <div class="row contact-chat">
       <div class="row contact-list-chat" v-for="user in allUser" :key="user.id">
-
         <div class="col-md-3 col-sm-3 container-photo pl-md-0 pr-md-0">
-
           <div v-if="user.image" class="photo">
             <img :src="user.image" @click="handleShowContact(user)" />
           </div>
@@ -12,22 +10,16 @@
           <div v-else class="photo">
             <img src="../../assets/Profile/pp.png" @click="handleShowContact(user)" />
           </div>
-
         </div>
 
         <div class="col-md-9 col-sm-9 scroll-edit p-md-0">
           <div class="row justify-content-between">
-            <div
-              class="col-md-8 col-sm-8 contact-info"
-              @click="handleOpenMessage(user)"
-            >
+            <div class="col-md-8 col-sm-8 contact-info" @click="handleOpenMessage(user)">
               <div class="row contact-name">
                 <h4>{{user.name}}</h4>
               </div>
               <div class="row last-chat">
-                <!-- <div v-for="message in messages" :key="message.id" class="row last-chat"> -->
                 <h4>Why did you do that?</h4>
-                <!-- <h4 v-if="message.id === idUser">{{message}}</h4> -->
               </div>
             </div>
             <div class="col-md-3 col-sm-3 time-info">
@@ -43,18 +35,20 @@
           </div>
           <div class="row contact-menu">
             <div class="row contact-menu-i justify-content-between">
-              <i class="fas fa-user-plus" @click="handleAddContact(user)"></i>
-              <!-- <i class="far fa-bookmark"></i> -->
+              <i v-if="!(user.idFriend)" class="fas fa-user-plus" @click="handleAddContact(user)"></i>
+              <i class="far fa-bookmark"></i>
               <i class="fas fa-check-double"></i>
-              <i class="far fa-trash-alt" @click="handleDeleteContact(user)"></i>
+              <i v-if="user.idFriend" class="far fa-trash-alt" @click="handleDeleteContact(user)"></i>
             </div>
           </div>
         </div>
-
       </div>
     </div>
-    <ContactInfo v-show="showContactInfo" :infoUser="infoUser"
-    v-on:handleClose="handleClose($event)" />
+    <ContactInfo
+      v-show="showContactInfo"
+      :infoUser="infoUser"
+      v-on:handleClose="handleClose($event)"
+    />
   </div>
 </template>
 
@@ -79,6 +73,7 @@ export default {
   methods: {
     ...mapActions(['addContact']),
     ...mapActions(['deleteContact']),
+    ...mapActions(['getNotif']),
     handleShowContact (user) {
       if (this.showContactInfo === false) {
         this.showContactInfo = true
@@ -88,19 +83,13 @@ export default {
       }
     },
 
-    // handleOpenMessage (user) {
-    //   this.headerMessage = user
-    //   this.$emit('headerMessage', this.headerMessage)
-    //   console.log('header: ' + this.headerMessage)
-    // },
-
     handleOpenMessage (user) {
       if (user.idFriend) {
         this.headerMessage = user
         this.$emit('headerMessage', this.headerMessage)
-        console.log('header: ' + this.headerMessage)
       } else {
-        alert('Not in contact')
+        this.getNotif('Not in contact')
+        this.$emit('openNotif', true)
       }
     },
 
@@ -110,27 +99,25 @@ export default {
 
     handleAddContact (user) {
       if (user.idFriend) {
-        alert('in contact')
+        this.getNotif('in contact')
       } else if (this.idUser === user.id) {
-        alert("can't add contact")
+        this.getNotif("can't add contact")
       } else {
         const data = {
           idUser: this.idUser,
           idFriend: user.id
         }
-        this.addContact(data).then((res) => {
-          alert(res.data.result)
-        })
+        this.addContact(data).then((res) => {})
+        this.$emit('openNotif', true)
       }
     },
     handleDeleteContact (user) {
       if (user.idFriend) {
-        // alert('siap didelete')
-        this.deleteContact(user.id).then((res) => {
-          alert(res.data.result)
-        })
+        this.deleteContact(user.id).then((res) => {})
+        this.$emit('openNotif', true)
       } else {
-        alert('Not in contact')
+        this.getNotif('Not in contact')
+        this.$emit('openNotif', true)
       }
     }
   }
@@ -445,13 +432,13 @@ export default {
 @media (max-width: 576px) {
   .mobile {
     display: inline;
-}
+  }
 
-.desktop {
-  display: none;
-}
+  .desktop {
+    display: none;
+  }
 
-   .contact-chat {
+  .contact-chat {
     height: 400px;
     /* height: 100px; */
     width: 400px;
@@ -487,7 +474,7 @@ export default {
     border-radius: 10px;
   }
 
-   .contact-chat .contact-name {
+  .contact-chat .contact-name {
     height: 50px;
     width: 200px;
     padding: 2px;
@@ -521,21 +508,21 @@ export default {
     font-size: 20px;
   }
 
-.contact-chat .scroll-edit {
-  display: flex;
-  flex-direction: column;
-  height: 100px;
-  /* width: 100%; */
-  width: 80%;
-  margin-left: 0;
-  margin-right: 0;
-  margin-top: 0;
-  padding-left: 0;
-  /* margin-bottom: 50px; */
-  /* padding: 0; */
-  overflow-y: scroll;
-  /* background-color: royalblue; */
-}
+  .contact-chat .scroll-edit {
+    display: flex;
+    flex-direction: column;
+    height: 100px;
+    /* width: 100%; */
+    width: 80%;
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: 0;
+    padding-left: 0;
+    /* margin-bottom: 50px; */
+    /* padding: 0; */
+    overflow-y: scroll;
+    /* background-color: royalblue; */
+  }
 
   .contact-info {
     /* background-color: blueviolet; */
@@ -578,7 +565,7 @@ export default {
     padding: 5px 8px 5px 8px;
   }
 
-   .contact-menu {
+  .contact-menu {
     width: 400px;
     height: 100px;
     margin-left: 0px;

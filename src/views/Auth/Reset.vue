@@ -1,6 +1,8 @@
 <template>
   <div class="login">
-    <Confirm />
+    <Confirm
+    v-on:openNotif="openNotif($event)"
+    v-on:closeNotif="closeNotif($event)" />
   </div>
 </template>
 
@@ -10,6 +12,14 @@ export default {
   name: 'Login',
   components: {
     Confirm
+  },
+  methods: {
+    openNotif () {
+      this.$emit('openNotif', true)
+    },
+    closeNotif () {
+      this.closeNotif('closeNotif', false)
+    }
   }
 }
 </script>

@@ -37,10 +37,12 @@
       </div>
       <div class="wrong" v-show="wrongPass"><h4>Password incorrect</h4></div>
     </form>
+    <Notif v-show="showNotif"/>
   </div>
 </template>
 
 <script>
+import Notif from '../notif'
 import { mapActions } from 'vuex'
 export default {
   name: 'Reset',
@@ -48,8 +50,12 @@ export default {
     return {
       password: '',
       conformPassword: '',
-      wrongPass: false
+      wrongPass: false,
+      showNotif: false
     }
+  },
+  components: {
+    Notif
   },
   methods: {
     ...mapActions(['resetPassword']),
@@ -63,7 +69,8 @@ export default {
         this.resetPassword(data).then((res) => {
         })
         this.$router.push('/')
-        alert('reset password success')
+        // alert('reset password success')
+        this.$emit('openNotif', true)
       } else {
         this.wrongPass = true
       }

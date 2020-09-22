@@ -7,6 +7,7 @@
         :messages="messages"
         v-on:headerMessage="headerMessage($event)"
         v-on:starChat="starChat($event)"
+        v-on:openNotif="openNotif($event)"
       />
     </div>
     <div class="Message">
@@ -148,6 +149,9 @@ export default {
           alert(error)
         }
       )
+    },
+    openNotif () {
+      this.$emit('openNotif', true)
     }
   }
 }

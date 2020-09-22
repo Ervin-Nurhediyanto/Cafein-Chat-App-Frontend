@@ -17,7 +17,9 @@ export default new Vuex.Store({
     phoneNumber: localStorage.getItem('phoneNumber') || null,
     bio: localStorage.getItem('bio') || null,
     allUser: [],
-    location: null
+    location: null,
+    notif: '',
+    notifActive: false
   },
   mutations: {
     setUser (state, payload) {
@@ -48,6 +50,12 @@ export default new Vuex.Store({
       state.name = payload.name
       state.phoneNumber = payload.phoneNumber
       state.bio = payload.bio
+    },
+    setNotif (state, payload) {
+      state.notif = payload
+    },
+    setNotifActive (state, payload) {
+      state.notifActive = payload
     }
   },
   actions: {
@@ -72,6 +80,10 @@ export default new Vuex.Store({
       })
     },
     login (setex, payload) {
+      setex.commit('setNotif', 'loading')
+      if (!payload.email) {
+        setex.commit('setNotif', 'Please insert your email')
+      }
       return new Promise((resolve, reject) => {
         axios.post(process.env.VUE_APP_BASE_URL + '/users/login/', payload)
           .then((res) => {
@@ -83,50 +95,62 @@ export default new Vuex.Store({
             localStorage.setItem('phoneNumber', this.state.phoneNumber)
             localStorage.setItem('bio', this.state.bio)
             localStorage.setItem('userId', this.state.userId)
+            setex.commit('setNotif', 'Wellcome ' + res.data.result.name)
             resolve(res.data.result[0])
           })
           .catch((err) => {
-            alert(err.response.data.result)
+            // alert(err.response.data.result)
+            setex.commit('setNotif', err.response.data.result)
+            setex.commit('setNotifActive', true)
             reject(err)
           })
       })
     },
     register (setex, payload) {
+      setex.commit('setNotif', 'loading')
       return new Promise((resolve, reject) => {
         axios.post(process.env.VUE_APP_BASE_URL + '/users/register/', payload)
           .then((res) => {
+            setex.commit('setNotif', res.data.result)
             resolve(res.data.result[0])
           })
           .catch((err) => {
-            alert(err.response.data.result)
+            // alert(err.response.data.result)
+            setex.commit('setNotif', err.response.data.result)
             reject(err)
           })
       })
     },
     forgotPassword (setex, payload) {
-      console.log(payload)
+      setex.commit('setNotif', 'loading')
+      // console.log(payload)
       return new Promise((resolve, reject) => {
         axios.post(process.env.VUE_APP_BASE_URL + '/users/forgotpassword/', payload)
           .then((res) => {
             setex.commit('setResetId', res.data.result)
             localStorage.setItem('resetId', this.state.resetId)
-            console.log(res.data.message)
+            // console.log(res.data.message)
+            setex.commit('setNotif', res.data.message)
             resolve(res)
           })
           .catch((err) => {
+            setex.commit('setNotif', err.response.data.result)
             reject(err)
           })
       })
     },
     resetPassword (setex, payload) {
-      console.log(payload)
+      // console.log(payload)
+      setex.commit('setNotif', 'loading')
       return new Promise((resolve, reject) => {
         axios.patch(process.env.VUE_APP_BASE_URL + `/users/resetpassword/${this.state.resetId}`, payload)
           .then((res) => {
-            console.log(res.data.message)
+            // console.log(res.data.message)
+            setex.commit('setNotif', 'reset password success')
             resolve(res)
           })
           .catch((err) => {
+            setex.commit('setNotif', err.response.data.result)
             reject(err)
           })
       })
@@ -228,23 +252,30 @@ export default new Vuex.Store({
       })
     },
     addContact (setex, payload) {
+      setex.commit('setNotif', 'loading')
       return new Promise((resolve, reject) => {
         axios.post(process.env.VUE_APP_BASE_URL + '/contacts', payload)
           .then((res) => {
+            setex.commit('setNotif', res.data.result)
             resolve(res)
           })
           .catch((err) => {
+            setex.commit('setNotif', err.response.data.result)
             reject(err)
           })
       })
     },
     deleteContact (setex, payload) {
+      setex.commit('setNotif', 'loading')
       return new Promise((resolve, reject) => {
         axios.delete(process.env.VUE_APP_BASE_URL + '/contacts/' + payload)
           .then((res) => {
+            setex.commit('setNotif', res.data.result)
+            // alert(res.data.result)
             resolve(res)
           })
           .catch((err) => {
+            setex.commit('setNotif', err.response.data.result)
             reject(err)
           })
       })
@@ -266,6 +297,13 @@ export default new Vuex.Store({
     },
     getBio (setex, payload) {
       localStorage.setItem('bio', payload)
+    },
+    getNotif (setex, payload) {
+      setex.commit('setNotif', 'loading')
+      setex.commit('setNotif', payload)
+    },
+    getNotifActive (setex, payload) {
+      setex.commit('setNotifActive', payload)
     }
   },
   getters: {
@@ -304,6 +342,12 @@ export default new Vuex.Store({
     },
     location (state) {
       return state.location
+    },
+    notif (state) {
+      return state.notif
+    },
+    notifActive (state) {
+      return state.notifActive
     }
   },
   modules: {

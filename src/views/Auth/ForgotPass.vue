@@ -1,6 +1,8 @@
 <template>
   <div class="login">
-    <Reset />
+    <Reset
+    v-on:openNotif="openNotif($event)"
+    v-on:closeNotif="closeNotif($event)" />
   </div>
 </template>
 
@@ -10,6 +12,14 @@ export default {
   name: 'Login',
   components: {
     Reset
+  },
+  methods: {
+    openNotif () {
+      this.$emit('openNotif', true)
+    },
+    closeNotif () {
+      this.closeNotif('closeNotif', false)
+    }
   }
 }
 </script>

@@ -1,6 +1,8 @@
 <template>
   <div class="signUp">
-    <SignUp />
+    <SignUp
+    v-on:openNotif="openNotif($event)"
+    v-on:closeNotif="closeNotif($event)" />
   </div>
 </template>
 
@@ -10,6 +12,14 @@ export default {
   name: 'Register',
   components: {
     SignUp
+  },
+  methods: {
+    openNotif () {
+      this.$emit('openNotif', true)
+    },
+    closeNotif () {
+      this.closeNotif('closeNotif', false)
+    }
   }
 }
 </script>

@@ -60,10 +60,12 @@
         <button type="submit" class="btn text-blue">Google</button>
       </div>
     </form>
+    <Notif v-show="showNotif"/>
   </div>
 </template>
 
 <script>
+import Notif from '../notif'
 import { mapGetters, mapActions } from 'vuex'
 export default {
   name: 'Register',
@@ -71,13 +73,17 @@ export default {
     return {
       name: '',
       email: '',
-      password: ''
+      password: '',
+      showNotif: false
     }
   },
   computed: {
     ...mapGetters({
       user: 'user'
     })
+  },
+  components: {
+    Notif
   },
   methods: {
     ...mapActions(['register']),
@@ -94,6 +100,7 @@ export default {
       this.register(data).then((res) => {
         this.$router.push('/login')
       })
+      this.$emit('openNotif', true)
     }
   }
 }

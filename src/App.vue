@@ -1,25 +1,41 @@
 <template>
   <div id="app">
-    <!-- <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div> -->
-    <router-view/>
+    <router-view
+    v-on:closeNotif="closeNotif($event)"
+    v-on:openNotif="openNotif($event)" />
+    <Notif
+    v-show="notifActive"
+    v-on:closeNotif="closeNotif($event)" />
   </div>
 </template>
 <script>
 import { mapGetters, mapActions } from 'vuex'
+import Notif from './components/_base/notif'
 export default {
   components: {
+    Notif
   },
   computed: {
     ...mapGetters({
       token: 'token'
+      // notifActive: 'notifActive'
     })
+  },
+  data () {
+    return {
+      notifActive: false
+    }
   },
   methods: {
     ...mapActions(['interceptorsRequest']),
-    ...mapActions(['interceptorsResponse'])
+    ...mapActions(['interceptorsResponse']),
+
+    closeNotif () {
+      this.notifActive = false
+    },
+    openNotif () {
+      this.notifActive = true
+    }
   },
   created () {
     this.interceptorsRequest()

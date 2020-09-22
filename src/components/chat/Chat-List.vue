@@ -30,7 +30,8 @@
       :allUser="allUser"
       :idUser="idUser"
       :messages="messages"
-      v-on:headerMessage="headerMessage($event)" />
+      v-on:headerMessage="headerMessage($event)"
+      v-on:openNotif="openNotif($event)" />
     </div>
   </div>
 </template>
@@ -98,6 +99,9 @@ export default {
       } else {
         this.activeSearch = false
       }
+    },
+    openNotif () {
+      this.$emit('openNotif', true)
     }
   }
 }
