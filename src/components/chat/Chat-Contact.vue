@@ -43,9 +43,10 @@
           </div>
           <div class="row contact-menu">
             <div class="row contact-menu-i justify-content-between">
-              <i class="far fa-bookmark"></i>
+              <i class="fas fa-user-plus" @click="handleAddContact(user)"></i>
+              <!-- <i class="far fa-bookmark"></i> -->
               <i class="fas fa-check-double"></i>
-              <i class="far fa-trash-alt"></i>
+              <i class="far fa-trash-alt" @click="handleDeleteContact(user)"></i>
             </div>
           </div>
         </div>
@@ -58,6 +59,7 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 import ContactInfo from './Chat-Contact-Info'
 import io from 'socket.io-client'
 export default {
@@ -75,6 +77,8 @@ export default {
     ContactInfo
   },
   methods: {
+    ...mapActions(['addContact']),
+    ...mapActions(['deleteContact']),
     handleShowContact (user) {
       if (this.showContactInfo === false) {
         this.showContactInfo = true
@@ -84,24 +88,50 @@ export default {
       }
     },
 
-    handleOpenMessage (user) {
-      this.headerMessage = user
-      this.$emit('headerMessage', this.headerMessage)
-      console.log('header: ' + this.headerMessage)
+    // handleOpenMessage (user) {
+    //   this.headerMessage = user
+    //   this.$emit('headerMessage', this.headerMessage)
+    //   console.log('header: ' + this.headerMessage)
+    // },
 
-      // this.socket.emit(
-      //   'sendMessage',
-      //   {
-      //     socketId: user.id
-      //   },
-      //   (error) => {
-      //     alert(error)
-      //   }
-      // )
+    handleOpenMessage (user) {
+      if (user.idFriend) {
+        this.headerMessage = user
+        this.$emit('headerMessage', this.headerMessage)
+        console.log('header: ' + this.headerMessage)
+      } else {
+        alert('Not in contact')
+      }
     },
 
     handleClose (handleClose) {
       this.showContactInfo = false
+    },
+
+    handleAddContact (user) {
+      if (user.idFriend) {
+        alert('in contact')
+      } else if (this.idUser === user.id) {
+        alert("can't add contact")
+      } else {
+        const data = {
+          idUser: this.idUser,
+          idFriend: user.id
+        }
+        this.addContact(data).then((res) => {
+          alert(res.data.result)
+        })
+      }
+    },
+    handleDeleteContact (user) {
+      if (user.idFriend) {
+        // alert('siap didelete')
+        this.deleteContact(user.id).then((res) => {
+          alert(res.data.result)
+        })
+      } else {
+        alert('Not in contact')
+      }
     }
   }
 }
