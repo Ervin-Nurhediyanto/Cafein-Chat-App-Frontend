@@ -1,15 +1,41 @@
 <template>
   <div class="row scroll-x d-flex justify-content-between">
-    <h4>All</h4>
-    <h4>Important</h4>
-    <h4>Unread</h4>
-    <!-- <h4>Read</h4> -->
+    <h4 v-if="all" @click="handleAllUser">All</h4>
+    <h4 v-else class="actived">All</h4>
+    <h4 v-if="contact" @click="handleContact">Contact</h4>
+    <h4 v-else class="actived">Contact</h4>
+    <h4>Group</h4>
   </div>
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 export default {
-  name: 'Chat-Scroll-x'
+  name: 'Chat-Scroll-x',
+  data () {
+    return {
+      all: true,
+      contact: true,
+      group: true
+    }
+  },
+  methods: {
+    ...mapActions(['getAllUser']),
+    ...mapActions(['getAllContact']),
+
+    handleAllUser () {
+      this.getAllUser()
+      this.all = false
+      this.contact = true
+      this.group = true
+    },
+    handleContact () {
+      this.getAllContact()
+      this.all = true
+      this.contact = false
+      this.group = true
+    }
+  }
 }
 </script>
 
@@ -29,6 +55,16 @@ export default {
 }
 
 .scroll-x h4:active {
+  background-color: #7e98df;
+  border-radius: 15px;
+  min-width: 40px;
+  min-height: 30px;
+  font-size: 15px;
+  padding: 8px;
+  color: #ffffff;
+}
+
+.scroll-x h4.actived {
   background-color: #7e98df;
   border-radius: 15px;
   min-width: 40px;
