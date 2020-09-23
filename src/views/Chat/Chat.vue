@@ -17,6 +17,7 @@
         v-on:handleLocation="handleLocation($event)"
         v-on:sendMessage="messageOk($event)"
         v-on:closeChat="closeChat($event)"
+        v-on:openNotif="openNotif($event)"
         :messages="messages"
         :userId="idUser"
         :headerMess="headerMess"
@@ -27,6 +28,7 @@
         v-on:handleLocation="handleLocation($event)"
         v-on:sendMessage="messageOk($event)"
         v-on:closeChat="closeChat($event)"
+        v-on:openNotif="openNotif($event)"
         :messages="messages"
         :userId="idUser"
         :headerMess="headerMess"
@@ -117,20 +119,10 @@ export default {
       this.idUser = Number(this.userId)
     },
     headerMessage (headerMessage) {
-      // console.log(headerMessage)
       this.headerMess = headerMessage
-      // if (this.empty === true) {
-      //   this.empty = false
-      // } else {
-      //   this.empty = true
-      // }
-      // if (this.showChat === true) {
-      //   this.showChat = false
-      // } else {
-      //   this.showChat = true
-      // }
       this.empty = false
       this.showChat = true
+      this.messages = []
     },
     closeChat (closeChat) {
       this.showChat = false

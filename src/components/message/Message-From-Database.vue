@@ -1,86 +1,56 @@
 <template>
   <div>
-    <div class="scroll-chat">
-      <div class="row body-message">
-        <MessageDB :userId="userId" :headerMess="headerMess" v-on:editChat="editChat($event)" v-on:openNotif="openNotif($event)"/>
-        <div v-for="(message, index) in messages" :key="index">
-          <div v-if="message.socketId === headerMess.id">
+    <div v-for="(message) in privateChat" :key="message.id">
+      <div v-if="message.idContact === headerMess.id">
+        <div v-if="userId != message.idSender">
+          <div class="other" v-show="true">
+            <div class="row">
+              <div v-if="message.image" class="body-photo">
+                <img :src="message.image" />
+              </div>
 
-          <div v-if="userId != message.userId">
-            <div class="other" v-show="true">
-              <div class="row">
+              <div v-else class="body-photo">
+                <img src="../../assets/Profile/pp.png" />
+              </div>
 
-                <div v-if="message.image" class="body-photo">
-                  <img :src="message.image" />
-                </div>
-
-                <div v-else class="body-photo">
-                  <img src="../../assets/Profile/pp.png" />
-                </div>
-
-                <div class="message-other">
-                  <h4>{{message.message}}</h4>
-                  <Maps v-if="message.location"
-                  :locLat="message.location.lat"
-                  :locLng="message.location.lng"/>
-                </div>
+              <div class="message-other">
+                <h4>{{message.chat}}</h4>
+                <Maps
+                  v-if="message.lat && message.lng"
+                  :locLat="message.lat"
+                  :locLng="message.lng"
+                />
               </div>
             </div>
           </div>
-
-          <div v-else>
-            <div class="user" v-show="true">
-              <div class="row">
-                <div class="message-user">
-                  <h4>{{message.message}}</h4>
-                  <Maps v-if="message.location"
-                  :locLat="message.location.lat"
-                  :locLng="message.location.lng"/>
-                </div>
-
-                <div v-if="userImage" class="body-photo-user">
-                  <img :src="userImage" />
-                </div>
-
-                <div v-else class="body-photo-user">
-                  <img src="../../assets/Profile/pp.png" />
-                </div>
-
-              </div>
-            </div>
-          </div>
-
-          </div>
         </div>
-      </div>
-    </div>
-    <div class="row input-text">
-      <div class="row input-chat">
-        <div v-if="input">
-          <input
-            type="text"
-            v-model="chat"
-            @keyup.enter="handleMessage"
-            placeholder="Type your message..."
-          />
-        </div>
+
         <div v-else>
-          <input
-            type="text"
-            v-model="chat"
-            @keyup.enter="handleEdit"
-            placeholder="Edit your message..."
-          />
+          <div class="user" v-show="true">
+            <div class="row">
+              <div class="col">
+                <div v-show="action" @click="handleEditChat(message.id)" class="edit-chat"><i class="far fa-edit"></i></div>
+                <div v-show="action" @click="handleDeleteChat(message.id)" class="delete-chat"><i class="fas fa-trash-alt"></i></div>
+              </div>
+              <div class="message-user">
+                <h4 @click="handleAction">{{message.chat}}</h4>
+                <Maps
+                  v-if="message.lat && message.lng"
+                  :locLat="message.lat"
+                  :locLng="message.lng"
+                />
+              </div>
+
+              <div v-if="userImage" class="body-photo-user">
+                <img :src="userImage" />
+              </div>
+
+              <div v-else class="body-photo-user">
+                <img src="../../assets/Profile/pp.png" />
+              </div>
+            </div>
+          </div>
         </div>
-        <div>
-          <i class="fas fa-plus" @click="handleAdd"></i>
-          <i class="fas fa-surprise"></i>
-          <i class="fas fa-microphone"></i>
-        </div>
-        <MessageAdd v-show="showAdd"
-        v-on:handleLocation="handleLocation($event)"
-        :userId="userId"
-        :socketId="headerMess.id" />
       </div>
     </div>
   </div>
@@ -88,100 +58,36 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
-import MessageDB from './Message-From-Database'
-import MessageAdd from './Message-Add'
-import Maps from '../_base/location'
-import io from 'socket.io-client'
 export default {
-  name: 'Message-Body',
-  props: ['messages', 'userId', 'headerMess'],
+  name: 'Message-From_DB',
+  props: ['userId', 'headerMess'],
   data () {
     return {
-      socket: io('http://localhost:4000'),
-      chat: '',
-      showAdd: false,
-      location: null,
-      input: true,
-      idChatEdit: null
+      action: false
     }
-  },
-  components: {
-    MessageDB,
-    MessageAdd,
-    Maps
   },
   computed: {
     ...mapGetters({
-      userImage: 'userImage',
-      privateChat: 'privateChat'
+      privateChat: 'privateChat',
+      userImage: 'userImage'
     })
   },
-  mounted () {},
   methods: {
-    ...mapActions(['sendPrivateMessage']),
-    ...mapActions(['editMessage']),
-    ...mapActions(['getPrivateChat']),
-    handleMessage () {
-      const send = {
-        idContact: this.headerMess.id,
-        idSender: this.userId,
-        chat: this.chat,
-        lat: '',
-        lng: ''
+    ...mapActions(['deleteMessage']),
+    handleAction () {
+      if (this.action === false) {
+        this.action = true
+      } else {
+        this.action = false
       }
-      this.sendPrivateMessage(send)
-        .then((res) => {
-        })
-
-      const data = {
-        socketId: this.headerMess.id,
-        message: this.chat
-      }
-      this.$emit('handleMessage', data)
-      this.chat = null
     },
-
-    handleEdit () {
-      // alert('ini edit message')
-      const massage = {
-        chat: this.chat
-      }
-
-      const data = {
-        id: this.idChatEdit,
-        chat: massage
-      }
-      // alert(`ini id: ${data.id}, ini chat: ${data.chat.chat}`)
-      this.editMessage(data).then((res) => {
+    handleEditChat (idChat) {
+      this.$emit('editChat', idChat)
+    },
+    handleDeleteChat (idChat) {
+      this.deleteMessage(idChat).then((res) => {
         // alert(res.data.result)
       })
-      this.getPrivateChat(this.headerMess.id)
-      this.$emit('openNotif', true)
-      this.chat = null
-    },
-
-    editChat (editChat) {
-      if (this.input === true) {
-        this.input = false
-        this.idChatEdit = editChat
-      } else {
-        this.input = true
-      }
-    },
-
-    handleAdd () {
-      if (this.showAdd === false) {
-        this.showAdd = true
-      } else {
-        this.showAdd = false
-      }
-    },
-    handleLocation (handleLocation) {
-      this.location = handleLocation
-      this.$emit('handleLocation', handleLocation)
-    },
-
-    openNotif () {
       this.$emit('openNotif', true)
     }
   }
@@ -189,6 +95,26 @@ export default {
 </script>
 
 <style scoped>
+.edit-chat {
+  width: 20px;
+  height: 20px;
+}
+
+.edit-chat i {
+  color: blue;
+  font-weight: bold;
+}
+
+.delete-chat {
+   width: 20px;
+  height: 20px;
+}
+
+.delete-chat {
+  color: red;
+  font-weight: bold;
+}
+
 .body-message {
   height: 100%;
   width: 100%;

@@ -19,7 +19,8 @@ export default new Vuex.Store({
     allUser: [],
     location: null,
     notif: '',
-    notifActive: false
+    notifActive: false,
+    privateChat: []
   },
   mutations: {
     setUser (state, payload) {
@@ -56,6 +57,9 @@ export default new Vuex.Store({
     },
     setNotifActive (state, payload) {
       state.notifActive = payload
+    },
+    setPrivateChat (state, payload) {
+      state.privateChat = payload
     }
   },
   actions: {
@@ -280,6 +284,57 @@ export default new Vuex.Store({
           })
       })
     },
+    getPrivateChat (setex, payload) {
+      return new Promise((resolve, reject) => {
+        axios.get(process.env.VUE_APP_BASE_URL + '/chats/?idContact=' + payload)
+          .then((res) => {
+            setex.commit('setPrivateChat', res.data.result)
+            resolve(res)
+          })
+          .catch((err) => {
+            reject(err)
+          })
+      })
+    },
+    sendPrivateMessage (setex, payload) {
+      return new Promise((resolve, reject) => {
+        axios.post(process.env.VUE_APP_BASE_URL + '/chats', payload)
+          .then((res) => {
+            resolve(res)
+          })
+          .catch((err) => {
+            reject(err)
+          })
+      })
+    },
+    editMessage (setex, payload) {
+      setex.commit('setNotif', 'loading')
+      // alert(payload.id + payload.chat.chat)
+      return new Promise((resolve, reject) => {
+        axios.patch(process.env.VUE_APP_BASE_URL + `/chats/${payload.id}`, payload.chat)
+          .then((res) => {
+            setex.commit('setNotif', res.data.result)
+            resolve(res)
+          })
+          .catch((err) => {
+            reject(err)
+          })
+      })
+    },
+    deleteMessage (setex, payload) {
+      setex.commit('setNotif', 'loading')
+      // alert(payload.id + payload.chat.chat)
+      return new Promise((resolve, reject) => {
+        axios.delete(process.env.VUE_APP_BASE_URL + '/chats/' + payload)
+          .then((res) => {
+            setex.commit('setNotif', res.data.result)
+            resolve(res)
+          })
+          .catch((err) => {
+            reject(err)
+          })
+      })
+    },
     getLocation (setex, payload) {
       setex.commit('setLocation', payload)
     },
@@ -348,6 +403,9 @@ export default new Vuex.Store({
     },
     notifActive (state) {
       return state.notifActive
+    },
+    privateChat (state) {
+      return state.privateChat
     }
   },
   modules: {

@@ -6,6 +6,7 @@
     v-on:handleMessage="sendMessage($event)"
     v-on:closeChat="closeChat($event)"
     v-on:handleLocation="handleLocation($event)"
+    v-on:openNotif="openNotif($event)"
     :messages="messages"
     :userId="userId"
     :headerMess="headerMess" />
@@ -52,6 +53,9 @@ export default {
     handleLocation (handleLocation) {
       this.location = handleLocation
       this.$event('handleLocation', handleLocation)
+    },
+    openNotif () {
+      this.$emit('openNotif', true)
     }
   }
 }

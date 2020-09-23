@@ -74,6 +74,7 @@ export default {
     ...mapActions(['addContact']),
     ...mapActions(['deleteContact']),
     ...mapActions(['getNotif']),
+    ...mapActions(['getPrivateChat']),
     handleShowContact (user) {
       if (this.showContactInfo === false) {
         this.showContactInfo = true
@@ -87,6 +88,8 @@ export default {
       if (user.idFriend) {
         this.headerMessage = user
         this.$emit('headerMessage', this.headerMessage)
+        // alert(user.id)
+        this.getPrivateChat(user.id)
       } else {
         this.getNotif('Not in contact')
         this.$emit('openNotif', true)
