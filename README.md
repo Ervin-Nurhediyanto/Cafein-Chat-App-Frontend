@@ -79,7 +79,7 @@ npm run build
 
 ## Demo Project
 
-Project demo is available at [http://cafein-coffee.fwdev.online/](http://cafein-coffee.fwdev.online/)
+Project demo is available at [http://cafein-chat-app.fwdev.online/](http://cafein-chat-app.fwdev.online/)
 
 <!-- CONTACT -->
 ## Contact
