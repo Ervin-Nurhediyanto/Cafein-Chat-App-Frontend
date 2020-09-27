@@ -73,6 +73,7 @@ npm run build
       <image width="200" src='./src/assets/Screenshoot-realtime-chat/chat-send-location.png' />
       <image width="200" src='./src/assets/Screenshoot-realtime-chat/add-contact-success.png' />
       <image width="200" src='./src/assets/Screenshoot-realtime-chat/edit-message-success.png' />
+      <image width="200" src='./src/assets/Screenshoot-realtime-chat/chat-image.png' />
       
 ## Related Project
 * [`Cafein-Chat-App-Backend`](https://github.com/Ervin-Nurhediyanto/Cafein-Chat-App-Backend)
