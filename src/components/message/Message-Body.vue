@@ -28,7 +28,9 @@
                       :locLat="message.location.lat"
                       :locLng="message.location.lng"
                     />
-                    <img v-if="message.imageChat" :src="message.imageChat">
+                    <div class="chat-image">
+                      <img v-if="message.imageChat" :src="message.imageChat">
+                    </div>
                   </div>
                 </div>
               </div>
@@ -45,7 +47,9 @@
                       :locLat="message.location.lat"
                       :locLng="message.location.lng"
                     />
-                    <img v-if="message.imageChat" :src="message.imageChat">
+                    <div class="chat-image">
+                      <img v-if="message.imageChat" :src="message.imageChat">
+                    </div>
                   </div>
 
                   <div v-if="userImage" class="body-photo-user">
@@ -400,6 +404,17 @@ export default {
   font-size: 20px;
   cursor: pointer;
   color: red;
+}
+
+.chat-image {
+  max-height: 300px;
+  max-width: 300px
+}
+
+.chat-image img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
 }
 
 @media (max-width: 768px) {

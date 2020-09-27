@@ -143,13 +143,11 @@ export default {
 
       const formData = new FormData()
       formData.append('image', this.FILE, this.FILE.name)
-      this.uploadImg(formData)
-
-      // this.getUserId(this.userId).then((res) => {
-      // alert(this.FILE.name)
-      // this.getUserImage('http://localhost:4000/uploads/1600769544847-bae-suzy.jpg')
-      // this.getUserImage(res.data.result.image)
-      // })
+      this.uploadImg(formData).then((res) => {
+        this.getUserId(this.userId).then((res) => {
+          this.getUserImage(res.data.result[0].image)
+        })
+      })
     },
 
     handleChangeName () {

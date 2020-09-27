@@ -4,7 +4,7 @@
       <i class="fas fa-window-close"></i>
     </div>
     <div class="message">
-      <h4>{{notif}}</h4>
+      <h4>{{ notif }}</h4>
     </div>
   </div>
 </template>
@@ -14,8 +14,7 @@ import { mapGetters, mapActions } from 'vuex'
 export default {
   name: 'Notif',
   data () {
-    return {
-    }
+    return {}
   },
   computed: {
     ...mapGetters({
@@ -56,12 +55,48 @@ export default {
 }
 
 .message {
-    margin-top: 20px;
+  margin-top: 20px;
 }
 
 .message h4 {
-    text-align: center;
+  text-align: center;
+  font-size: 20px;
+  font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
+}
+
+@media (max-width: 768px) {
+  .notif {
+    top: 5px;
+    left: 200px;
+    width: 250px;
+    height: 50px;
+  }
+
+  .close i {
     font-size: 20px;
-    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  }
+
+  .message h4 {
+    font-size: 16px;
+    font-weight: bold;
+  }
+
+@media (max-width: 576px) {
+  .notif {
+    top: 5px;
+    left: 60px;
+    width: 250px;
+    height: 50px;
+  }
+
+  .close i {
+    font-size: 20px;
+  }
+
+  .message h4 {
+    font-size: 16px;
+    font-weight: bold;
+  }
+}
 }
 </style>>

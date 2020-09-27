@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-for="(message) in privateChat" :key="message.id">
+    <div v-for="message in privateChat" :key="message.id">
       <div v-if="message.idContact === headerMess.id">
         <div v-if="userId != message.idSender">
           <div class="other" v-show="true">
@@ -14,7 +14,7 @@
               </div>
 
               <div v-if="message.chat" class="message-other">
-                <h4>{{message.chat}}</h4>
+                <h4>{{ message.chat }}</h4>
               </div>
 
               <div v-if="message.lat && message.lng" class="message-other">
@@ -25,9 +25,10 @@
               </div>
 
               <div v-if="message.imageChat" class="message-other">
-                <img :src="message.imageChat">
+                <div class="chat-image">
+                  <img :src="message.imageChat" />
+                </div>
               </div>
-
             </div>
           </div>
         </div>
@@ -36,15 +37,32 @@
           <div class="user" v-show="true">
             <div class="row">
               <div class="col">
-                <div v-show="action" v-if="message.chat" @click="handleEditChat(message.id)" class="edit-chat"><i class="far fa-edit"></i></div>
-                <div v-show="action" @click="handleDeleteChat(message.id)" class="delete-chat"><i class="fas fa-trash-alt"></i></div>
+                <div
+                  v-show="action"
+                  v-if="message.chat"
+                  @click="handleEditChat(message.id)"
+                  class="edit-chat"
+                >
+                  <i class="far fa-edit"></i>
+                </div>
+                <div
+                  v-show="action"
+                  @click="handleDeleteChat(message.id)"
+                  class="delete-chat"
+                >
+                  <i class="fas fa-trash-alt"></i>
+                </div>
               </div>
 
               <div v-if="message.chat" class="message-user">
-                <h4 @click="handleAction">{{message.chat}}</h4>
+                <h4 @click="handleAction">{{ message.chat }}</h4>
               </div>
 
-              <div v-if="message.lat && message.lng" class="message-user" @click="handleAction">
+              <div
+                v-if="message.lat && message.lng"
+                class="message-user"
+                @click="handleAction"
+              >
                 <Maps
                   :locLat="Number(message.lat)"
                   :locLng="Number(message.lng)"
@@ -52,14 +70,28 @@
               </div>
 
               <div v-if="message.imageChat" class="message-user">
-                <img :src="message.imageChat" @click="handleAction">
+                <div class="chat-image">
+                  <img :src="message.imageChat" @click="handleAction" />
+                </div>
               </div>
 
-              <div v-if="userImage && (message.chat || message.imageChat || message.lat)" class="body-photo-user">
+              <div
+                v-if="
+                  userImage &&
+                  (message.chat || message.imageChat || message.lat)
+                "
+                class="body-photo-user"
+              >
                 <img :src="userImage" />
               </div>
 
-              <div v-if="!(userImage) && (message.chat || message.imageChat || message.lat)" class="body-photo-user">
+              <div
+                v-if="
+                  !userImage &&
+                  (message.chat || message.imageChat || message.lat)
+                "
+                class="body-photo-user"
+              >
                 <img src="../../assets/Profile/pp.png" />
               </div>
             </div>
@@ -124,7 +156,7 @@ export default {
 }
 
 .delete-chat {
-   width: 20px;
+  width: 20px;
   height: 20px;
 }
 
@@ -267,6 +299,17 @@ export default {
   height: 30px;
 }
 
+.chat-image {
+  max-height: 300px;
+  max-width: 300px;
+}
+
+.chat-image img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+
 @media (max-width: 768px) {
   .body-message {
     min-height: 240px;
@@ -374,7 +417,7 @@ export default {
     justify-content: flex-end;
   }
 
-   .body-message .other {
+  .body-message .other {
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
