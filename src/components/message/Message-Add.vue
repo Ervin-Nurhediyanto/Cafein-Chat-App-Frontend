@@ -74,20 +74,6 @@ export default {
         lng: this.location.lng
       }
       this.sendPrivateMessage(data).then((res) => {})
-
-      // this.socket.emit(
-      //   'sendMessage',
-      //   {
-      //     message: null,
-      //     userId: this.userId,
-      //     image: this.userImage,
-      //     socketId: this.socketId,
-      //     location: this.location
-      //   },
-      //   (error) => {
-      //     alert(error)
-      //   }
-      // )
     },
     handleImage () {
       this.$emit('handleImage', 'open image')
