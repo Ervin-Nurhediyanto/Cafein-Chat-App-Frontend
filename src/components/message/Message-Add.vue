@@ -1,7 +1,7 @@
 <template>
   <div class="message-add">
     <ul>
-      <li>
+      <li @click="handleImage">
         <i class="fas fa-image"></i> Image
       </li>
       <li>
@@ -44,25 +44,53 @@ export default {
   },
   methods: {
     ...mapActions(['getLocation']),
+    ...mapActions(['sendPrivateMessage']),
     handleLocation () {
       this.$getLocation()
         .then(coordinates => {
           this.location.lat = coordinates.lat
           this.location.lng = coordinates.lng
+
+          this.socket.emit(
+            'sendMessage',
+            {
+              message: null,
+              userId: this.userId,
+              image: this.userImage,
+              socketId: this.socketId,
+              location: this.location
+            },
+            (error) => {
+              alert(error)
+            }
+          )
         })
-      this.socket.emit(
-        'sendMessage',
-        {
-          message: null,
-          userId: this.userId,
-          image: this.userImage,
-          socketId: this.socketId,
-          location: this.location
-        },
-        (error) => {
-          alert(error)
-        }
-      )
+
+      // save to database
+      const data = {
+        idContact: this.socketId,
+        idSender: this.userId,
+        lat: this.location.lat,
+        lng: this.location.lng
+      }
+      this.sendPrivateMessage(data).then((res) => {})
+
+      // this.socket.emit(
+      //   'sendMessage',
+      //   {
+      //     message: null,
+      //     userId: this.userId,
+      //     image: this.userImage,
+      //     socketId: this.socketId,
+      //     location: this.location
+      //   },
+      //   (error) => {
+      //     alert(error)
+      //   }
+      // )
+    },
+    handleImage () {
+      this.$emit('handleImage', 'open image')
     }
   }
 }

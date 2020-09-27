@@ -13,14 +13,21 @@
                 <img src="../../assets/Profile/pp.png" />
               </div>
 
-              <div class="message-other">
+              <div v-if="message.chat" class="message-other">
                 <h4>{{message.chat}}</h4>
+              </div>
+
+              <div v-if="message.lat && message.lng" class="message-other">
                 <Maps
-                  v-if="message.lat && message.lng"
-                  :locLat="message.lat"
-                  :locLng="message.lng"
+                  :locLat="Number(message.lat)"
+                  :locLng="Number(message.lng)"
                 />
               </div>
+
+              <div v-if="message.imageChat" class="message-other">
+                <img :src="message.imageChat">
+              </div>
+
             </div>
           </div>
         </div>
@@ -29,23 +36,30 @@
           <div class="user" v-show="true">
             <div class="row">
               <div class="col">
-                <div v-show="action" @click="handleEditChat(message.id)" class="edit-chat"><i class="far fa-edit"></i></div>
+                <div v-show="action" v-if="message.chat" @click="handleEditChat(message.id)" class="edit-chat"><i class="far fa-edit"></i></div>
                 <div v-show="action" @click="handleDeleteChat(message.id)" class="delete-chat"><i class="fas fa-trash-alt"></i></div>
               </div>
-              <div class="message-user">
+
+              <div v-if="message.chat" class="message-user">
                 <h4 @click="handleAction">{{message.chat}}</h4>
+              </div>
+
+              <div v-if="message.lat && message.lng" class="message-user" @click="handleAction">
                 <Maps
-                  v-if="message.lat && message.lng"
-                  :locLat="message.lat"
-                  :locLng="message.lng"
+                  :locLat="Number(message.lat)"
+                  :locLng="Number(message.lng)"
                 />
               </div>
 
-              <div v-if="userImage" class="body-photo-user">
+              <div v-if="message.imageChat" class="message-user">
+                <img :src="message.imageChat" @click="handleAction">
+              </div>
+
+              <div v-if="userImage && (message.chat || message.imageChat || message.lat)" class="body-photo-user">
                 <img :src="userImage" />
               </div>
 
-              <div v-else class="body-photo-user">
+              <div v-if="!(userImage) && (message.chat || message.imageChat || message.lat)" class="body-photo-user">
                 <img src="../../assets/Profile/pp.png" />
               </div>
             </div>
@@ -58,6 +72,7 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
+import Maps from '../_base/location'
 export default {
   name: 'Message-From_DB',
   props: ['userId', 'headerMess'],
@@ -65,6 +80,9 @@ export default {
     return {
       action: false
     }
+  },
+  components: {
+    Maps
   },
   computed: {
     ...mapGetters({

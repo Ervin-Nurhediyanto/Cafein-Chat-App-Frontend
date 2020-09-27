@@ -335,6 +335,19 @@ export default new Vuex.Store({
           })
       })
     },
+    getChatImage (setex, payload) {
+      return new Promise((resolve, reject) => {
+        axios.get(process.env.VUE_APP_BASE_URL + '/chats/?sort=chats.id')
+          .then((res) => {
+            console.log(res.data.result[0])
+            // setex.commit('setPrivateChat', res.data.result)
+            resolve(res)
+          })
+          .catch((err) => {
+            reject(err)
+          })
+      })
+    },
     getLocation (setex, payload) {
       setex.commit('setLocation', payload)
     },

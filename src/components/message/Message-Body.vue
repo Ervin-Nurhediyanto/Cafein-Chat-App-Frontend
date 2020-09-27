@@ -2,85 +2,111 @@
   <div>
     <div class="scroll-chat">
       <div class="row body-message">
-        <MessageDB :userId="userId" :headerMess="headerMess" v-on:editChat="editChat($event)" v-on:openNotif="openNotif($event)"/>
+        <MessageDB
+          :userId="userId"
+          :headerMess="headerMess"
+          v-on:editChat="editChat($event)"
+          v-on:openNotif="openNotif($event)"
+        />
         <div v-for="(message, index) in messages" :key="index">
           <div v-if="message.socketId === headerMess.id">
+            <div v-if="userId != message.userId">
+              <div class="other" v-show="true">
+                <div class="row">
+                  <div v-if="message.image" class="body-photo">
+                    <img :src="message.image" />
+                  </div>
 
-          <div v-if="userId != message.userId">
-            <div class="other" v-show="true">
-              <div class="row">
+                  <div v-else class="body-photo">
+                    <img src="../../assets/Profile/pp.png" />
+                  </div>
 
-                <div v-if="message.image" class="body-photo">
-                  <img :src="message.image" />
-                </div>
-
-                <div v-else class="body-photo">
-                  <img src="../../assets/Profile/pp.png" />
-                </div>
-
-                <div class="message-other">
-                  <h4>{{message.message}}</h4>
-                  <Maps v-if="message.location"
-                  :locLat="message.location.lat"
-                  :locLng="message.location.lng"/>
+                  <div class="message-other">
+                    <h4>{{ message.message }}</h4>
+                    <Maps
+                      v-if="message.location"
+                      :locLat="message.location.lat"
+                      :locLng="message.location.lng"
+                    />
+                    <img v-if="message.imageChat" :src="message.imageChat">
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
 
-          <div v-else>
-            <div class="user" v-show="true">
-              <div class="row">
-                <div class="message-user">
-                  <h4>{{message.message}}</h4>
-                  <Maps v-if="message.location"
-                  :locLat="message.location.lat"
-                  :locLng="message.location.lng"/>
+            <div v-else>
+              <div class="user" v-show="true">
+                <div class="row">
+
+                  <div class="message-user">
+                    <h4>{{ message.message }}</h4>
+                    <Maps
+                      v-if="message.location"
+                      :locLat="message.location.lat"
+                      :locLng="message.location.lng"
+                    />
+                    <img v-if="message.imageChat" :src="message.imageChat">
+                  </div>
+
+                  <div v-if="userImage" class="body-photo-user">
+                    <img :src="userImage" />
+                  </div>
+
+                  <div v-else class="body-photo-user">
+                    <img src="../../assets/Profile/pp.png" />
+                  </div>
                 </div>
-
-                <div v-if="userImage" class="body-photo-user">
-                  <img :src="userImage" />
-                </div>
-
-                <div v-else class="body-photo-user">
-                  <img src="../../assets/Profile/pp.png" />
-                </div>
-
               </div>
             </div>
-          </div>
-
           </div>
         </div>
       </div>
     </div>
     <div class="row input-text">
       <div class="row input-chat">
-        <div v-if="input">
-          <input
-            type="text"
-            v-model="chat"
-            @keyup.enter="handleMessage"
-            placeholder="Type your message..."
-          />
+        <!-- input message -->
+        <div v-if="text">
+          <div v-if="input">
+            <input
+              type="text"
+              v-model="chat"
+              @keyup.enter="handleMessage"
+              placeholder="Type your message..."
+            />
+          </div>
+
+          <!-- edit message -->
+          <div v-else>
+            <input
+              type="text"
+              v-model="chat"
+              @keyup.enter="handleEdit"
+              placeholder="Edit your message..."
+            />
+          </div>
         </div>
+
+        <!-- upload image -->
         <div v-else>
-          <input
-            type="text"
-            v-model="chat"
-            @keyup.enter="handleEdit"
-            placeholder="Edit your message..."
-          />
+          <form class="row">
+            <input type="file" @change="onFileUpload" />
+            <h4 @click="handleUpload"><b>Send</b></h4>
+          </form>
         </div>
+
         <div>
           <i class="fas fa-plus" @click="handleAdd"></i>
           <i class="fas fa-surprise"></i>
           <i class="fas fa-microphone"></i>
         </div>
-        <MessageAdd v-show="showAdd"
-        v-on:handleLocation="handleLocation($event)"
-        :userId="userId"
-        :socketId="headerMess.id" />
+
+        <MessageAdd
+          v-show="showAdd"
+          v-on:handleLocation="handleLocation($event)"
+          v-on:handleImage="handleImage($event)"
+          :userId="userId"
+          :socketId="headerMess.id"
+        />
       </div>
     </div>
   </div>
@@ -102,7 +128,9 @@ export default {
       showAdd: false,
       location: null,
       input: true,
-      idChatEdit: null
+      idChatEdit: null,
+      text: true,
+      FILE: ''
     }
   },
   components: {
@@ -121,6 +149,12 @@ export default {
     ...mapActions(['sendPrivateMessage']),
     ...mapActions(['editMessage']),
     ...mapActions(['getPrivateChat']),
+    ...mapActions(['getChatImage']),
+
+    onFileUpload (event) {
+      this.FILE = event.target.files[0]
+    },
+
     handleMessage () {
       const send = {
         idContact: this.headerMess.id,
@@ -129,10 +163,7 @@ export default {
         lat: '',
         lng: ''
       }
-      this.sendPrivateMessage(send)
-        .then((res) => {
-        })
-
+      this.sendPrivateMessage(send).then((res) => {})
       const data = {
         socketId: this.headerMess.id,
         message: this.chat
@@ -142,22 +173,49 @@ export default {
     },
 
     handleEdit () {
-      // alert('ini edit message')
       const massage = {
         chat: this.chat
       }
-
       const data = {
         id: this.idChatEdit,
         chat: massage
       }
-      // alert(`ini id: ${data.id}, ini chat: ${data.chat.chat}`)
       this.editMessage(data).then((res) => {
-        // alert(res.data.result)
       })
       this.getPrivateChat(this.headerMess.id)
       this.$emit('openNotif', true)
       this.chat = null
+    },
+
+    handleUpload () {
+      const formData = new FormData()
+      formData.append('imageChat', this.FILE, this.FILE.name)
+      formData.append('idContact', this.headerMess.id)
+      formData.append('idSender', this.userId)
+      formData.append('lat', '')
+      formData.append('lng', '')
+      this.sendPrivateMessage(formData).then((res) => {
+        this.getChatImage().then((res) => {
+          // alert(res.data.result[0].imageChat)
+          this.socket.emit(
+            'sendMessage',
+            {
+              message: null,
+              userId: this.userId,
+              image: this.userImage,
+              socketId: this.headerMess.id,
+              imageChat: res.data.result[0].imageChat
+            },
+            (error) => {
+              alert(error)
+            }
+          )
+        })
+      })
+
+      // this.getChatImage().then((res) => {
+      //   alert(res.data.result[0].imageChat)
+      // })
     },
 
     editChat (editChat) {
@@ -177,8 +235,17 @@ export default {
       }
     },
     handleLocation (handleLocation) {
+      this.showAdd = false
       this.location = handleLocation
       this.$emit('handleLocation', handleLocation)
+    },
+    handleImage (handleImage) {
+      if (this.text === true) {
+        this.text = false
+      } else {
+        this.text = true
+      }
+      this.showAdd = false
     },
 
     openNotif () {
@@ -319,8 +386,20 @@ export default {
   border: none;
   background: #fafafa;
   border-radius: 15px;
-  width: 850px;
+  width: 800px;
   height: 30px;
+  /* background-color: red; */
+}
+
+.input-chat h4 {
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.input-chat h4:hover {
+  font-size: 20px;
+  cursor: pointer;
+  color: red;
 }
 
 @media (max-width: 768px) {
@@ -430,7 +509,7 @@ export default {
     justify-content: flex-end;
   }
 
-   .body-message .other {
+  .body-message .other {
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
